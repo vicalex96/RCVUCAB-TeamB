@@ -9,6 +9,6 @@ namespace administracion.Persistence.Database
          DbSet<Asegurado> Asegurados {get; set;}
          DbSet<Vehiculo> Vehiculos {get; set;}
          DbSet<Poliza> Polizas {get; set;}
-         DbSet<Incidente> incidentes {get; set;}
+         DbSet<Incidente> Incidentes {get; set;}
     }
 }

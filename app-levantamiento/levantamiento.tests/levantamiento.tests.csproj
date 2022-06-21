@@ -20,5 +20,8 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-
+  
+<ItemGroup>
+    <ProjectReference Include="..\levantamiento\levantamiento.csproj" />
+</ItemGroup>
 </Project>

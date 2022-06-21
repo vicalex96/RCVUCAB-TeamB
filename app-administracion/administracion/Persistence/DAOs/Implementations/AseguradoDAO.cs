@@ -20,8 +20,11 @@ namespace administracion.Persistence.DAOs
 
         public string createAsegurado(AseguradoDTO ase){
             try{
-                
-                var asegurado = new Asegurado(ase.aseguradoId,ase.nombre, ase.apellido);
+                var asegurado = new Asegurado{
+                    aseguradoId = ase.Id, 
+                    nombre = ase.nombre, 
+                    apellido = ase.apellido
+                };
                 _context.Asegurados.Update(asegurado);
                 _context.DbContext.SaveChanges();
                 return "Asegurado creado";
@@ -35,12 +38,23 @@ namespace administracion.Persistence.DAOs
         {
             try
             {
-                var data = _context.Asegurados.Select( b=> new AseguradoDTO{
-                    aseguradoId = b.aseguradoId,
-                    nombre = b.nombre,
-                    apellido = b.apellido
+                var asegurados = _context.Asegurados
+                .Include(a => a.vehiculos)
+                .Select( a=> new AseguradoDTO{
+                    Id = a.aseguradoId,
+                    nombre = a.nombre,
+                    apellido = a.apellido,
+                    vehiculos = a.vehiculos.Select( v => new VehiculoDTO{
+                        Id = v.vehiculoId,
+                        anioModelo = v.anioModelo,
+                        color = v.color.ToString(),
+                        marca = v.marca.ToString()
+                    }).ToList()
                 });
-                return data.ToList();
+                if(asegurados.ToList().Count == 0){
+                    throw new Exception("No se encontraron vehiculos con ese nombre y apellido Error 404");
+                }
+                return asegurados.ToList();
 
             }
             catch(Exception ex)
@@ -53,7 +67,7 @@ namespace administracion.Persistence.DAOs
                         try
             {
                 var data = _context.Asegurados.Where(p => p.aseguradoId == Id).Select( b=> new AseguradoDTO{
-                    aseguradoId = b.aseguradoId,
+                    Id = b.aseguradoId,
                     nombre = b.nombre,
                     apellido = b.apellido
                 });
@@ -75,7 +89,7 @@ namespace administracion.Persistence.DAOs
             try
             {
                 var data = _context.Asegurados.Where(p => p.apellido.Contains(apellido) == true && p.nombre.Contains(nombre) == true).Select( b=> new AseguradoDTO{
-                    aseguradoId = b.aseguradoId,
+                    Id = b.aseguradoId,
                     nombre = b.nombre,
                     apellido = b.apellido
                 });
@@ -97,7 +111,11 @@ namespace administracion.Persistence.DAOs
         {
             try
             {
-                var asegurado = new Asegurado(ase.aseguradoId,ase.nombre, ase.apellido);
+                var asegurado = new Asegurado{
+                    aseguradoId = ase.Id, 
+                    nombre = ase.nombre, 
+                    apellido = ase.apellido
+                };
                 _context.Asegurados.Update(asegurado);
                 _context.DbContext.SaveChanges();
                 return "Asegurado editado";

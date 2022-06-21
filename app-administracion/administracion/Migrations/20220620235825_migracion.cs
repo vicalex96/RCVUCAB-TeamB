@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace administracion.Migrations
 {
-    public partial class datos_asegurados : Migration
+    public partial class migracion : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,9 +30,9 @@ namespace administracion.Migrations
                     anioModelo = table.Column<int>(type: "integer", nullable: false),
                     fechaCompra = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     color = table.Column<int>(type: "integer", nullable: false),
-                    placa = table.Column<string>(type: "text", nullable: false),
+                    placa = table.Column<string>(type: "character varying(7)", maxLength: 7, nullable: false),
                     marca = table.Column<int>(type: "integer", nullable: false),
-                    aseguradoId = table.Column<Guid>(type: "uuid", nullable: false)
+                    aseguradoId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -41,8 +41,7 @@ namespace administracion.Migrations
                         name: "FK_Vehiculos_Asegurados_aseguradoId",
                         column: x => x.aseguradoId,
                         principalTable: "Asegurados",
-                        principalColumn: "aseguradoId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "aseguradoId");
                 });
 
             migrationBuilder.CreateTable(
@@ -50,7 +49,7 @@ namespace administracion.Migrations
                 columns: table => new
                 {
                     polizaId = table.Column<Guid>(type: "uuid", nullable: false),
-                    fechaInicio = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    fechaRegistro = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     fechaVencimiento = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     tipoPoliza = table.Column<int>(type: "integer", nullable: false),
                     vehiculoId = table.Column<Guid>(type: "uuid", nullable: false)
@@ -67,18 +66,20 @@ namespace administracion.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "incidentes",
+                name: "Incidentes",
                 columns: table => new
                 {
                     incidenteId = table.Column<Guid>(type: "uuid", nullable: false),
                     polizaId = table.Column<Guid>(type: "uuid", nullable: false),
-                    estado = table.Column<int>(type: "integer", nullable: false)
+                    estadoPoliza = table.Column<int>(type: "integer", nullable: false),
+                    fechaRegistrado = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    fechaFinalizado = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_incidentes", x => x.incidenteId);
+                    table.PrimaryKey("PK_Incidentes", x => x.incidenteId);
                     table.ForeignKey(
-                        name: "FK_incidentes_Polizas_polizaId",
+                        name: "FK_Incidentes_Polizas_polizaId",
                         column: x => x.polizaId,
                         principalTable: "Polizas",
                         principalColumn: "polizaId",
@@ -99,23 +100,23 @@ namespace administracion.Migrations
                 columns: new[] { "vehiculoId", "anioModelo", "aseguradoId", "color", "fechaCompra", "marca", "placa" },
                 values: new object[,]
                 {
-                    { new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b"), 2004, new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c03b"), 1, new DateTime(2022, 6, 15, 21, 0, 59, 388, DateTimeKind.Local).AddTicks(6756), 0, "AB320AM" },
-                    { new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c05b"), 2006, new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c03f"), 6, new DateTime(2022, 6, 15, 21, 0, 59, 388, DateTimeKind.Local).AddTicks(6770), 0, "AB322AM" }
+                    { new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b"), 2004, new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c03b"), 1, new DateTime(2022, 6, 20, 19, 58, 25, 738, DateTimeKind.Local).AddTicks(2170), 0, "AB320AM" },
+                    { new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c05b"), 2006, new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c03f"), 6, new DateTime(2022, 6, 20, 19, 58, 25, 738, DateTimeKind.Local).AddTicks(2183), 0, "AB322AM" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Polizas",
-                columns: new[] { "polizaId", "fechaInicio", "fechaVencimiento", "tipoPoliza", "vehiculoId" },
-                values: new object[] { new Guid("0c5c3262-d5ef-46c7-bc0e-97530823c05b"), new DateTime(2022, 6, 15, 21, 0, 59, 388, DateTimeKind.Local).AddTicks(6774), new DateTime(2022, 6, 15, 21, 0, 59, 388, DateTimeKind.Local).AddTicks(6775), 0, new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b") });
+                columns: new[] { "polizaId", "fechaRegistro", "fechaVencimiento", "tipoPoliza", "vehiculoId" },
+                values: new object[] { new Guid("0c5c3262-d5ef-46c7-bc0e-97530823c05b"), new DateTime(2022, 6, 20, 19, 58, 25, 738, DateTimeKind.Local).AddTicks(2186), new DateTime(2022, 6, 20, 19, 58, 25, 738, DateTimeKind.Local).AddTicks(2186), 0, new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b") });
 
             migrationBuilder.InsertData(
-                table: "incidentes",
-                columns: new[] { "incidenteId", "estado", "polizaId" },
-                values: new object[] { new Guid("75045fa2-7e8d-48d4-a02f-6ea13e599984"), 0, new Guid("0c5c3262-d5ef-46c7-bc0e-97530823c05b") });
+                table: "Incidentes",
+                columns: new[] { "incidenteId", "estadoPoliza", "fechaFinalizado", "fechaRegistrado", "polizaId" },
+                values: new object[] { new Guid("14cedda7-08e9-4907-9699-50cd99576c35"), 0, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("0c5c3262-d5ef-46c7-bc0e-97530823c05b") });
 
             migrationBuilder.CreateIndex(
-                name: "IX_incidentes_polizaId",
-                table: "incidentes",
+                name: "IX_Incidentes_polizaId",
+                table: "Incidentes",
                 column: "polizaId");
 
             migrationBuilder.CreateIndex(
@@ -132,7 +133,7 @@ namespace administracion.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "incidentes");
+                name: "Incidentes");
 
             migrationBuilder.DropTable(
                 name: "Polizas");

@@ -10,26 +10,24 @@ using System.ComponentModel.DataAnnotations;
 namespace administracion.Controllers
 {
     [ApiController]
-    [Route("asegurado")]
-    public class AseguradoController: Controller
+    [Route("vehiculo")]
+    public class VehiculoController: Controller
     {
-        private readonly IAseguradoDAO _aseguradoDAO;
-        private readonly ILogger<AseguradoController> _logger;
+        private readonly IVehiculoDAO _vehiculoDao;
+        private readonly ILogger<VehiculoController> _logger;
 
-        public AseguradoController(ILogger<AseguradoController> logger, IAseguradoDAO aseguradoDAO)
+        public VehiculoController(ILogger<VehiculoController> logger, IVehiculoDAO vehiculoDao)
         {
-            _aseguradoDAO = aseguradoDAO;
+            _vehiculoDao = vehiculoDao;
             _logger = logger;
         }
-
         [HttpGet("mostrar_todos")]
-        public ApplicationResponse<List<AseguradoDTO>> GetAsegurados()
+        public ApplicationResponse<List<VehiculoDTO>> GetAllVehiculos()
         {
-            var response = new ApplicationResponse<List<AseguradoDTO>>();
+            var response = new ApplicationResponse<List<VehiculoDTO>>();
             try
             {
-
-                response.Data = _aseguradoDAO.GetAsegurados();
+                response.Data = _vehiculoDao.GetAllVehiculos();
             }
             catch (RCVException ex)
             {
@@ -39,49 +37,48 @@ namespace administracion.Controllers
             }
             return response;
         }
+
         [HttpGet("buscar_por/{guid}")]
-        public ApplicationResponse<AseguradoDTO> GetAsegurado([Required][FromRoute] Guid guid)
+        public ApplicationResponse<VehiculoDTO> GetVehiculoByGuid([Required][FromRoute] Guid guid)
         {
-            var response = new ApplicationResponse<AseguradoDTO>();
+            var response = new ApplicationResponse<VehiculoDTO>();
             try
             {
-                response.Data = _aseguradoDAO.GetAseguradoByGuid(guid);
+                response.Data = _vehiculoDao.GetVehiculoByGuid(guid);
             }
             catch (RCVException ex)
             {
                 response.Success = false;
                 response.Message = ex.Message;
                 response.Exception = ex.Excepcion.ToString();
-            }
+            };
             return response;
         }
-        
-        [HttpGet("asegurados/{nombre}/{apellido}")]
-        public ApplicationResponse<List<AseguradoDTO>> GetAseguradosPorNombreYApellido([Required][FromRoute] string nombre, string apellido)
+
+        [HttpPost("crear")]
+        public ApplicationResponse<string> createVehiculo([FromBody] VehiculoSimpleDTO Vehiculo)
         {
-            var response = new ApplicationResponse<List<AseguradoDTO>>();
+            var response = new ApplicationResponse<string>();
             try
             {
-                response.Data = _aseguradoDAO.GetAseguradosPorNombreCompleto(nombre,apellido);
+                response.Data = _vehiculoDao.createVehiculo(Vehiculo);
             }
             catch (RCVException ex)
             {
-                Console.WriteLine();
                 response.Success = false;
                 response.Message = ex.Message;
-                response.Exception = ex.Excepcion.Message.ToString();
-                response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                response.Exception = ex.Excepcion.ToString();
             }
             return response;
         }
 
-        [HttpPost("agregar")]
-        public ApplicationResponse<string> AddAsegurado([FromBody] AseguradoDTO asegurado)
+        [HttpPost("asociar_asegurado/{vehiculoId}/{aseguradoId}")]
+        public ApplicationResponse<string> AddAsegurado([Required][FromRoute] Guid vehiculoId ,[Required][FromRoute] Guid aseguradoId)
         {
             var response = new ApplicationResponse<string>();
             try
             {
-                response.Data = _aseguradoDAO.createAsegurado(asegurado);
+                response.Data = _vehiculoDao.addAsegurado(vehiculoId, aseguradoId );
             }
             catch (RCVException ex)
             {
@@ -91,16 +88,14 @@ namespace administracion.Controllers
             }
             return response;
         }
+
         [HttpPut("actualizar")]
-        public ApplicationResponse<string> UpdateAsegurado([FromBody] AseguradoDTO asegurado)
+        public ApplicationResponse<string> UpdateVehiculo([FromBody] VehiculoSimpleDTO vehiculo)
         {
             var response = new ApplicationResponse<string>();
             try
             {
-                
-                response.Data = _aseguradoDAO.updateAsegurado(asegurado);
-                if(response.Data =="Asegurado editado")
-                    response.StatusCode = System.Net.HttpStatusCode.OK;
+                response.Data = _vehiculoDao.updateVehiculo(vehiculo);
             }
             catch (RCVException ex)
             {
@@ -110,5 +105,6 @@ namespace administracion.Controllers
             }
             return response;
         }
+    
     }
 }

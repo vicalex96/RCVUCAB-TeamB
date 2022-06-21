@@ -21,7 +21,7 @@ namespace administracion.Persistence.Database
         public virtual  DbSet<Asegurado> Asegurados {get; set;}
         public virtual DbSet<Vehiculo> Vehiculos {get; set;}
         public virtual DbSet<Poliza> Polizas {get; set;}
-        public virtual DbSet<Incidente> incidentes {get; set;}
+        public virtual DbSet<Incidente> Incidentes {get; set;}
  
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -60,7 +60,7 @@ namespace administracion.Persistence.Database
             });
             Poliza polizaInit = new Poliza(){
                 polizaId=Guid.Parse("0c5c3262-d5ef-46c7-bc0e-97530823c05b"),
-                fechaInicio = DateTime.Now,
+                fechaRegistro = DateTime.Now,
                 fechaVencimiento = DateTime.Now,
                 tipoPoliza = TipoPoliza.CoberturaCompleta,
                 vehiculoId = vehiculoInit[0].vehiculoId

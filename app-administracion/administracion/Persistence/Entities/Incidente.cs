@@ -6,8 +6,10 @@ namespace administracion.Persistence.Entities
     {
         public Guid incidenteId {get; set;} 
         public Guid polizaId {get; set;}
-        public Poliza poliza {get; set;}
-        public EstadoPoliza estado {get; set;} 
+        public Poliza? poliza {get; set;}
+        public EstadoPoliza estadoPoliza {get; set;} 
+        public DateTime fechaRegistrado {get; set;}
+        public DateTime? fechaFinalizado {get; set;}
     }
 }
 

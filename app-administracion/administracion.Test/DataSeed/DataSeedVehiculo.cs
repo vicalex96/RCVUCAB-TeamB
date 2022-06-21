@@ -8,52 +8,13 @@ using System.Linq;
 using System.Threading;
 namespace administracion.Test.DataSeed
 {
-    public static class DataSeedAsegurado
+    public static class DataSeedVehiculo
     {
-        public static void SetupDbContextDataAsegurado(this Mock<IAdminDBContext> _mockContext)
+        public static void SetupDbContextData(this Mock<IAdminDBContext> _mockContext)
         {
-            /*
-            public interface IAdminDBContext
-            {
-                DbContext DbContext { get;}
 
-                DbSet<Asegurado> Asegurados {get; set;}
-                DbSet<Vehiculo> Vehiculos {get; set;}
-                DbSet<Poliza> Polizas {get; set;}
-                DbSet<Incidente> incidentes {get; set;}
-            }
-            */
-
-
-            var requests = new List<Asegurado>
+            var requests = new List<Vehiculo>
                 {
-                    new Asegurado
-                    {
-                        aseguradoId = new Guid("38f401c9-12aa-46bf-82a2-05ff65bb2c86"),
-                        nombre = "Rogelio",
-                        apellido = "Zambrano",
-                        vehiculos = new List<Vehiculo>()
-                        {
-
-                        }
-                    },
-                    new Asegurado
-                    {
-                        aseguradoId = new Guid("38f401c9-12aa-46bf-82a2-05ff65bb2c86"),
-                        nombre = "Mario",
-                        apellido = "Perez",
-                        vehiculos = new List<Vehiculo>()
-                    },
-                    new Asegurado
-                    {
-                        aseguradoId = new Guid("38f401c9-12aa-46bf-82a2-05ff65bb2c86"),
-                        nombre = "Juan",
-                        apellido = "Willson",
-                        vehiculos = new List<Vehiculo>()
-                    }
-                };
-            var requestsvehiculo = requests.SelectMany(q => q.vehiculos).Concat(new List<Vehiculo>
-            {
                     new Vehiculo
                     {
                         vehiculoId = new Guid("38f401c9-12aa-46bf-82a3-05ff65bb2c86"),
@@ -84,28 +45,21 @@ namespace administracion.Test.DataSeed
                         marca = Marca.Ford,
                         polizas = new List<Poliza>()
                     },
-            });
-/*
-            var requestsPoliza = requestsvehiculo.SelectMany(q => q.polizas).Concat(new List<Vehiculo>
+                };
+            var requestsPoliza = requests.SelectMany(q => q.polizas).Concat(new List<Poliza>
             {
             });
-*/
+
             _mockContext.Setup(
-                c => c.Asegurados
+                c => c.Vehiculos
                 ).Returns(
                     requests.AsQueryable().BuildMockDbSet().Object
                     );
             _mockContext.Setup(
-                c => c.Vehiculos
-                ).Returns(
-                    requestsvehiculo.AsQueryable().BuildMockDbSet().Object
-                    );
-           /* _mockContext.Setup(
                 c => c.Polizas
                 ).Returns(
                     requestsPoliza.AsQueryable().BuildMockDbSet().Object
                     );
-            */
         }
         
     }

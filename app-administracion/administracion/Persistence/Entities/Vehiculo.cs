@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using administracion.Exceptions;
 
 namespace administracion.Persistence.Entities
 {
@@ -9,13 +11,40 @@ namespace administracion.Persistence.Entities
         public int anioModelo { get; set; }
         public DateTime fechaCompra { get; set; }
         public Color color { get; set; }
+        [MaxLength(7)]
         public string placa { get; set; }
         public Marca marca {get; set;}
 
 
-        public Guid aseguradoId {get; set;}
-        public virtual Asegurado? asegurado { get; set; }
-        public virtual ICollection<Poliza>? polizas {get; set;}
+        public Guid? aseguradoId {get; set;}
+        public Asegurado? asegurado { get; set; } = null;
+        public ICollection<Poliza>? polizas {get; set;} = null;
+
+        public Vehiculo()
+        {
+        }
+        public Vehiculo (Guid _Id, int _anioModelo, DateTime _fechaCompra, Color _color, string _placa, Marca _marca)
+        {
+            vehiculoId = _Id;
+            anioModelo = _anioModelo;
+            fechaCompra = _fechaCompra;
+            color = _color;
+            placa = _placa;
+            marca = _marca;
+        }
+
+        public string validarPlaca(string _placa)
+        {
+            if(_placa.Length ==  7)
+            {
+                return _placa;
+            }
+            else 
+            {
+                throw new RCVException("La placa no cuenta con las especificaciones indicadas");
+            }
+            
+        }
 
     }
 
@@ -35,8 +64,8 @@ namespace administracion.Persistence.Entities
         Cobre,
         Blanco,
 
-
     }
-
-
 }
+
+    
+

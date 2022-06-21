@@ -17,24 +17,14 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<IAdminDBContext, AdminDBContex>();
 builder.Services.AddTransient<IAseguradoDAO, AseguradoDAO>();
-
+builder.Services.AddTransient<IVehiculoDAO, VehiculoDAO>();
+builder.Services.AddTransient<IPolizaDAO, PolizaDAO>();
+builder.Services.AddTransient<IIncidenteDAO, IncidenteDAO>();
 
 var app = builder.Build();
 app.UseSwaggerUI();
 app.UseSwagger( x => x.SerializeAsV2 = true);
 
-app.MapGet("/", () => "Hello World!");
-/*
-app.MapGet("/dbconexion",async([FromServices]AdminDBContex dbContext)=>
-{
-    dbContext.Database.EnsureCreated();
-    return Results.Ok("Base de datos");
-});
-app.MapGet("/api/vehiculos", async([FromServices] AdminDBContex dbContext)=>
-{
-    return Results.Ok(dbContext.Vehiculos.Include(p => p.asegurado));
-});
-*/
 
 
 // Configure the HTTP request pipeline.

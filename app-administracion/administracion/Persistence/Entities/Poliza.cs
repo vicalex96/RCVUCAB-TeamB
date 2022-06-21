@@ -3,7 +3,7 @@ namespace administracion.Persistence.Entities
     public class Poliza
     {
         public Guid polizaId {get; set;}
-        public DateTime fechaInicio {get; set;}
+        public DateTime fechaRegistro {get; set;}
         public DateTime fechaVencimiento {get; set;}
         public TipoPoliza tipoPoliza {get; set;}
 
