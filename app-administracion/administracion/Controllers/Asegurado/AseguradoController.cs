@@ -76,15 +76,17 @@ namespace administracion.Controllers
         }
 
         [HttpPost("agregar")]
-        public ApplicationResponse<string> AddAsegurado([FromBody] AseguradoDTO asegurado)
+        public ApplicationResponse<string> AddAsegurado([FromBody] AseguradoSimpleDTO asegurado)
         {
             var response = new ApplicationResponse<string>();
             try
             {
                 response.Data = _aseguradoDAO.createAsegurado(asegurado);
+                Console.WriteLine("Dame data ",  response.Data);
             }
             catch (RCVException ex)
             {
+                response.StatusCode = System.Net.HttpStatusCode.BadGateway;
                 response.Success = false;
                 response.Message = ex.Message;
                 response.Exception = ex.Excepcion.ToString();
@@ -92,7 +94,7 @@ namespace administracion.Controllers
             return response;
         }
         [HttpPut("actualizar")]
-        public ApplicationResponse<string> UpdateAsegurado([FromBody] AseguradoDTO asegurado)
+        public ApplicationResponse<string> UpdateAsegurado([FromBody] AseguradoSimpleDTO asegurado)
         {
             var response = new ApplicationResponse<string>();
             try

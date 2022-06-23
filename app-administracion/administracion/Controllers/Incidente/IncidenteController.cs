@@ -78,7 +78,7 @@ namespace administracion.Controllers
         }
 
         [HttpPatch("actualizar/{incidenteID}/{estado}")]
-        public ApplicationResponse<string> actualizarIncidente([Required][FromRoute] Guid incidenteID, [Required][FromRoute] EstadoPoliza estado)
+        public ApplicationResponse<string> actualizarIncidente([Required][FromRoute] Guid incidenteID, [Required][FromRoute] EstadoIncidente estado)
         {
             var response = new ApplicationResponse<string>();
             try

@@ -39,14 +39,14 @@ namespace administracion.Test.DataSeed
                     },
                     new Asegurado
                     {
-                        aseguradoId = new Guid("38f401c9-12aa-46bf-82a2-05ff65bb2c86"),
+                        aseguradoId = new Guid("38f401c9-12aa-46bf-82a2-05ff65bb2c87"),
                         nombre = "Mario",
                         apellido = "Perez",
                         vehiculos = new List<Vehiculo>()
                     },
                     new Asegurado
                     {
-                        aseguradoId = new Guid("38f401c9-12aa-46bf-82a2-05ff65bb2c86"),
+                        aseguradoId = new Guid("38f401c9-12aa-46bf-82a2-05ff65bb2c88"),
                         nombre = "Juan",
                         apellido = "Willson",
                         vehiculos = new List<Vehiculo>()
@@ -66,7 +66,7 @@ namespace administracion.Test.DataSeed
                     },
                     new Vehiculo
                     {
-                        vehiculoId = new Guid("38f401c9-12aa-46bf-82a3-05bb34bb2c86"),
+                        vehiculoId = new Guid("38f401c9-12aa-46bf-82a3-05bb34bb2c87"),
                         anioModelo = 2013,
                         fechaCompra = DateTime.Parse("15/05/2015"),
                         color = Color.Plateado,
@@ -76,7 +76,7 @@ namespace administracion.Test.DataSeed
                     },
                     new Vehiculo
                     {
-                        vehiculoId = new Guid("26f401c9-12aa-46bf-82a3-05bb34bb2c86"),
+                        vehiculoId = new Guid("26f401c9-12aa-46bf-82a3-05bb34bb2c88"),
                         anioModelo = 2019,
                         fechaCompra = DateTime.Parse("03/08/2020"),
                         color = Color.Dorado,

@@ -17,9 +17,7 @@ namespace administracion.BussinesLogic.DTOs
 
         public string placa { get; set; }
         public string marca {get; set;}
-        //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public virtual AseguradoDTO? asegurado { get; set; }
-        //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public virtual ICollection<PolizaDTO>? polizas {get; set;}
     }
 }

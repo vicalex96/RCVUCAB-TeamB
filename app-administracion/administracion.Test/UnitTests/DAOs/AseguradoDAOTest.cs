@@ -8,6 +8,7 @@ using administracion.Test.DataSeed;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
+using System.Collections;
 
 namespace administracion.Test.UnitTests.DAOs
 {
@@ -29,7 +30,23 @@ namespace administracion.Test.UnitTests.DAOs
             _contextMock.SetupDbContextDataAsegurado();
         }
 
-        [Fact(DisplayName = "Consulta Asegurados Retorna verdadero")]
+        public class AseguradoClassData : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] {
+                    new AseguradoSimpleDTO()
+                    {
+                        Id = new Guid (" 38f401c9-12aa-46bf-82a2-05ff65bb2500"),
+                        nombre = "Pablo",
+                        apellido = "Marmol",
+                    }
+                };
+            }
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        }
+
+        [Fact(DisplayName = "DAO: Consulta Asegurados Retorna verdadero")]
         public Task GetAseguradosReturnTrue()
         {
             //Arrage
@@ -41,7 +58,7 @@ namespace administracion.Test.UnitTests.DAOs
             return Task.CompletedTask;
         }
         
-        [Theory (DisplayName = "Consultar asegurados por Guid y retornar verdadero")]
+        [Theory (DisplayName = "DAO: Consultar asegurados por Guid y retornar verdadero")]
         [InlineData("38f401c9-12aa-46bf-82a2-05ff65bb2c86")]
         public Task GetAsegurado_PorID_ReturnTrue( Guid ID)
         {
@@ -52,7 +69,7 @@ namespace administracion.Test.UnitTests.DAOs
             return Task.CompletedTask;
         }
 
-        [Theory (DisplayName = "Consultar Asegurado Por Nombre Y Apellido y retornar verdadero")]
+        [Theory (DisplayName = "DAO: Consultar Asegurado Por Nombre Y Apellido y retornar verdadero")]
         [InlineData("Juan","Willson")]
         public Task GetAsegurado_PorNombreYApellido_ReturnTrue(string nombre, string apellido)
         {
@@ -65,41 +82,24 @@ namespace administracion.Test.UnitTests.DAOs
             return Task.CompletedTask;
         }
 
-        [Fact (DisplayName = "Agregar Asegurado retornar verdadero")]
-        public Task AddAsegurado_ReturnTrue()
+        [Theory (DisplayName = "DAO: Agregar Asegurado retornar verdadero")]
+        [ClassData(typeof(AseguradoClassData))]
+        public Task AddAsegurado_ReturnTrue(AseguradoSimpleDTO asegurado)
         {
-            //Arrage
-            AseguradoDTO asegurado = new AseguradoDTO()
-            {
-                Id = Guid.NewGuid(),
-                nombre = "Pablo",
-                apellido = "Marmol",
-                vehiculos = null
-            };
-            
-            //Act
             var resultado = _dao.createAsegurado(asegurado);
-            //Assert
-            Assert.Equal(resultado, "Asegurado creado");
+
+            Assert.Equal("Asegurado creado", resultado);
             return Task.CompletedTask;
         }
 
-        [Fact (DisplayName = "actualizar Asegurado retornar verdadero")]
-        public Task updateAsegurado_ReturnTrue()
+        [Theory (DisplayName = "DAO: actualizar Asegurado retornar verdadero")]
+        [ClassData(typeof(AseguradoClassData))]
+        public Task updateAsegurado_ReturnTrue(AseguradoSimpleDTO asegurado)
         {
-            //Arrage
-            AseguradoDTO asegurado = new AseguradoDTO()
-            {
-                Id = Guid.Parse("38f401c9-12aa-46bf-82a2-05ff65bb2c86"),
-                nombre = "Pedro",
-                apellido = "Pica Piedra",
-                vehiculos = null
-            };
-            
-            //Act
+
             var resultado = _dao.updateAsegurado(asegurado);
-            //Assert
-            Assert.Equal(resultado, "Asegurado editado");
+            
+            Assert.Equal("Asegurado editado", resultado);
             return Task.CompletedTask;
         }
 

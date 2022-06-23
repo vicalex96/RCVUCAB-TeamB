@@ -6,6 +6,7 @@ using administracion.BussinesLogic.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections;
 
 namespace administracion.Persistence.DAOs
 {
@@ -24,14 +25,15 @@ namespace administracion.Persistence.DAOs
         {
             try
             {
-                Incidente incidenteEntity = new Incidente();
-                incidenteEntity.incidenteId = Guid.NewGuid();
-                incidenteEntity.polizaId = incidente.polizaId;
-                incidenteEntity.estadoPoliza = (EstadoPoliza)Enum.Parse(typeof(EstadoPoliza), incidente.estadoPoliza);
-                incidenteEntity.fechaRegistrado = DateTime.Now;
+                Incidente incidenteEntity = new Incidente{
+                    incidenteId = incidente.incidenteId,
+                    polizaId = incidente.polizaId,
+                    estadoIncidente = EstadoIncidente.Pendiente,
+                    fechaRegistrado = DateTime.Now,
+                };   
                 _context.Incidentes.Add(incidenteEntity);
                 _context.DbContext.SaveChanges();
-                return "Incidente registrado correctamente";
+                return "Incidente registrado";
             }
             catch (Exception e)
             {
@@ -48,7 +50,7 @@ namespace administracion.Persistence.DAOs
                 .Select(i => new IncidenteDTO{
                     incidenteId = i.incidenteId,
                     polizaId = i.polizaId,
-                    estadoPoliza = i.estadoPoliza.ToString(),
+                    estadoIncidente = i.estadoIncidente.ToString(),
                     poliza = new PolizaDTO{
                         Id = i.poliza.polizaId,
                         fechaRegistro = i.poliza.fechaRegistro,
@@ -72,11 +74,11 @@ namespace administracion.Persistence.DAOs
             {
                 var incidentes =  _context.Incidentes
                 .Include(i => i.poliza)
-                .Where( i => i.estadoPoliza != EstadoPoliza.cerrado)
+                .Where( i => i.estadoIncidente != EstadoIncidente.cerrado)
                 .Select(i => new IncidenteDTO{
                     incidenteId = i.incidenteId,
                     polizaId = i.polizaId,
-                    estadoPoliza = i.estadoPoliza.ToString(),
+                    estadoIncidente = i.estadoIncidente.ToString(),
                     poliza = new PolizaDTO{
                         Id = i.poliza.polizaId,
                         fechaRegistro = i.poliza.fechaRegistro,
@@ -94,16 +96,16 @@ namespace administracion.Persistence.DAOs
                 throw new RCVException("Error al obtener los vehiculos", ex);
             }
         }     
-        public string actualizarIncidente(Guid incidenteId, EstadoPoliza estado)
+        public string actualizarIncidente(Guid incidenteId, EstadoIncidente estado)
         {
             try
             {
                 var incidente = _context.Incidentes
                     .Where(i => i.incidenteId == incidenteId)
                     .FirstOrDefault();
-                incidente.estadoPoliza = estado;
+                incidente.estadoIncidente = estado;
                 _context.DbContext.SaveChanges();
-                return "estado del Incidente actualizado";
+                return "Estado actualizado";
             }
             catch (Exception e)
             {

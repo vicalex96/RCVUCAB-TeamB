@@ -1,23 +1,29 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace administracion.Persistence.Entities
 {
     public class Incidente
     {
         public Guid incidenteId {get; set;} 
+        [Required]
         public Guid polizaId {get; set;}
         public Poliza? poliza {get; set;}
-        public EstadoPoliza estadoPoliza {get; set;} 
+        [Required]
+        public EstadoIncidente estadoIncidente {get; set;} 
+        [Required]
         public DateTime fechaRegistrado {get; set;}
         public DateTime? fechaFinalizado {get; set;}
     }
 }
 
-public enum EstadoPoliza
+
+public enum EstadoIncidente
 {
     Pendiente,
     Analizando,
-    Por_solucionar,
+    ConSolictud,
+    EnReparacion,
     cerrado
 
 }

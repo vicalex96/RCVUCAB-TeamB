@@ -45,24 +45,24 @@ namespace administracion.Persistence.DAOs
             try
             {
                 var poliza = _context.Polizas
-                .Include(v => v.vehiculo)
-                .Include(v => v.vehiculo.asegurado)
-                .Where(v => v.vehiculoId == vehiculoID)
-                .Select( v=> new PolizaDTO{
-                    Id = v.polizaId,
-                    fechaRegistro = v.fechaRegistro,
-                    fechaVencimiento = v.fechaVencimiento,
-                    tipoPoliza = v.tipoPoliza.ToString(),
-                    vehiculoId = v.vehiculoId,
+                .Include(p => p.vehiculo)
+                .Include(p => p.vehiculo.asegurado)
+                .Where(p => p.vehiculoId == vehiculoID)
+                .Select( p=> new PolizaDTO{
+                    Id = p.polizaId,
+                    fechaRegistro = p.fechaRegistro,
+                    fechaVencimiento = p.fechaVencimiento,
+                    tipoPoliza = p.tipoPoliza.ToString(),
+                    vehiculoId = p.vehiculoId,
                     vehiculo = new VehiculoDTO{
-                        Id = v.vehiculo.vehiculoId,
-                        anioModelo = v.vehiculo.anioModelo,
-                        color = v.vehiculo.color.ToString(),
-                        marca = v.vehiculo.marca.ToString(),
+                        Id = p.vehiculo.vehiculoId,
+                        anioModelo = p.vehiculo.anioModelo,
+                        color = p.vehiculo.color.ToString(),
+                        marca = p.vehiculo.marca.ToString(),
                         asegurado =  new AseguradoDTO{
-                            Id = v.vehiculo.asegurado.aseguradoId,
-                            nombre = v.vehiculo.asegurado.nombre,
-                            apellido = v.vehiculo.asegurado.apellido
+                            Id = p.vehiculo.asegurado.aseguradoId,
+                            nombre = p.vehiculo.asegurado.nombre,
+                            apellido = p.vehiculo.asegurado.apellido
                         }
                     }
                 }).FirstOrDefault();

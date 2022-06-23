@@ -11,7 +11,7 @@ namespace administracion.BussinesLogic.DTOs
         public Guid incidenteId {get; set;} 
         public Guid polizaId {get; set;}
         public PolizaDTO poliza {get; set;}
-        public string estadoPoliza {get; set;} 
+        public string estadoIncidente {get; set;} 
     }
 
 }

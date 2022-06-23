@@ -13,6 +13,7 @@ namespace administracion.Persistence.Entities
         public Color color { get; set; }
         [MaxLength(7)]
         public string placa { get; set; }
+        [Required]
         public Marca marca {get; set;}
 
 

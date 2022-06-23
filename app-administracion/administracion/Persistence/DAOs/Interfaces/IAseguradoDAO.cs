@@ -9,8 +9,8 @@ namespace administracion.Persistence.DAOs
     {
         public AseguradoDTO GetAseguradoByGuid(Guid Id);
         public List<AseguradoDTO> GetAsegurados();
-        public string createAsegurado(AseguradoDTO ase);
-        public string updateAsegurado(AseguradoDTO ase);
+        public string createAsegurado(AseguradoSimpleDTO ase);
+        public string updateAsegurado(AseguradoSimpleDTO ase);
         public List<AseguradoDTO> GetAseguradosPorNombreCompleto(string nombre, string apellido);
     }
 }

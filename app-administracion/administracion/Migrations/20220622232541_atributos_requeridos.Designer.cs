@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using administracion.Persistence.Database;
@@ -11,9 +12,10 @@ using administracion.Persistence.Database;
 namespace administracion.Migrations
 {
     [DbContext(typeof(AdminDBContex))]
-    partial class AdminDBContexModelSnapshot : ModelSnapshot
+    [Migration("20220622232541_atributos_requeridos")]
+    partial class atributos_requeridos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,7 +65,7 @@ namespace administracion.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("estadoIncidente")
+                    b.Property<int>("estadoPoliza")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("fechaFinalizado")
@@ -84,8 +86,8 @@ namespace administracion.Migrations
                     b.HasData(
                         new
                         {
-                            incidenteId = new Guid("9189c937-3d16-447e-a452-457189c9015a"),
-                            estadoIncidente = 0,
+                            incidenteId = new Guid("6d285dbf-986a-4635-a622-ccdbd214fd01"),
+                            estadoPoliza = 0,
                             fechaRegistrado = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             polizaId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530823c05b")
                         });
@@ -119,8 +121,8 @@ namespace administracion.Migrations
                         new
                         {
                             polizaId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530823c05b"),
-                            fechaRegistro = new DateTime(2022, 6, 23, 15, 49, 44, 428, DateTimeKind.Local).AddTicks(8686),
-                            fechaVencimiento = new DateTime(2022, 6, 23, 15, 49, 44, 428, DateTimeKind.Local).AddTicks(8687),
+                            fechaRegistro = new DateTime(2022, 6, 22, 19, 25, 41, 41, DateTimeKind.Local).AddTicks(5477),
+                            fechaVencimiento = new DateTime(2022, 6, 22, 19, 25, 41, 41, DateTimeKind.Local).AddTicks(5478),
                             tipoPoliza = 0,
                             vehiculoId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b")
                         });
@@ -165,7 +167,7 @@ namespace administracion.Migrations
                             anioModelo = 2004,
                             aseguradoId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c03b"),
                             color = 1,
-                            fechaCompra = new DateTime(2022, 6, 23, 15, 49, 44, 428, DateTimeKind.Local).AddTicks(8675),
+                            fechaCompra = new DateTime(2022, 6, 22, 19, 25, 41, 41, DateTimeKind.Local).AddTicks(5462),
                             marca = 0,
                             placa = "AB320AM"
                         },
@@ -175,7 +177,7 @@ namespace administracion.Migrations
                             anioModelo = 2006,
                             aseguradoId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c03f"),
                             color = 6,
-                            fechaCompra = new DateTime(2022, 6, 23, 15, 49, 44, 428, DateTimeKind.Local).AddTicks(8685),
+                            fechaCompra = new DateTime(2022, 6, 22, 19, 25, 41, 41, DateTimeKind.Local).AddTicks(5474),
                             marca = 0,
                             placa = "AB322AM"
                         });

@@ -28,6 +28,8 @@ namespace administracion.Persistence.DAOs
                 .Select( v=> new VehiculoDTO{
                     Id = v.vehiculoId,
                     anioModelo = v.anioModelo,
+                    fechaCompra = v.fechaCompra,
+                    placa = v.placa,
                     color = v.color.ToString(),
                     marca = v.marca.ToString(),
                     asegurado =  _context.Asegurados
@@ -69,15 +71,15 @@ namespace administracion.Persistence.DAOs
                    {
                         Id = v.vehiculoId,
                         anioModelo = v.anioModelo,
+                        fechaCompra = v.fechaCompra,
+                        placa = v.placa,
                         color = v.color.ToString(),
                         marca = v.marca.ToString(),
-                        asegurado =  _context.Asegurados
-                        .Where(a => a.aseguradoId == v.aseguradoId)
-                        .Select(a => new AseguradoDTO{
+                        asegurado = new AseguradoDTO{
                             Id = v.asegurado.aseguradoId,
                             nombre = v.asegurado.nombre,
                             apellido = v.asegurado.apellido
-                        }).FirstOrDefault(),
+                        },
                         polizas = v.polizas.Select( p => new PolizaDTO{
                             Id = p.polizaId,
                             fechaRegistro = p.fechaRegistro,
@@ -107,6 +109,8 @@ namespace administracion.Persistence.DAOs
                    {
                        Id = v.vehiculoId,
                        anioModelo = v.anioModelo,
+                       fechaCompra = v.fechaCompra,
+                       placa = v.placa,
                        color = v.color.ToString(),
                        marca = v.marca.ToString(),
                         asegurado =  _context.Asegurados
@@ -155,12 +159,15 @@ namespace administracion.Persistence.DAOs
         public string updateVehiculo(VehiculoSimpleDTO auto)
         {
             try{
-                var vehiculo = _context.Vehiculos.Where(v => v.vehiculoId == auto.Id).FirstOrDefault();
-                vehiculo.anioModelo = auto.anioModelo;
-                vehiculo.color = (Color)Enum.Parse(typeof(Color), auto.color);
-                vehiculo.fechaCompra = auto.fechaCompra;
-                vehiculo.marca = (Marca)Enum.Parse(typeof(Marca), auto.marca);
-                vehiculo.placa = auto.placa;
+                Vehiculo vehiculo = new Vehiculo{
+                    vehiculoId = auto.Id,
+                    anioModelo = auto.anioModelo,
+                    color = (Color)Enum.Parse(typeof(Color), auto.color),
+                    fechaCompra = auto.fechaCompra,
+                    marca = (Marca)Enum.Parse(typeof(Marca), auto.marca),
+                    placa = auto.placa
+                };
+                _context.Vehiculos.Update(vehiculo);
                 _context.DbContext.SaveChanges();
                 return "Vehiculo actualizado";
             }

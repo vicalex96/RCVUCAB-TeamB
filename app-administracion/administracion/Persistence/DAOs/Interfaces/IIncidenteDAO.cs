@@ -11,6 +11,6 @@ namespace administracion.Persistence.DAOs
         public IncidenteDTO consultarIncidente(Guid incidenteID);
 
         public List<IncidenteDTO> ConsultarIncidentesActivos();
-        public string actualizarIncidente(Guid incidenteId, EstadoPoliza estado);
+        public string actualizarIncidente(Guid incidenteId, EstadoIncidente estado);
     }
 }

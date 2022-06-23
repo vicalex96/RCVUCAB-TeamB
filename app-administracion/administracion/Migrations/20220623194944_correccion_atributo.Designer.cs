@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using administracion.Persistence.Database;
@@ -11,9 +12,10 @@ using administracion.Persistence.Database;
 namespace administracion.Migrations
 {
     [DbContext(typeof(AdminDBContex))]
-    partial class AdminDBContexModelSnapshot : ModelSnapshot
+    [Migration("20220623194944_correccion_atributo")]
+    partial class correccion_atributo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -18,19 +18,20 @@ namespace administracion.Persistence.DAOs
             _context = context;
         }
 
-        public string createAsegurado(AseguradoDTO ase){
+        public string createAsegurado(AseguradoSimpleDTO ase){
             try{
                 var asegurado = new Asegurado{
                     aseguradoId = ase.Id, 
                     nombre = ase.nombre, 
                     apellido = ase.apellido
                 };
-                _context.Asegurados.Update(asegurado);
+                _context.Asegurados.Add(asegurado);
                 _context.DbContext.SaveChanges();
                 return "Asegurado creado";
             }
             catch(Exception ex){
-                throw new RCVException("Error al actualizar el asegurado", ex);
+                throw new RCVException("Error al crear el asegurado", ex);
+                
             }
         }
 
@@ -47,6 +48,8 @@ namespace administracion.Persistence.DAOs
                     vehiculos = a.vehiculos.Select( v => new VehiculoDTO{
                         Id = v.vehiculoId,
                         anioModelo = v.anioModelo,
+                        fechaCompra = v.fechaCompra,
+                        placa = v.placa,
                         color = v.color.ToString(),
                         marca = v.marca.ToString()
                     }).ToList()
@@ -107,7 +110,7 @@ namespace administracion.Persistence.DAOs
             }
         }
 
-        public string updateAsegurado(AseguradoDTO ase)
+        public string updateAsegurado(AseguradoSimpleDTO ase)
         {
             try
             {
