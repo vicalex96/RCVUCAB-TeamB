@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app-administracion", "app-a
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "administracion", "app-administracion\administracion\administracion.csproj", "{7E978531-C800-4AC3-83FF-A60BA0E7B900}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "administracion.tests", "app-administracion\administracion.tests\administracion.tests.csproj", "{7C7F3AB1-1CB5-4EAA-9699-2BB13705BA18}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "administracion.tests", "app-administracion\administracion.Test\administracion.Test.csproj", "{7C7F3AB1-1CB5-4EAA-9699-2BB13705BA18}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app-levantamiento", "app-levantamiento", "{8A7B4CE8-1BFD-4121-9164-F25C44530BE4}"
 EndProject
