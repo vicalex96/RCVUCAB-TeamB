@@ -27,7 +27,7 @@ namespace proveedor.Persistence.DAOs
                 CotPtEntity.FechaEntrega = cotPt.FechaEntrega;
                 CotPtEntity.estado = (EstadoCotPt)Enum.Parse(typeof(EstadoCotPt), cotPt.estado);
                 CotPtEntity.RequerimientoId = cotPt.RequerimientoId;
-                _context.Incidentes.Add(incidenteEntity);
+                _context.CotizacionPartes.Add(CotizacionParteEntity);
                 _context.DbContext.SaveChanges();
                 return "Cotizacion de Parte se ha registrado correctamente";
 
