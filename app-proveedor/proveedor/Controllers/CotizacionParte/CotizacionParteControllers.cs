@@ -22,6 +22,23 @@ namespace proveedor.Controllers
             _logger = logger;
         }
 
+        [HttpPost("Crar CotPat")]
+        public ApplicationResponse<string> createCotizacionParte([FromBody] CotizacionParteDTO cotPt)
+        {
+            var response = new ApplicationResponse<string>();
+            try
+            {
+                response.Data = _cotpatDAO.createCotizacionParte(cotPt);
+            }
+            catch (ProveedorException ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+                response.Exception = ex.Excepcion.ToString();
+            };
+            return response;
+        }
+
         [HttpGet("mostrar_todas_Las_cotizacionesPartes")]
         public ApplicationResponse<List<CotizacionParteDAO>> GetCotizacionPartes()
         {
