@@ -23,10 +23,11 @@ namespace proveedor.Persistence.DAOs
                 CotizacionParteEntity CotPtEntity = new CotizacionParteEntity();
                 CotPtEntity.CotizacionParteId = Guid.NewGuid();
                 CotPtEntity.ProveedorId = cotPt.ProveedorId;
+                CotPtEntity.RequerimientoId = cotPt.RequerimientoId;
                 CotPtEntity.PrecioParteUnidad = cotPt.PrecioParteUnidad;
                 CotPtEntity.FechaEntrega = cotPt.FechaEntrega;
                 CotPtEntity.estado = (EstadoCotPt)Enum.Parse(typeof(EstadoCotPt), cotPt.estado);
-                CotPtEntity.RequerimientoId = cotPt.RequerimientoId;
+                
                 _context.CotizacionPartes.Add(CotizacionParteEntity);
                 _context.DbContext.SaveChanges();
                 return "Cotizacion de Parte se ha registrado correctamente";
@@ -62,6 +63,28 @@ namespace proveedor.Persistence.DAOs
                 throw new ProveedorException("Ha ocurrido un error al intentar consultar la lista de Cotizacion de parte", ex.Message, ex);
             }
         }
+
+        public CotizacionParteDTO GetCotizacionPartesByestado(EstadoCotPt estado)
+        {
+                        try
+            {
+                var data = _context.CotizacionParte.Where(p => p.cotPt.estado == estado).Select( b=> new CotizacionParteDTO{
+                    Id = b.CotizacionParteID,
+                    RequerimientoId = b.RequerimientoId,
+                    PrecioParteUnidad = b.PrecioParteUnidad,
+                    FechaEntrega = b.FechaEntrega,
+                    estado = b.EstadoCotPt,
+                });
+                
+                return data.ToList();
+            }
+            catch(Exception ex)
+            {
+
+                throw new ProveedorException("Ha ocurrido un error al intentar obtener la lista de Cotizacion de Parte", ex.Message, ex);
+            }
+        }
+        
 
         public string actualizarCotizacionParte(Guid CotizacionParteID, EstadoCotPt estado)
         {

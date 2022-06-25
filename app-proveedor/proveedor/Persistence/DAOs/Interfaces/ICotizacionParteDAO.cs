@@ -7,9 +7,10 @@ namespace administracion.Persistence.DAOs
     public interface ICotizacionParteDAO
     {
         public string actualizarCotizacionParte(Guid CotizacionParteID, EstadoCotPt estado);
-       // public List<AseguradoDTO> GetAsegurados();
-        public string createCotizacionParte(CotizacionParteDTO ase);
-        //public string updateAsegurado(AseguradoDTO ase);
-       // public List<AseguradoDTO> GetAseguradosPorNombreCompleto(string nombre, string apellido);
+        public string createCotizacionParte(CotizacionParteDTO cotPt);
+        public List<CotizacionParteDAO> GetCotizacionPartes();
+        public CotizacionParteDTO GetCotizacionPartesByestado(EstadoCotPt estado);
+        public string actualizarCotizacionParte(Guid CotizacionParteID, EstadoCotPt estado);
+       
     }
 }
