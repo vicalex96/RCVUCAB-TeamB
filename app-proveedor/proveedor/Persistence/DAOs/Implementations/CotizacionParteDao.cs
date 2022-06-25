@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using proveedor.Persistence.Database;
 using proveedor.Persistence.Entities;
+using proveedor.Persistence.DAOs.Interfaces;
+using proveedor.Persistence.DAOs.Implementations;
 using proveedor.Exceptions;
 using proveedor.BussinesLogic.DTOs;
 using System;
@@ -28,7 +30,7 @@ namespace proveedor.Persistence.DAOs
                 CotPtEntity.FechaEntrega = cotPt.FechaEntrega;
                 CotPtEntity.estado = (EstadoCotPt)Enum.Parse(typeof(EstadoCotPt), cotPt.estado);
                 
-                _context.CotizacionPartes.Add(CotizacionParteEntity);
+                _context.CotizacionPartes.Add(CotPtEntity);
                 _context.DbContext.SaveChanges();
                 return "Cotizacion de Parte se ha registrado correctamente";
 
@@ -38,20 +40,20 @@ namespace proveedor.Persistence.DAOs
             }
             }
             
-        }
         
-        public List<CotizacionParteDAO> GetCotizacionPartes()
+        
+        public List<CotizacionParteDTO> GetCotizacionPartes()
         {
             try
             {
-                var cotpts = _context.CotizacionParte
+                var cotpts = _context.CotizacionPartes
                 
-                .Select( cotpt=> new CotizacionParteDAO{
-                    Id = cotpt.CotizacionParteID,
+                .Select( cotpt=> new CotizacionParteDTO{
+                    CotizacionParteId = cotpt.CotizacionParteId,
                     RequerimientoId = cotpt.RequerimientoId,
                     PrecioParteUnidad = cotpt.PrecioParteUnidad,
                     FechaEntrega = cotpt.FechaEntrega,
-                    estado = cotpt.EstadoCotPt,
+                    estado = cotpt.estado.ToString(),
 
                 });
                 
@@ -64,16 +66,16 @@ namespace proveedor.Persistence.DAOs
             }
         }
 
-        public CotizacionParteDTO GetCotizacionPartesByestado(EstadoCotPt estado)
+        public List<CotizacionParteDTO> GetCotizacionPartesByestado(EstadoCotPt estado)
         {
                         try
             {
-                var data = _context.CotizacionParte.Where(p => p.cotPt.estado == estado).Select( b=> new CotizacionParteDTO{
-                    Id = b.CotizacionParteID,
+                var data = _context.CotizacionPartes.Where(p => p.estado == estado).Select( b=> new CotizacionParteDTO{
+                    CotizacionParteId = b.CotizacionParteId,
                     RequerimientoId = b.RequerimientoId,
                     PrecioParteUnidad = b.PrecioParteUnidad,
                     FechaEntrega = b.FechaEntrega,
-                    estado = b.EstadoCotPt,
+                    estado = b.estado.ToString(),
                 });
                 
                 return data.ToList();
@@ -91,18 +93,19 @@ namespace proveedor.Persistence.DAOs
             try
             {
                 var CotizacionParte = _context.CotizacionPartes
-                    .Where(cotid => cotid.CotizacionParteID == CotizacionParteID)
+                    .Where(cotid => cotid.CotizacionParteId == CotizacionParteID)
                     .FirstOrDefault();
-                CotizacionParte.EstadoCotPt = estado;
+                CotizacionParte.estado = estado;
                 _context.DbContext.SaveChanges();
                 return "Estado de Cotizacion de parte ha sido actualizado";
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 throw new ProveedorException("Ha ocurrido un error al intentar actualizar el estado de cotizacion de parte", ex.Message, ex);
             }
         }
 
     }
+}
 
 

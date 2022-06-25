@@ -1,3 +1,11 @@
+using proveedor.Persistence.Database;
+using proveedor.Persistence.Entities;
+using proveedor.Persistence.DAOs;
+using proveedor.Persistence.DAOs.Interfaces;
+using proveedor.Persistence.DAOs.Implementations;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,8 +17,8 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
   //  );
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddTransient<IProveedorDbContext, ProveedorDbContext>();
-//builder.Services.AddTransient<IAseguradoDAO, AseguradoDAO>();
+builder.Services.AddTransient<IProveedorDbContext, ProveedorDbContext>();
+builder.Services.AddTransient<ICotizacionParteDAO, CotizacionParteDAO>();
 //builder.Services.AddTransient<IVehiculoDAO, VehiculoDAO>();
 //builder.Services.AddTransient<IPolizaDAO, PolizaDAO>();
 //builder.Services.AddTransient<IIncidenteDAO, IncidenteDAO>();

@@ -11,7 +11,7 @@ namespace proveedor.Test.DataSeed
 {
     public static class DataSeed
     {
-        public static void SetupDbContextData(this Mock<IProveedorDbContext> _mockContext)
+       /* public static void SetupDbContextData(this Mock<IProveedorDbContext> _mockContext)
         {
             var requests = new List<MarcaEntity>
             {
@@ -105,6 +105,6 @@ namespace proveedor.Test.DataSeed
 
             _mockContext.Setup(c => c.Marcas).Returns(requests.AsQueryable().BuildMockDbSet().Object);
             _mockContext.Setup(c => c.Providers).Returns(requestsprovider.AsQueryable().BuildMockDbSet().Object);
-        }
+        }*/
     }
 }

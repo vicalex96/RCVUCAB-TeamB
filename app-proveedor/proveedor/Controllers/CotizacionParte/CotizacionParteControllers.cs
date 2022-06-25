@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using proveedor.BussinesLogic.DTOs;
 using proveedor.Persistence.DAOs;
+using proveedor.Persistence.DAOs.Implementations;
+using proveedor.Persistence.DAOs.Interfaces;
 using proveedor.Exceptions;
 using proveedor.Responses;
 using System.Collections.Generic;
@@ -40,9 +42,9 @@ namespace proveedor.Controllers
         }
 
         [HttpGet("mostrar_todas_Las_cotizacionesPartes")]
-        public ApplicationResponse<List<CotizacionParteDAO>> GetCotizacionPartes()
+        public ApplicationResponse<List<CotizacionParteDTO>> GetCotizacionPartes()
         {
-            var response = new ApplicationResponse<List<CotizacionParteDAO>>();
+            var response = new ApplicationResponse<List<CotizacionParteDTO>>();
             try
             {
 
@@ -59,12 +61,12 @@ namespace proveedor.Controllers
 
         
         [HttpGet("consultarCotpat_por/{estado}")]
-        public ApplicationResponse<CotizacionParteDAO> GetCotizacionPartesByestado([Required][FromRoute] EstadoCotPt estado)
+        public ApplicationResponse<List<CotizacionParteDTO>> GetCotizacionPartesByestado([Required][FromRoute] EstadoCotPt estadocotpi)
         {
-            var response = new ApplicationResponse<CotizacionParteDAO>();
+            var response = new ApplicationResponse<List<CotizacionParteDTO>>();
             try
             {
-                response.Data = _cotpatDAO.GetCotizacionPartesByestado(estado);
+                response.Data = _cotpatDAO.GetCotizacionPartesByestado(estadocotpi);
             }
             catch (ProveedorException ex)
             {

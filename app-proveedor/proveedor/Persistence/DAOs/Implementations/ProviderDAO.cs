@@ -18,7 +18,7 @@ namespace proveedor.Persistence.DAOs.Implementations
             _context = context;
         }
 
-        public List<MarcaDTO> GetProvidersByBrand(string brand)
+      /*  public List<MarcaDTO> GetProvidersByBrand(string brand)
         {
             try
             {
@@ -43,6 +43,6 @@ namespace proveedor.Persistence.DAOs.Implementations
                 throw new ProveedorException("Ha ocurrido un error al intentar consultar la lista de proveedores para la marca: "
               + brand, ex.Message, ex);
             }
-        }
+        }*/
     }
 }

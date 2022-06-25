@@ -21,7 +21,7 @@ namespace proveedor.Test.UnitTests.Controllers
         private readonly Mock<IProviderDAO> _serviceMock;
         private readonly Mock<ILogger<ProviderController>> _loggerMock;
 
-        public ProviderControllerTest()
+       /* public ProviderControllerTest()
         {
             _loggerMock = new Mock<ILogger<ProviderController>>();
             _serviceMock = new Mock<IProviderDAO>();
@@ -29,9 +29,9 @@ namespace proveedor.Test.UnitTests.Controllers
             _controller.ControllerContext = new ControllerContext();
             _controller.ControllerContext.HttpContext = new DefaultHttpContext();
             _controller.ControllerContext.ActionDescriptor = new ControllerActionDescriptor();
-        }
+        }*/
 
-        [Fact(DisplayName = "Get Providers By Brand")]
+       /* [Fact(DisplayName = "Get Providers By Brand")]
         public Task GetProvidersByBrand()
         {
             _serviceMock
@@ -42,9 +42,9 @@ namespace proveedor.Test.UnitTests.Controllers
 
             Assert.IsType<ApplicationResponse<List<MarcaDTO>>>(result);
             return Task.CompletedTask;
-        }
+        }*/
 
-        [Fact(DisplayName = "Get Providers By Brand with Exception")]
+       /* [Fact(DisplayName = "Get Providers By Brand with Exception")]
         public Task GetProvidersByBrandException()
         {
             _serviceMock
@@ -56,6 +56,6 @@ namespace proveedor.Test.UnitTests.Controllers
             Assert.NotNull(ex);
             Assert.False(ex.Success);
             return Task.CompletedTask;
-        }
+        }*/
     }
 }

@@ -5,6 +5,6 @@ namespace proveedor.Persistence.DAOs.Interfaces
 {
     public interface IProviderDAO
     {
-        public List<MarcaDTO> GetProvidersByBrand(string Brand);
+      // public List<MarcaDTO> GetProvidersByBrand(string Brand);
     }
 }

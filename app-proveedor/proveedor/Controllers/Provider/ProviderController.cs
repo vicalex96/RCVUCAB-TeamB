@@ -22,7 +22,7 @@ namespace proveedor.Controllers.Provider
             _logger = logger;
         }
 
-        [HttpGet("providers/{brand}")]
+       /* [HttpGet("providers/{brand}")]
         public ApplicationResponse<List<MarcaDTO>> GetProvidersByBrand([Required][FromRoute] string brand)
         {
             var response = new ApplicationResponse<List<MarcaDTO>>();
@@ -37,6 +37,6 @@ namespace proveedor.Controllers.Provider
                 response.Exception = ex.Excepcion.ToString();
             }
             return response;
-        }
+        }*/
     }
 }
