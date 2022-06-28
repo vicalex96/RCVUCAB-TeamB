@@ -21,7 +21,6 @@ namespace administracion.Exceptions
             MensajeSoporte = _mensajesoporte;
         }
 
-       
         public RCVException(string _mensaje, string _mensajeSoporte, Exception _excepcion)
         {
             Mensaje = _mensaje;

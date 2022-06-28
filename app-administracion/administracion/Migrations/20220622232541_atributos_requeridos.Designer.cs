@@ -11,7 +11,7 @@ using administracion.Persistence.Database;
 
 namespace administracion.Migrations
 {
-    [DbContext(typeof(AdminDBContex))]
+    [DbContext(typeof(AdminDBContext))]
     [Migration("20220622232541_atributos_requeridos")]
     partial class atributos_requeridos
     {

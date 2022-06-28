@@ -12,18 +12,6 @@ namespace administracion.Test.DataSeed
     {
         public static void SetupDbContextDataAsegurado(this Mock<IAdminDBContext> _mockContext)
         {
-            /*
-            public interface IAdminDBContext
-            {
-                DbContext DbContext { get;}
-
-                DbSet<Asegurado> Asegurados {get; set;}
-                DbSet<Vehiculo> Vehiculos {get; set;}
-                DbSet<Poliza> Polizas {get; set;}
-                DbSet<Incidente> incidentes {get; set;}
-            }
-            */
-
 
             var requests = new List<Asegurado>
                 {
@@ -85,11 +73,11 @@ namespace administracion.Test.DataSeed
                         polizas = new List<Poliza>()
                     },
             });
-/*
-            var requestsPoliza = requestsvehiculo.SelectMany(q => q.polizas).Concat(new List<Vehiculo>
-            {
-            });
-*/
+            /*
+                        var requestsPoliza = requestsvehiculo.SelectMany(q => q.polizas).Concat(new List<Vehiculo>
+                        {
+                        });
+            */
             _mockContext.Setup(
                 c => c.Asegurados
                 ).Returns(
@@ -100,13 +88,13 @@ namespace administracion.Test.DataSeed
                 ).Returns(
                     requestsvehiculo.AsQueryable().BuildMockDbSet().Object
                     );
-           /* _mockContext.Setup(
+            /* _mockContext.Setup(
                 c => c.Polizas
                 ).Returns(
                     requestsPoliza.AsQueryable().BuildMockDbSet().Object
                     );
-            */
+             */
         }
-        
+
     }
 }

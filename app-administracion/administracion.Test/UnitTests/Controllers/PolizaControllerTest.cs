@@ -35,34 +35,34 @@ namespace RCVUcab.Test.UnitTests.Controllers
         public Task RegistrerPoliza()
         {
             _serviceMock
-                .Setup(x => x.registrarPoliza(It.IsAny<PolizaSimpleDTO>()))
-                .Returns(It.IsAny<string>);
-              
+                .Setup(x => x.RegisterPoliza(It.IsAny<PolizaSimpleDTO>()))
+                .Returns(It.IsAny<bool>);
+
             var result = _controller.registrarPoliza(It.IsAny<PolizaSimpleDTO>());
 
-            Assert.IsType<ApplicationResponse<string>>(result);
+            Assert.IsType<ApplicationResponse<bool>>(result);
             return Task.CompletedTask;
         }
         [Fact(DisplayName = "Controller: Obtener Excepticion al Registrar polizas")]
         public Task RegistrerPolizaException()
         {
             _serviceMock
-                .Setup(x => x.registrarPoliza(It.IsAny<PolizaSimpleDTO>()))
-                .Throws(new RCVException("",new Exception()));
-              
+                .Setup(x => x.RegisterPoliza(It.IsAny<PolizaSimpleDTO>()))
+                .Throws(new RCVException("", new Exception()));
+
             var ex = _controller.registrarPoliza(It.IsAny<PolizaSimpleDTO>());
-            Assert.NotNull(ex);
-            //Assert.False(ex.Success);
+
+            Assert.False(ex.Success);
 
             return Task.CompletedTask;
         }
         [Fact(DisplayName = "Controller: Obtener una Poliza a traves de su vehiculo guid")]
         public Task GetPolizaByVehiculoID()
         {
-            _serviceMock.Setup( x => x.consultarPolizaDeVehiculo(It.IsAny<Guid>()))
+            _serviceMock.Setup(x => x.GetPolizaByVehiculoGuid(It.IsAny<Guid>()))
             .Returns(new PolizaDTO());
             var result = _controller.consultarPolizaDeVehiculo(It.IsAny<Guid>());
-            
+
             Assert.IsType<ApplicationResponse<PolizaDTO>>(result);
             return Task.CompletedTask;
         }
@@ -71,12 +71,12 @@ namespace RCVUcab.Test.UnitTests.Controllers
         public Task GetPolizaByVehiculoIDException()
         {
             _serviceMock
-                .Setup(x => x.consultarPolizaDeVehiculo(It.IsAny<Guid>()))
-                .Throws(new RCVException("",new Exception()));
-              
+                .Setup(x => x.GetPolizaByVehiculoGuid(It.IsAny<Guid>()))
+                .Throws(new RCVException("", new Exception()));
+
             var ex = _controller.consultarPolizaDeVehiculo(It.IsAny<Guid>());
-            Assert.NotNull(ex);
-            //Assert.False(ex.Success);
+
+            Assert.False(ex.Success);
 
             return Task.CompletedTask;
         }

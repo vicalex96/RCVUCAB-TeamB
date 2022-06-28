@@ -5,7 +5,8 @@ namespace administracion.Persistence.Entities
 {
     public class Proveedor
     {
-        public List<Marca> especializaciones {get; set;}
-        //public list<Parte> partes {get; set;}
+        public Guid proveedorId { get; set; }
+        public string nombreLocal {get; set;}
+        public ICollection<MarcaProveedor> marcas {get; set;}
     }
 }

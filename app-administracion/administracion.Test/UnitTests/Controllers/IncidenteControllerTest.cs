@@ -8,9 +8,6 @@ using administracion.Controllers;
 using administracion.Exceptions;
 using administracion.Persistence.DAOs;
 using administracion.Responses;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace RCVUcab.Test.UnitTests.Controllers
@@ -25,7 +22,10 @@ namespace RCVUcab.Test.UnitTests.Controllers
         {
             _loggerMock = new Mock<ILogger<IncidenteController>>();
             _serviceMock = new Mock<IIncidenteDAO>();
-            _controller = new IncidenteController(_loggerMock.Object, _serviceMock.Object);
+            _controller = new IncidenteController(_loggerMock.Object,
+                _serviceMock.Object);
+            
+
             _controller.ControllerContext = new ControllerContext();
             _controller.ControllerContext.HttpContext = new DefaultHttpContext();
             _controller.ControllerContext.ActionDescriptor = new ControllerActionDescriptor();
@@ -35,24 +35,24 @@ namespace RCVUcab.Test.UnitTests.Controllers
         public Task RegisterIncidente()
         {
             _serviceMock
-                .Setup(x => x.registrarIncidente(It.IsAny<IncidenteSimpleDTO>()))
-                .Returns(It.IsAny<string>());
-              
-            var result = _controller.registrarIncidente(It.IsAny<IncidenteSimpleDTO>());
+                .Setup(x => x.RegisterIncidente(It.IsAny<IncidenteSimpleDTO>()))
+                .Returns(It.IsAny<bool>());
+            
+            var result = _controller.RegistrarIncidente(It.IsAny<IncidenteSimpleDTO>());
 
-            Assert.IsType<ApplicationResponse<string>>(result);
+            Assert.IsType<ApplicationResponse<bool>>(result);
             return Task.CompletedTask;
         }
         [Fact(DisplayName = "Controller: Registrar Incidente regresa una excepcion")]
         public Task RegisterIncidenteException()
         {
             _serviceMock
-                .Setup(x => x.registrarIncidente(It.IsAny<IncidenteSimpleDTO>()))
+                .Setup(x => x.RegisterIncidente(It.IsAny<IncidenteSimpleDTO>()))
                 .Throws(new RCVException("",new Exception()));
-              
-            var ex = _controller.registrarIncidente(It.IsAny<IncidenteSimpleDTO>());
-            Assert.NotNull(ex);
-            //Assert.False(ex.Success);
+
+            var ex = _controller.RegistrarIncidente(It.IsAny<IncidenteSimpleDTO>());
+
+            Assert.False(ex.Success);
 
             return Task.CompletedTask;
         }
@@ -73,10 +73,10 @@ namespace RCVUcab.Test.UnitTests.Controllers
             _serviceMock
                 .Setup(x => x.consultarIncidente(It.IsAny<Guid>()))
                 .Throws(new RCVException("",new Exception()));
-              
+
             var ex = _controller.consultarIncidente(It.IsAny<Guid>());
-            Assert.NotNull(ex);
-            //Assert.False(ex.Success);
+
+            Assert.False(ex.Success);
 
             return Task.CompletedTask;
         }
@@ -98,35 +98,35 @@ namespace RCVUcab.Test.UnitTests.Controllers
             _serviceMock
                 .Setup(x => x.ConsultarIncidentesActivos())
                 .Throws(new RCVException("",new Exception()));
-              
+
             var ex = _controller.ConsultarIncidentesActivos();
-            Assert.NotNull(ex);
-            //Assert.False(ex.Success);
+
+            Assert.False(ex.Success);
 
             return Task.CompletedTask;
         }
- 
+
         [Fact(DisplayName = "Controller: Actualizar Estado Incidente")]
         public Task UpdateIncidenteState()
         {
             _serviceMock.Setup( x => x.actualizarIncidente(It.IsAny<Guid>(),It.IsAny<EstadoIncidente>()))
-            .Returns(It.IsAny<string>());
+            .Returns(It.IsAny<bool>());
             var result = _controller.actualizarIncidente(It.IsAny<Guid>(),It.IsAny<EstadoIncidente>());
             
-            Assert.IsType<ApplicationResponse<string>>(result);
+            Assert.IsType<ApplicationResponse<bool>>(result);
             return Task.CompletedTask;
         }
-       
+
         [Fact(DisplayName = "Controller: Actualizar Estado Incidente arroja excepcion")]
         public Task CreateIncidenteException()
         {
             _serviceMock
                 .Setup(x => x.actualizarIncidente(It.IsAny<Guid>(),It.IsAny<EstadoIncidente>()))
                 .Throws(new RCVException("",new Exception()));
-              
+
             var ex = _controller.actualizarIncidente(It.IsAny<Guid>(),It.IsAny<EstadoIncidente>());
-            Assert.NotNull(ex);
-            //Assert.False(ex.Success);
+
+            Assert.False(ex.Success);
 
             return Task.CompletedTask;
         }

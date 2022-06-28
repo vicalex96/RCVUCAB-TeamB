@@ -2,7 +2,7 @@
 
 namespace administracion.Persistence.Entities
 {
-    public class Admin: Usuario
+    public class Admin
     {
         
     }

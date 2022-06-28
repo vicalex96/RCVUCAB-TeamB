@@ -7,10 +7,11 @@ namespace administracion.Persistence.DAOs
 {
     public interface IIncidenteDAO
     {
-        public string registrarIncidente (IncidenteSimpleDTO incidente);
+        
         public IncidenteDTO consultarIncidente(Guid incidenteID);
 
         public List<IncidenteDTO> ConsultarIncidentesActivos();
-        public string actualizarIncidente(Guid incidenteId, EstadoIncidente estado);
+        public bool RegisterIncidente (IncidenteSimpleDTO incidente);
+        public bool actualizarIncidente(Guid incidenteId, EstadoIncidente estado);
     }
 }

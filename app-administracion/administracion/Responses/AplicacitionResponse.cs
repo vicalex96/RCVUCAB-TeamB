@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace administracion.Responses
 {
-    public class ApplicationResponse<T> where T : class
+    public class ApplicationResponse<T>
     {
         public string Message { get; set; }
         public HttpStatusCode StatusCode { get; set; }

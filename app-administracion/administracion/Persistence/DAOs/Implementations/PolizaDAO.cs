@@ -19,7 +19,7 @@ namespace administracion.Persistence.DAOs
         }
 
 
-        public string registrarPoliza (PolizaSimpleDTO poliza)
+        public bool RegisterPoliza (PolizaSimpleDTO poliza)
         {
             try
             {
@@ -33,14 +33,41 @@ namespace administracion.Persistence.DAOs
 
                 _context.Polizas.Add(polizaEntity);
                 _context.DbContext.SaveChanges();
-                return "Se registro la poliza correctamente";
+                return true;
             }
             catch(Exception ex){
                 throw new RCVException("Error al crear el asegurado", ex);
             }
-            return "Se registro la poliza correctamente";
+            return false;
         }
-        public PolizaDTO consultarPolizaDeVehiculo(Guid vehiculoID)
+
+        public PolizaDTO GetPolizaByGuid(Guid polizaId)
+        {
+            try
+            {
+                var poliza = _context.Polizas
+                .Where(p => p.polizaId == polizaId)
+                .Select( p=> new PolizaDTO{
+                    Id = p.polizaId,
+                    fechaRegistro = p.fechaRegistro,
+                    fechaVencimiento = p.fechaVencimiento,
+                    tipoPoliza = p.tipoPoliza.ToString(),
+                    vehiculoId = p.vehiculoId
+                }).FirstOrDefault();
+                
+                if(poliza == null){
+                    throw new Exception("No se encontraron vehiculos con ese nombre y apellido Error 404");
+                }
+                return poliza;
+
+            }
+            catch(Exception ex)
+            {
+                throw new RCVException("Error no se obtuvo ninguna poliza", ex);
+            }
+        }
+
+        public PolizaDTO GetPolizaByVehiculoGuid(Guid vehiculoID)
         {
             try
             {
@@ -78,6 +105,4 @@ namespace administracion.Persistence.DAOs
             }
         }
     }
-
-   
 }

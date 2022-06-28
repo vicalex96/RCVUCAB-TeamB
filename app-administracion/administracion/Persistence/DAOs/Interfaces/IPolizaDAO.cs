@@ -7,7 +7,8 @@ namespace administracion.Persistence.DAOs
 {
     public interface IPolizaDAO
     {
-        public string registrarPoliza (PolizaSimpleDTO poliza);
-        public PolizaDTO consultarPolizaDeVehiculo(Guid vehiculoID);
+        public bool RegisterPoliza (PolizaSimpleDTO poliza);
+        public PolizaDTO GetPolizaByGuid(Guid polizaId);
+        public PolizaDTO GetPolizaByVehiculoGuid(Guid vehiculoID);
     }
 }
