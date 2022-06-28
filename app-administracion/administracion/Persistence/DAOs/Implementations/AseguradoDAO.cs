@@ -18,16 +18,27 @@ namespace administracion.Persistence.DAOs
             _context = context;
         }
 
-        public string createAsegurado(AseguradoSimpleDTO ase){
+        public bool RegisterAsegurado(AseguradoSimpleDTO asegurado){
             try{
-                var asegurado = new Asegurado{
-                    aseguradoId = ase.Id, 
-                    nombre = ase.nombre, 
-                    apellido = ase.apellido
+                if(asegurado.nombre.ToLower() == "string" || 
+                    asegurado.nombre.Count() == 0 && 
+                    asegurado.apellido.ToLower() == "string" || 
+                    asegurado.apellido.Count() == 0 )
+                {
+                    throw new Exception("Error campos no validos");
+                }
+                Asegurado aseguradoEntity = new Asegurado{
+                    aseguradoId = asegurado.Id, 
+                    nombre = asegurado.nombre, 
+                    apellido = asegurado.apellido
                 };
-                _context.Asegurados.Add(asegurado);
+                _context.Asegurados.Add(aseguradoEntity);
                 _context.DbContext.SaveChanges();
-                return "Asegurado creado";
+                return true;
+            }
+            catch(DbUpdateException ex)
+            {
+                throw new RCVException("Error identificador duplicado");
             }
             catch(Exception ex){
                 throw new RCVException("Error al crear el asegurado", ex);
@@ -67,23 +78,21 @@ namespace administracion.Persistence.DAOs
         }
         public AseguradoDTO GetAseguradoByGuid(Guid Id)
         {
-                        try
+            try
             {
-                var data = _context.Asegurados.Where(p => p.aseguradoId == Id).Select( b=> new AseguradoDTO{
+                var data = _context.Asegurados
+                .Where(p => p.aseguradoId == Id)
+                .Select( b=> new AseguradoDTO{
                     Id = b.aseguradoId,
                     nombre = b.nombre,
                     apellido = b.apellido
-                });
-                if(data.ToList().Count == 0){
-                    Console.WriteLine("\n Lanzando error");
-                    throw new Exception("No se encontraron asegurados con ese nombre y apellido Error 404");
+                }).SingleOrDefault();
+                if(data == null){
+                    throw new Exception("No se encontro asegurados con ese nombre y apellido Error 404");
                 }
-                return data.ToList()[0];
+                return data;
             }
             catch (Exception ex) {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("\n Manejando el error -> fin del error");
-
                 throw new RCVException("Ha ocurrido un error al intentar obtener el asegurado:", ex.Message, ex);
             }
         }
@@ -103,31 +112,9 @@ namespace administracion.Persistence.DAOs
                 return data.ToList();
             }
             catch (Exception ex) {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("\n Manejando el error -> fin del error");
 
                 throw new RCVException("Ha ocurrido un error al intentar obtener el asegurado:", ex.Message, ex);
             }
         }
-
-        public string updateAsegurado(AseguradoSimpleDTO ase)
-        {
-            try
-            {
-                var asegurado = new Asegurado{
-                    aseguradoId = ase.Id, 
-                    nombre = ase.nombre, 
-                    apellido = ase.apellido
-                };
-                _context.Asegurados.Update(asegurado);
-                _context.DbContext.SaveChanges();
-                return "Asegurado editado";
-            }
-            catch (Exception ex)
-            {
-                throw new RCVException("Ha ocurrido un error al intentar editar el asegurado", ex.Message, ex);
-            }
-        }
-
     }
 }

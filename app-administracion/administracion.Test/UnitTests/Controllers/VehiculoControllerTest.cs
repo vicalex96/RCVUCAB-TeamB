@@ -37,7 +37,7 @@ namespace RCVUcab.Test.UnitTests.Controllers
             _serviceMock
                 .Setup(x => x.GetAllVehiculos())
                 .Returns(new List<VehiculoDTO>());
-              
+
             var result = _controller.GetAllVehiculos();
 
             Assert.IsType<ApplicationResponse<List<VehiculoDTO>>>(result);
@@ -49,22 +49,21 @@ namespace RCVUcab.Test.UnitTests.Controllers
         {
             _serviceMock
                 .Setup(x => x.GetAllVehiculos())
-                .Throws(new RCVException("",new Exception()));
-              
+                .Throws(new RCVException("", new Exception()));
+
             var ex = _controller.GetAllVehiculos();
-            Assert.NotNull(ex);
-            //Assert.False(ex.Success);
+            Assert.False(ex.Success);
 
             return Task.CompletedTask;
         }
-       
+
         [Fact(DisplayName = "Controller: Obtener un Vehiculo a traves de su guid")]
         public Task GetVehiculoByGuid()
         {
-            _serviceMock.Setup( x => x.GetVehiculoByGuid(It.IsAny<Guid>()))
+            _serviceMock.Setup(x => x.GetVehiculoByGuid(It.IsAny<Guid>()))
             .Returns(new VehiculoDTO());
             var result = _controller.GetVehiculoByGuid(It.IsAny<Guid>());
-            
+
             Assert.IsType<ApplicationResponse<VehiculoDTO>>(result);
             return Task.CompletedTask;
         }
@@ -74,23 +73,22 @@ namespace RCVUcab.Test.UnitTests.Controllers
         {
             _serviceMock
                 .Setup(x => x.GetVehiculoByGuid(It.IsAny<Guid>()))
-                .Throws(new RCVException("",new Exception()));
-              
+                .Throws(new RCVException("", new Exception()));
+
             var ex = _controller.GetVehiculoByGuid(It.IsAny<Guid>());
-            Assert.NotNull(ex);
-            //Assert.False(ex.Success);
+            Assert.False(ex.Success);
 
             return Task.CompletedTask;
         }
 
-         [Fact(DisplayName = "Controller: registrar un vehiculo")]
+        [Fact(DisplayName = "Controller: registrar un vehiculo")]
         public Task RegisterVehiculo()
         {
-            _serviceMock.Setup( x => x.createVehiculo(It.IsAny<VehiculoSimpleDTO>()))
-            .Returns(It.IsAny<string>());
+            _serviceMock.Setup(x => x.RegisterVehiculo(It.IsAny<VehiculoSimpleDTO>()))
+            .Returns(It.IsAny<bool>());
             var result = _controller.createVehiculo(It.IsAny<VehiculoSimpleDTO>());
-            
-            Assert.IsType<ApplicationResponse<string>>(result);
+
+            Assert.IsType<ApplicationResponse<bool>>(result);
             return Task.CompletedTask;
         }
 
@@ -98,12 +96,11 @@ namespace RCVUcab.Test.UnitTests.Controllers
         public Task RegisterVehiculoException()
         {
             _serviceMock
-                .Setup(x => x.createVehiculo(It.IsAny<VehiculoSimpleDTO>()))
-                .Throws(new RCVException("",new Exception()));
-              
+                .Setup(x => x.RegisterVehiculo(It.IsAny<VehiculoSimpleDTO>()))
+                .Throws(new RCVException("", new Exception()));
+
             var ex = _controller.createVehiculo(It.IsAny<VehiculoSimpleDTO>());
-            Assert.NotNull(ex);
-            //Assert.False(ex.Success);
+            Assert.False(ex.Success);
 
             return Task.CompletedTask;
         }
@@ -111,11 +108,11 @@ namespace RCVUcab.Test.UnitTests.Controllers
         [Fact(DisplayName = "Controller: asociar el vehiculo con un asegurado")]
         public Task AssociateVehiculoWithAsegurado()
         {
-            _serviceMock.Setup( x => x.addAsegurado(It.IsAny<Guid>(),It.IsAny<Guid>()))
-            .Returns(It.IsAny<string>());
-            var result = _controller.AddAsegurado(It.IsAny<Guid>(),It.IsAny<Guid>());
-            
-            Assert.IsType<ApplicationResponse<string>>(result);
+            _serviceMock.Setup(x => x.AddAsegurado(It.IsAny<Guid>(), It.IsAny<Guid>()))
+            .Returns(It.IsAny<bool>());
+            var result = _controller.AddAsegurado(It.IsAny<Guid>(), It.IsAny<Guid>());
+
+            Assert.IsType<ApplicationResponse<bool>>(result);
             return Task.CompletedTask;
         }
 
@@ -123,40 +120,12 @@ namespace RCVUcab.Test.UnitTests.Controllers
         public Task AssociateVehiculoWithAseguradoException()
         {
             _serviceMock
-                .Setup(x => x.addAsegurado(It.IsAny<Guid>(),It.IsAny<Guid>()))
-                .Throws(new RCVException("",new Exception()));
-              
-            var ex = _controller.AddAsegurado(It.IsAny<Guid>(),It.IsAny<Guid>());
-            Assert.NotNull(ex);
-            //Assert.False(ex.Success);
+                .Setup(x => x.AddAsegurado(It.IsAny<Guid>(), It.IsAny<Guid>()))
+                .Throws(new RCVException("", new Exception()));
 
-            return Task.CompletedTask;
-        }
+            var ex = _controller.AddAsegurado(It.IsAny<Guid>(), It.IsAny<Guid>());
+            Assert.False(ex.Success);
 
-        [Fact(DisplayName = "Controller: Actualizar Vehiculo")]
-        public Task UpdateVehiculo()
-        {
-            _serviceMock
-                .Setup(x => x.updateVehiculo(It.IsAny<VehiculoSimpleDTO>()))
-                .Returns(It.IsAny<string>());
-
-            var result = _controller.UpdateVehiculo(It.IsAny<VehiculoSimpleDTO>());
-            
-            Assert.IsType<ApplicationResponse<string>>(result);
-           
-            return Task.CompletedTask;
-        }
-
-        [Fact(DisplayName = "Controller: Actualizar Vehiculo Arroja excepcion")]
-        public Task UpdateVehiculoException()
-        {
-            _serviceMock
-                .Setup(x => x.updateVehiculo(It.IsAny<VehiculoSimpleDTO>()))
-                .Throws(new RCVException("",new Exception()));
-              
-            var ex = _controller.UpdateVehiculo(It.IsAny<VehiculoSimpleDTO>());
-            Assert.NotNull(ex);
-            //Assert.False(ex.Success);
             return Task.CompletedTask;
         }
 

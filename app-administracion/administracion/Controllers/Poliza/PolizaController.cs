@@ -23,12 +23,13 @@ namespace administracion.Controllers
         }
 
         [HttpPost("registrar")]
-        public ApplicationResponse<string> registrarPoliza([FromBody] PolizaSimpleDTO poliza)
+        public ApplicationResponse<bool> registrarPoliza([FromBody] PolizaSimpleDTO poliza)
         {
-            var response = new ApplicationResponse<string>();
+            var response = new ApplicationResponse<bool>();
             try
             {
-                response.Data = _polizaDao.registrarPoliza(poliza);
+                response.Success = _polizaDao.RegisterPoliza(poliza);
+                response.Message = "Poliza registrada";
             }
             catch (RCVException ex)
             {
@@ -45,7 +46,8 @@ namespace administracion.Controllers
             var response = new ApplicationResponse<PolizaDTO>();
             try
             {
-                response.Data = _polizaDao.consultarPolizaDeVehiculo(vehiculoID);
+                response.Data = _polizaDao.GetPolizaByVehiculoGuid(vehiculoID);
+                response.Success = true;
             }
             catch (RCVException ex)
             {
@@ -55,6 +57,5 @@ namespace administracion.Controllers
             };
             return response;
         }
-  
     }
 }

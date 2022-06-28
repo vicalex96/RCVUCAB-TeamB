@@ -10,7 +10,6 @@ namespace administracion.BussinesLogic.DTOs
     {
         public Guid incidenteId {get; set;} 
         public Guid polizaId {get; set;}
-        public string estadoIncidente {get; set;} 
     }
 
 }

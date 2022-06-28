@@ -21,10 +21,11 @@ namespace administracion.Persistence.DAOs
 
 
         
-        public string registrarIncidente (IncidenteSimpleDTO incidente)
+        public bool RegisterIncidente (IncidenteSimpleDTO incidente)
         {
             try
             {
+                
                 Incidente incidenteEntity = new Incidente{
                     incidenteId = incidente.incidenteId,
                     polizaId = incidente.polizaId,
@@ -33,11 +34,15 @@ namespace administracion.Persistence.DAOs
                 };   
                 _context.Incidentes.Add(incidenteEntity);
                 _context.DbContext.SaveChanges();
-                return "Incidente registrado";
+                return true;
             }
-            catch (Exception e)
+            catch(DbUpdateException ex)
             {
-                throw new Exception(e.Message);
+                throw new RCVException("No se pudo registrar, errar con al identificar la relacion con las claves",ex.InnerException);
+            }
+            catch (Exception ex)
+            {
+                throw new RCVException("ocurrio un errror", ex);
             }    
         }
         public IncidenteDTO consultarIncidente(Guid incidenteID)
@@ -96,7 +101,7 @@ namespace administracion.Persistence.DAOs
                 throw new RCVException("Error al obtener los vehiculos", ex);
             }
         }     
-        public string actualizarIncidente(Guid incidenteId, EstadoIncidente estado)
+        public bool actualizarIncidente(Guid incidenteId, EstadoIncidente estado)
         {
             try
             {
@@ -105,7 +110,7 @@ namespace administracion.Persistence.DAOs
                     .FirstOrDefault();
                 incidente.estadoIncidente = estado;
                 _context.DbContext.SaveChanges();
-                return "Estado actualizado";
+                return true;
             }
             catch (Exception e)
             {

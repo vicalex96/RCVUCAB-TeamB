@@ -10,9 +10,8 @@ namespace administracion.Persistence.DAOs
         public List<VehiculoDTO> GetAllVehiculos();
         public VehiculoDTO GetVehiculoByGuid(Guid Id);
         public List<VehiculoDTO> GetVehiculosByAsegurado(Guid aseguradoId);
-        public string createVehiculo(VehiculoSimpleDTO auto);
-        public string addAsegurado(Guid aseguradoId, Guid vehiculoId);
-        public string updateVehiculo(VehiculoSimpleDTO auto);
+        public bool RegisterVehiculo(VehiculoSimpleDTO auto);
+        public bool AddAsegurado(Guid aseguradoId, Guid vehiculoId);
         
     }
 }

@@ -22,6 +22,8 @@ namespace administracion.Controllers
             _logger = logger;
         }
 
+    
+
         [HttpGet("mostrar_todos")]
         public ApplicationResponse<List<AseguradoDTO>> GetAsegurados()
         {
@@ -66,7 +68,6 @@ namespace administracion.Controllers
             }
             catch (RCVException ex)
             {
-                Console.WriteLine();
                 response.Success = false;
                 response.Message = ex.Message;
                 response.Exception = ex.Excepcion.Message.ToString();
@@ -76,13 +77,12 @@ namespace administracion.Controllers
         }
 
         [HttpPost("agregar")]
-        public ApplicationResponse<string> AddAsegurado([FromBody] AseguradoSimpleDTO asegurado)
+        public ApplicationResponse<bool> AddAsegurado([FromBody] AseguradoSimpleDTO asegurado)
         {
-            var response = new ApplicationResponse<string>();
+            var response = new ApplicationResponse<bool>();
             try
             {
-                response.Data = _aseguradoDAO.createAsegurado(asegurado);
-                Console.WriteLine("Dame data ",  response.Data);
+                response.Data = _aseguradoDAO.RegisterAsegurado(asegurado);
             }
             catch (RCVException ex)
             {
@@ -93,24 +93,6 @@ namespace administracion.Controllers
             }
             return response;
         }
-        [HttpPut("actualizar")]
-        public ApplicationResponse<string> UpdateAsegurado([FromBody] AseguradoSimpleDTO asegurado)
-        {
-            var response = new ApplicationResponse<string>();
-            try
-            {
-                
-                response.Data = _aseguradoDAO.updateAsegurado(asegurado);
-                if(response.Data =="Asegurado editado")
-                    response.StatusCode = System.Net.HttpStatusCode.OK;
-            }
-            catch (RCVException ex)
-            {
-                response.Success = false;
-                response.Message = ex.Message;
-                response.Exception = ex.Excepcion.ToString();
-            }
-            return response;
-        }
+
     }
 }

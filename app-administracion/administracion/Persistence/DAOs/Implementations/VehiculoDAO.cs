@@ -139,7 +139,7 @@ namespace administracion.Persistence.DAOs
                 throw new RCVException("Ha ocurrido un error al intentar obtener el vehiculo:", ex.Message, ex);
             }
         }
-        public string createVehiculo(VehiculoSimpleDTO auto)
+        public bool RegisterVehiculo(VehiculoSimpleDTO auto)
         {
             //get enum Marca value from auto.Marca
             Marca marca = (Marca)Enum.Parse(typeof(Marca), auto.marca);
@@ -149,35 +149,16 @@ namespace administracion.Persistence.DAOs
                 var vehiculo = new Vehiculo(auto.Id,auto.anioModelo, auto.fechaCompra, _color, auto.placa,_marca);
                 _context.Vehiculos.Add(vehiculo);
                 _context.DbContext.SaveChanges();
-                return "Vehiculo creado";
+                return true;
             }
             catch(Exception ex){
                 throw new RCVException("Error al crear el asegurado", ex);
             }
-            return "Vehiculo creado";
-        }
-        public string updateVehiculo(VehiculoSimpleDTO auto)
-        {
-            try{
-                Vehiculo vehiculo = new Vehiculo{
-                    vehiculoId = auto.Id,
-                    anioModelo = auto.anioModelo,
-                    color = (Color)Enum.Parse(typeof(Color), auto.color),
-                    fechaCompra = auto.fechaCompra,
-                    marca = (Marca)Enum.Parse(typeof(Marca), auto.marca),
-                    placa = auto.placa
-                };
-                _context.Vehiculos.Update(vehiculo);
-                _context.DbContext.SaveChanges();
-                return "Vehiculo actualizado";
-            }
-            catch(Exception ex){
-                throw new RCVException("Error al actualizar el vehiculo", ex);
-            }
+            return false;
         }
 
 //un asegurado no debe de poder cambiarse
-        public string addAsegurado(Guid vehiculoId , Guid  aseguradoId)
+        public bool AddAsegurado(Guid vehiculoId , Guid  aseguradoId)
         {
             try
             {
@@ -190,7 +171,7 @@ namespace administracion.Persistence.DAOs
                     Vehiculo veh = (Vehiculo) vehiculo;
                     _context.Vehiculos.Update(veh);
                     _context.DbContext.SaveChanges();
-                return "Asegurado Agregado";
+                return true;
             }
             catch (Exception ex)
             {

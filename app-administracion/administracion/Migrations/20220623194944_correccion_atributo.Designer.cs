@@ -11,7 +11,7 @@ using administracion.Persistence.Database;
 
 namespace administracion.Migrations
 {
-    [DbContext(typeof(AdminDBContex))]
+    [DbContext(typeof(AdminDBContext))]
     [Migration("20220623194944_correccion_atributo")]
     partial class correccion_atributo
     {

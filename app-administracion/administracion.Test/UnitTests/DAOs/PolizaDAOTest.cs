@@ -24,7 +24,7 @@ namespace administracion.Test.UnitTests.DAOs
             // el Mock no emplea un DBcontext real en IAdminDBContext =>  obligamos una respuesta por defecto para el SaveChanges y de esta forma evitar un error al no tener un DBcontext real
             _contextMock.Setup(m => m.DbContext.SaveChanges()).Returns(0);
             _mockLogger = new Mock<ILogger<PolizaDAO>>();
-            
+
             _dao = new PolizaDAO(_contextMock.Object);
             _contextMock.SetupDbContextDataVehiculo();
         }
@@ -40,7 +40,7 @@ namespace administracion.Test.UnitTests.DAOs
                         fechaRegistro  = DateTime.ParseExact("20-10-2000","dd-MM-yyyy",null),
                         fechaVencimiento = DateTime.ParseExact("16-07-2005","dd-MM-yyyy",null),
                         tipoPoliza = "DaniosATerceros",
-                        vehiculoId = new Guid("26f401c9-12aa-46bf-82a3-05bb34bb2c03") 
+                        vehiculoId = new Guid("26f401c9-12aa-46bf-82a3-05bb34bb2c03")
                     },
                 };
             }
@@ -51,21 +51,21 @@ namespace administracion.Test.UnitTests.DAOs
         [ClassData(typeof(PolizaClassData))]
         public Task ShouldRegisterPoliza(PolizaSimpleDTO poliza)
         {
-            var result = _dao.registrarPoliza(poliza);
-            Assert.IsType<string>(result);
+            var result = _dao.RegisterPoliza(poliza);
+            Assert.IsType<bool>(result);
             return Task.CompletedTask;
         }
 
-        [Theory (DisplayName = "DAO: Consultar Polizas por Guid de vehiculo y retornar poliza actual")]
+        [Theory(DisplayName = "DAO: Consultar Polizas por Guid de vehiculo y retornar poliza actual")]
         [InlineData("26f401c9-12aa-46bf-82a3-05bb34bb3aa5")]
-        public Task GetPoliza_PorID_ReturnTrue( Guid ID)
+        public Task GetPoliza_PorID_ReturnTrue(Guid ID)
         {
 
-            PolizaDTO PolizaDTO = _dao.consultarPolizaDeVehiculo(ID);
+            PolizaDTO PolizaDTO = _dao.GetPolizaByVehiculoGuid(ID);
             Assert.NotNull(PolizaDTO);
             return Task.CompletedTask;
         }
 
-    
+
     }
 }

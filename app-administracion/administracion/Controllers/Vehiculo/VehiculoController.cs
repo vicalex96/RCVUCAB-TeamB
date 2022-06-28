@@ -56,12 +56,12 @@ namespace administracion.Controllers
         }
 
         [HttpPost("crear")]
-        public ApplicationResponse<string> createVehiculo([FromBody] VehiculoSimpleDTO Vehiculo)
+        public ApplicationResponse<bool> createVehiculo([FromBody] VehiculoSimpleDTO Vehiculo)
         {
-            var response = new ApplicationResponse<string>();
+            var response = new ApplicationResponse<bool>();
             try
             {
-                response.Data = _vehiculoDao.createVehiculo(Vehiculo);
+                response.Data = _vehiculoDao.RegisterVehiculo(Vehiculo);
             }
             catch (RCVException ex)
             {
@@ -73,12 +73,12 @@ namespace administracion.Controllers
         }
 
         [HttpPost("asociar_asegurado/{vehiculoId}/{aseguradoId}")]
-        public ApplicationResponse<string> AddAsegurado([Required][FromRoute] Guid vehiculoId ,[Required][FromRoute] Guid aseguradoId)
+        public ApplicationResponse<bool> AddAsegurado([Required][FromRoute] Guid vehiculoId ,[Required][FromRoute] Guid aseguradoId)
         {
-            var response = new ApplicationResponse<string>();
+            var response = new ApplicationResponse<bool>();
             try
             {
-                response.Data = _vehiculoDao.addAsegurado(vehiculoId, aseguradoId );
+                response.Data = _vehiculoDao.AddAsegurado(vehiculoId, aseguradoId );
             }
             catch (RCVException ex)
             {
@@ -88,23 +88,5 @@ namespace administracion.Controllers
             }
             return response;
         }
-
-        [HttpPut("actualizar")]
-        public ApplicationResponse<string> UpdateVehiculo([FromBody] VehiculoSimpleDTO vehiculo)
-        {
-            var response = new ApplicationResponse<string>();
-            try
-            {
-                response.Data = _vehiculoDao.updateVehiculo(vehiculo);
-            }
-            catch (RCVException ex)
-            {
-                response.Success = false;
-                response.Message = ex.Message;
-                response.Exception = ex.Excepcion.ToString();
-            }
-            return response;
-        }
-    
     }
 }

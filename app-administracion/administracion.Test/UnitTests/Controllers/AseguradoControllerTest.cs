@@ -37,7 +37,7 @@ namespace RCVUcab.Test.UnitTests.Controllers
             _serviceMock
                 .Setup(x => x.GetAsegurados())
                 .Returns(new List<AseguradoDTO>());
-              
+
             var result = _controller.GetAsegurados();
 
             Assert.IsType<ApplicationResponse<List<AseguradoDTO>>>(result);
@@ -49,10 +49,9 @@ namespace RCVUcab.Test.UnitTests.Controllers
             _serviceMock
                 .Setup(x => x.GetAsegurados())
                 .Throws(new RCVException("",new Exception()));
-              
+
             var ex = _controller.GetAsegurados();
-            Assert.NotNull(ex);
-            //Assert.False(ex.Success);
+            Assert.False(ex.Success);
 
             return Task.CompletedTask;
         }
@@ -73,15 +72,15 @@ namespace RCVUcab.Test.UnitTests.Controllers
             _serviceMock
                 .Setup(x => x.GetAseguradoByGuid(It.IsAny<Guid>()))
                 .Throws(new RCVException("",new Exception()));
-              
-            var ex = _controller.GetAsegurados();
-            Assert.NotNull(ex);
-            //Assert.False(ex.Success);
+
+            var ex = _controller.GetAsegurado(It.IsAny<Guid>());
+
+            Assert.False(ex.Success);
 
             return Task.CompletedTask;
         }
 
-         [Fact(DisplayName = "Controller: Obtener un asegurados por nombre")]
+        [Fact(DisplayName = "Controller: Obtener un asegurados por nombre")]
         public Task GetAseguradosByName()
         {
             _serviceMock.Setup( x => x.GetAseguradosPorNombreCompleto(It.IsAny<string>(),It.IsAny<string>()))
@@ -98,21 +97,21 @@ namespace RCVUcab.Test.UnitTests.Controllers
             _serviceMock
                 .Setup(x => x.GetAseguradosPorNombreCompleto(It.IsAny<string>(),It.IsAny<string>()))
                 .Throws(new RCVException("",new Exception()));
-              
+
             var ex = _controller.GetAseguradosPorNombreYApellido(It.IsAny<string>(),It.IsAny<string>());
-            Assert.NotNull(ex);
-            //Assert.False(ex.Success);
+
+            Assert.False(ex.Success);
 
             return Task.CompletedTask;
         }
         [Fact(DisplayName = "Controller: Agregar asegurado")]
         public Task CreateAsegurado()
         {
-            _serviceMock.Setup( x => x.createAsegurado(It.IsAny<AseguradoSimpleDTO>()))
-            .Returns(It.IsAny<string>());
+            _serviceMock.Setup( x => x.RegisterAsegurado(It.IsAny<AseguradoSimpleDTO>()))
+            .Returns(It.IsAny<bool>());
             var result = _controller.AddAsegurado(It.IsAny<AseguradoSimpleDTO>());
             
-            Assert.IsType<ApplicationResponse<string>>(result);
+            Assert.IsType<ApplicationResponse<bool>>(result);
             return Task.CompletedTask;
         }
 
@@ -120,43 +119,14 @@ namespace RCVUcab.Test.UnitTests.Controllers
         public Task CreateAseguradoException()
         {
             _serviceMock
-                .Setup(x => x.createAsegurado(It.IsAny<AseguradoSimpleDTO>()))
+                .Setup(x => x.RegisterAsegurado(It.IsAny<AseguradoSimpleDTO>()))
                 .Throws(new RCVException("",new Exception()));
-              
+
             var ex = _controller.AddAsegurado(It.IsAny<AseguradoSimpleDTO>());
-            Assert.NotNull(ex);
-            //Assert.False(ex.Success);
+
+            Assert.False(ex.Success);
 
             return Task.CompletedTask;
         }
-
-        [Fact(DisplayName = "Controller: Actualizar asegurado")]
-        public Task UpdateAsegurado()
-        {
-            _serviceMock
-                .Setup(x => x.updateAsegurado(It.IsAny<AseguradoSimpleDTO>()))
-                .Returns(It.IsAny<string>());
-
-            var result = _controller.UpdateAsegurado(It.IsAny<AseguradoSimpleDTO>());
-            
-            Assert.IsType<ApplicationResponse<string>>(result);
-           
-            return Task.CompletedTask;
-        }
-
-        [Fact(DisplayName = "Controller: Actualizar Asegurado Arroja excepcion")]
-        public Task UpdateAseguradoException()
-        {
-            _serviceMock
-                .Setup(x => x.updateAsegurado(It.IsAny<AseguradoSimpleDTO>()))
-                .Throws(new RCVException("",new Exception()));
-              
-            var ex = _controller.UpdateAsegurado(It.IsAny<AseguradoSimpleDTO>());
-            Assert.NotNull(ex);
-            //Assert.False(ex.Success);
-            return Task.CompletedTask;
-        }
-
-
     }
 }

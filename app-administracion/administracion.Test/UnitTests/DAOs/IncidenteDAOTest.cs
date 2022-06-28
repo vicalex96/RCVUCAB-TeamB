@@ -26,7 +26,7 @@ namespace administracion.Test.UnitTests.DAOs
             // el Mock no emplea un DBcontext real en IAdminDBContext =>  obligamos una respuesta por defecto para el SaveChanges y de esta forma evitar un error al no tener un DBcontext real
             _contextMock.Setup(m => m.DbContext.SaveChanges()).Returns(0);
             _mockLogger = new Mock<ILogger<IncidenteDAO>>();
-            
+
             _dao = new IncidenteDAO(_contextMock.Object);
             _contextMock.SetupDbContextDataVehiculo();
         }
@@ -39,8 +39,7 @@ namespace administracion.Test.UnitTests.DAOs
                     new IncidenteSimpleDTO
                     {
                         incidenteId = new Guid("38f401c9-12aa-46bf-82a2-05ff65bb2100"),
-                        polizaId = new Guid("38f401c9-12aa-46bf-82a2-05ff65bb2100"),
-                        estadoIncidente = "Pendinete"   
+                        polizaId = new Guid("38f401c9-12aa-46bf-82a2-05ff65bb2100")
                     }
                 };
             }
@@ -49,17 +48,17 @@ namespace administracion.Test.UnitTests.DAOs
 
 
 
-        [Theory (DisplayName = "DAO: Registrar un incidente deberia retornar un mensaje")]
+        [Theory(DisplayName = "DAO: Registrar un incidente deberia retornar un mensaje")]
         [ClassData(typeof(IncidenteClassData))]
         public Task ShouldRegisterInciente(IncidenteSimpleDTO incidente)
         {
-            var respuesta = _dao.registrarIncidente(incidente);
-         
-            Assert.Equal("Incidente registrado",respuesta);
+            var respuesta = _dao.RegisterIncidente(incidente);
+
+            Assert.True(respuesta);
             return Task.CompletedTask;
         }
 
-        [Theory (DisplayName = "DAO: Consultar Incidente según su Guid regresar un incidente")]
+        [Theory(DisplayName = "DAO: Consultar Incidente según su Guid regresar un incidente")]
         [InlineData("38f401c9-12aa-46bf-82a2-05ff65bb2100")]
         public Task ShouldGetIncidenteByGuid(Guid id)
         {
@@ -67,7 +66,8 @@ namespace administracion.Test.UnitTests.DAOs
 
             Assert.NotNull(incidente);
             return Task.CompletedTask;
-        } 
+        }
+        
         [Fact(DisplayName = "DAO: Consulta Incidentes Activos y regresa lista")]
         public Task ShouldGetActiveIncidentes()
         {
@@ -79,7 +79,7 @@ namespace administracion.Test.UnitTests.DAOs
             Assert.True(isNoEmpty);
             return Task.CompletedTask;
         }
-        
+
 
     }
 }

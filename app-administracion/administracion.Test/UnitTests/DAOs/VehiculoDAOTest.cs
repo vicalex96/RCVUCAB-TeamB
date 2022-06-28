@@ -26,7 +26,7 @@ namespace administracion.Test.UnitTests.DAOs
             // el Mock no emplea un DBcontext real en IAdminDBContext =>  obligamos una respuesta por defecto para el SaveChanges y de esta forma evitar un error al no tener un DBcontext real
             _contextMock.Setup(m => m.DbContext.SaveChanges()).Returns(0);
             _mockLogger = new Mock<ILogger<VehiculoDAO>>();
-            
+
             _dao = new VehiculoDAO(_contextMock.Object);
             _contextMock.SetupDbContextDataVehiculo();
         }
@@ -54,13 +54,13 @@ namespace administracion.Test.UnitTests.DAOs
         public Task shouldReturnAVehiculosList()
         {
             var result = _dao.GetAllVehiculos();
-            Assert.Equal(result.Count(),3);
+            Assert.Equal(result.Count(), 3);
             return Task.CompletedTask;
         }
-        
-        [Theory (DisplayName = "DAO: Consultar vehiculos por Guid y retornar un VehiculoDTO")]
+
+        [Theory(DisplayName = "DAO: Consultar vehiculos por Guid y retornar un VehiculoDTO")]
         [InlineData("26f401c9-12aa-46bf-82a3-05bb34bb2c03")]
-        public Task shouldUseGuidForReturnVehiculo( Guid ID)
+        public Task shouldUseGuidForReturnVehiculo(Guid ID)
         {
             //Arrage
             var vehiculoDTO = _dao.GetVehiculoByGuid(ID);
@@ -69,35 +69,23 @@ namespace administracion.Test.UnitTests.DAOs
             return Task.CompletedTask;
         }
 
-        [Theory (DisplayName = "DAO: Agregar Vehiculo y regresar un mensaje de verifiacion")]
+        [Theory(DisplayName = "DAO: Agregar Vehiculo y regresar un mensaje de verifiacion")]
         [ClassData(typeof(VehiculoClassData))]
         public Task shouldAddVehiculoReturnMenssage(VehiculoSimpleDTO vehiculo)
         {
-            var resultado = _dao.createVehiculo(vehiculo);
+            var resultado = _dao.RegisterVehiculo(vehiculo);
 
-            Assert.Equal("Vehiculo creado", resultado);
+            Assert.True(resultado);
             return Task.CompletedTask;
         }
 
-        [Theory (DisplayName ="asociar vehiculo con un asegurado")]
+        [Theory(DisplayName = "asociar vehiculo con un asegurado")]
         [InlineData("38f401c9-12aa-46bf-82a2-05ff65bb2c86", "3fa85f64-5717-4562-b3fc-2c963f66afa6")]
         public Task shouldAssociatedAVehiculoWithAseguradoReturnMessage(Guid vehiculoID, Guid aseguradoID)
         {
-            string result = _dao.addAsegurado(vehiculoID, aseguradoID);
-            Assert.Equal("Asegurado Agregado",result);
+            bool result = _dao.AddAsegurado(vehiculoID, aseguradoID);
+            Assert.True(result);
             return Task.CompletedTask;
         }
-
-        [Theory (DisplayName ="Se debe actualizar el vehciulo y regresar un mensaje")]
-        [ClassData(typeof(VehiculoClassData))]
-        public Task shouldUpdateAVehiculo(VehiculoSimpleDTO vehiculo)
-        {
-            string result = _dao.updateVehiculo(vehiculo);
-            Assert.Equal("Vehiculo actualizado",result);
-            return Task.CompletedTask;
-        }
-
-         
-
     }
 }
