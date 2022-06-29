@@ -24,7 +24,7 @@ namespace proveedor.Persistence.DAOs
         public string createCotizacionParte(CotizacionParteDTO cotPt){
             try{
                 CotizacionParteEntity CotPtEntity = new CotizacionParteEntity();
-                CotPtEntity.CotizacionParteId = Guid.NewGuid();
+                CotPtEntity.CotizacionParteId = cotPt.CotizacionParteId;
                 CotPtEntity.ProveedorId = cotPt.ProveedorId;
                 CotPtEntity.RequerimientoId = cotPt.RequerimientoId;
                 CotPtEntity.PrecioParteUnidad = cotPt.PrecioParteUnidad;
@@ -51,6 +51,7 @@ namespace proveedor.Persistence.DAOs
                 
                 .Select( cotpt=> new CotizacionParteDTO{
                     CotizacionParteId = cotpt.CotizacionParteId,
+                    
                     RequerimientoId = cotpt.RequerimientoId,
                     PrecioParteUnidad = cotpt.PrecioParteUnidad,
                     FechaEntrega = cotpt.FechaEntrega,
@@ -73,6 +74,7 @@ namespace proveedor.Persistence.DAOs
             {
                 var data = _context.CotizacionPartes.Where(p => p.estado == estado).Select( b=> new CotizacionParteDTO{
                     CotizacionParteId = b.CotizacionParteId,
+                    
                     RequerimientoId = b.RequerimientoId,
                     PrecioParteUnidad = b.PrecioParteUnidad,
                     FechaEntrega = b.FechaEntrega,

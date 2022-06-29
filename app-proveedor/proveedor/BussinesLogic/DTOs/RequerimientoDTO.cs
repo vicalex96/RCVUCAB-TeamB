@@ -14,7 +14,7 @@ namespace proveedor.BussinesLogic.DTOs
         public int tipoRequerimientos {get; set;}
         public int Cantidad {get; set;}
         public int  estado {get; set;}
-        //private IList<CotizacionParteDTO>? cotizaciops {get; set;}
+        private IList<CotizacionParteDTO>? cotizaciops {get; set;}
         public virtual ParteDTO? partes { get; set; }
         
     }
