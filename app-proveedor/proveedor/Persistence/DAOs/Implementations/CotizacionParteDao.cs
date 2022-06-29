@@ -3,6 +3,7 @@ using proveedor.Persistence.Database;
 using proveedor.Persistence.Entities;
 using proveedor.Persistence.DAOs.Interfaces;
 using proveedor.Persistence.DAOs.Implementations;
+using proveedor.Persistence.DAOs;
 using proveedor.Exceptions;
 using proveedor.BussinesLogic.DTOs;
 using System;
@@ -92,18 +93,52 @@ namespace proveedor.Persistence.DAOs
         {
             try
             {
-                var CotizacionParte = _context.CotizacionPartes
+                var  CotizacionParte = _context.CotizacionPartes
                     .Where(cotid => cotid.CotizacionParteId == CotizacionParteID)
+                    .Select(cotid =>new CotizacionParteEntity{
+                    CotizacionParteId = cotid.CotizacionParteId,
+                    RequerimientoId = cotid.RequerimientoId,
+                    PrecioParteUnidad = cotid.PrecioParteUnidad,
+                    FechaEntrega = cotid.FechaEntrega,
+                    estado = cotid.estado, 
+                    })
                     .FirstOrDefault();
-                CotizacionParte.estado = estado;
-                _context.DbContext.SaveChanges();
+                    if (CotizacionParte != null){
+                        CotizacionParte.estado = estado;
+                    _context.CotizacionPartes.Update(CotizacionParte);
+                 _context.DbContext.SaveChanges();
                 return "Estado de Cotizacion de parte ha sido actualizado";
+                    }
+                    else{
+                        return "Estado de Cotizacion de parte no se encontro";
+                    }
+                    
             }
             catch (Exception ex)
             {
                 throw new ProveedorException("Ha ocurrido un error al intentar actualizar el estado de cotizacion de parte", ex.Message, ex);
             }
         }
+    /*public string RegisterProveedorPorAPI(ProveedorDTO proveedor)
+    {
+        try
+        {
+            Proveedor proveedorEntity = new Proveedor
+            {
+                ProveedorId = proveedor.ProveedorId,
+                proveedorNombreLocal = proveedor.proveedorNombreLocal,
+            };
+             _context.CotizacionPartes.Add(proveedorEntity);
+            _context.DbContext.SaveChanges();
+
+            return "Proveedor registrado";
+        }
+        catch (Exception ex)
+        {
+            throw new ProveedorException("Error al crear el proveedor", ex);
+
+        }
+    }*/
 
     }
 }

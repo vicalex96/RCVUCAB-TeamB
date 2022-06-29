@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using proveedor.Persistence.DAOs;
 using proveedor.Persistence.DAOs.Implementations;
 using proveedor.Persistence.DAOs.Interfaces;
 using proveedor.Persistence.Database;
@@ -24,12 +25,13 @@ namespace proveedor
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+         services.AddControllers();
             services.AddDbContext<ProveedorDbContext>(options =>
-            options.UseNpgsql(Configuration["DBConnectionString"], x => x.UseNetTopologySuite()));
+              options.UseNpgsql(Configuration["DBConnectionString"], x => x.UseNetTopologySuite()));
 
             services.AddTransient<IProveedorDbContext, ProveedorDbContext>();
-            services.AddTransient<IProviderDAO, ProviderDAO>();
+            //services.AddTransient<IProviderDAO, ProviderDAO>();
+            services.AddTransient<ICotizacionParteDAO, CotizacionParteDAO>();
 
             services.AddSwaggerGen(c =>
             {
@@ -56,6 +58,12 @@ namespace proveedor
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+             app.UseSwagger();
+            app.UseSwaggerUI( c => 
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json","My API V1");
             });
         }
     }

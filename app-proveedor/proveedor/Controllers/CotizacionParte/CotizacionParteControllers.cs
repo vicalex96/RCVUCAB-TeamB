@@ -61,7 +61,7 @@ namespace proveedor.Controllers
 
         
         [HttpGet("consultarCotpat_por/{estado}")]
-        public ApplicationResponse<List<CotizacionParteDTO>> GetCotizacionPartesByestado([Required][FromRoute] EstadoCotPt estadocotpi)
+        public ApplicationResponse<List<CotizacionParteDTO>> GetCotizacionPartesByestado([FromRoute] EstadoCotPt estadocotpi)
         {
             var response = new ApplicationResponse<List<CotizacionParteDTO>>();
             try
@@ -78,8 +78,8 @@ namespace proveedor.Controllers
         }
 
 
-        [HttpPatch("actualizar/{CotPtID}/{estado}")]
-        public ApplicationResponse<string> actualizarCotizacionParte([Required][FromRoute] Guid CotizacionParteID, [Required][FromRoute] EstadoCotPt estado)
+        [HttpPatch("actualizar/{estado}")]
+        public ApplicationResponse<string> actualizarCotizacionParte([FromRoute] Guid CotizacionParteID, [Required][FromRoute] EstadoCotPt estado)
         {
             var response = new ApplicationResponse<string>();
             try

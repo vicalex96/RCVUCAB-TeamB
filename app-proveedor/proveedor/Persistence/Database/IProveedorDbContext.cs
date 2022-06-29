@@ -16,5 +16,8 @@ namespace proveedor.Persistence.Database
         {
             get; set;
         }
+        DbSet<Requerimiento> Requerimientos {get; set;}
+        DbSet<Parte> partes {get; set;}
+        DbSet<SolicitudReparacion> SolicitudReparacions  {get; set;} 
     }
 }
