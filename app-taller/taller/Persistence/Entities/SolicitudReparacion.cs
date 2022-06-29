@@ -8,6 +8,7 @@ namespace taller.Persistence.Entities
         public Guid tallerId {get; set;}
         public DateTime fechaSolicitud {get; set;}
 
+        public Taller? taller {get; set;}
         public virtual List<Requerimiento>? requerimientos {get; set;}
         public virtual CotizacionReparacion? cotizacion {get; set;}
     }

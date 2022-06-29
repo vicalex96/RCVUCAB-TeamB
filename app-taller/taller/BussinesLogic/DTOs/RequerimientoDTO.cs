@@ -11,14 +11,12 @@ namespace taller.BussinesLogic.DTOs
     public class RequerimientoDTO
     {
         public Guid Id { get; set; }
-        public int anioModelo { get; set; }
-        public DateTime fechaCompra { get; set; }
-        public string color { get; set; }
-
-        public string placa { get; set; }
-        public string marca {get; set;}
-        public Guid? aseguradoId {get; set;}
-
+        public Guid solicitudRepId {get; set;}
+        public Guid parteId {get; set;}
+        public string descripcion {get; set;}
+        public string tipoRequerimiento {get; set;}
+        public int cantidad {get; set;}
+        public string estado {get; set;}
     }
 }
         

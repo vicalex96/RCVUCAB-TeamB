@@ -115,7 +115,7 @@ namespace taller.Persistence.Database
         {
             parteInit.Add( new Parte{
                 parteId = Guid.Parse( "0c5c3262-d5ef-46c7-1000-97530821c04b"),
-                nombre = "puerta izquierda delantera", 
+                nombre = "puerta izquierda delantera",
             });
             parteInit.Add( new Parte{
                 parteId = Guid.Parse( "0c5c3262-d5ef-46c7-2000-97530821c04b"),

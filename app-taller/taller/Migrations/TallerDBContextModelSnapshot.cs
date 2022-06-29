@@ -40,6 +40,9 @@ namespace taller.Migrations
                     b.Property<DateTime>("fechaInicioReparacion")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<Guid?>("requerimientoId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("solicitudRepId")
                         .HasColumnType("uuid");
 
@@ -47,6 +50,8 @@ namespace taller.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("cotizacionRepId");
+
+                    b.HasIndex("requerimientoId");
 
                     b.HasIndex("solicitudRepId")
                         .IsUnique();
@@ -179,9 +184,6 @@ namespace taller.Migrations
                     b.Property<int>("cantidad")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("cotizaciones")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("descripcion")
                         .IsRequired()
                         .HasColumnType("text");
@@ -211,7 +213,6 @@ namespace taller.Migrations
                         {
                             requerimientoId = new Guid("0c5c3262-d5ef-1000-bc0e-97530821c04b"),
                             cantidad = 1,
-                            cotizaciones = new Guid("00000000-0000-0000-0000-000000000000"),
                             descripcion = "puerta detrozada parcialmente",
                             estado = 0,
                             parteId = new Guid("0c5c3262-d5ef-46c7-2000-97530821c04b"),
@@ -222,7 +223,6 @@ namespace taller.Migrations
                         {
                             requerimientoId = new Guid("0c5c3262-d5ef-2000-bc0e-97530821c04b"),
                             cantidad = 1,
-                            cotizaciones = new Guid("00000000-0000-0000-0000-000000000000"),
                             descripcion = "cambio capó de la maleta",
                             estado = 0,
                             parteId = new Guid("0c5c3262-d5ef-46c7-5000-97530821c04b"),
@@ -259,7 +259,7 @@ namespace taller.Migrations
                         new
                         {
                             solicitudRepId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b"),
-                            fechaSolicitud = new DateTime(2022, 6, 25, 0, 0, 0, 0, DateTimeKind.Local),
+                            fechaSolicitud = new DateTime(2022, 6, 29, 0, 0, 0, 0, DateTimeKind.Local),
                             incidenteId = new Guid("10000000-d5ef-46c7-bc0e-97530823c05b"),
                             tallerId = new Guid("10003262-d5ef-46c7-bc0e-97530823c05b"),
                             vehiculoId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b")
@@ -358,6 +358,10 @@ namespace taller.Migrations
 
             modelBuilder.Entity("taller.Persistence.Entities.CotizacionReparacion", b =>
                 {
+                    b.HasOne("taller.Persistence.Entities.Requerimiento", null)
+                        .WithMany("cotizacionesParte")
+                        .HasForeignKey("requerimientoId");
+
                     b.HasOne("taller.Persistence.Entities.SolicitudReparacion", "solicitud")
                         .WithOne("cotizacion")
                         .HasForeignKey("taller.Persistence.Entities.CotizacionReparacion", "solicitudRepId")
@@ -385,7 +389,7 @@ namespace taller.Migrations
                         .HasForeignKey("SolicitudReparacionsolicitudRepId");
 
                     b.HasOne("taller.Persistence.Entities.Parte", "parte")
-                        .WithMany("requerimientos")
+                        .WithMany()
                         .HasForeignKey("parteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -402,9 +406,9 @@ namespace taller.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("taller.Persistence.Entities.Parte", b =>
+            modelBuilder.Entity("taller.Persistence.Entities.Requerimiento", b =>
                 {
-                    b.Navigation("requerimientos");
+                    b.Navigation("cotizacionesParte");
                 });
 
             modelBuilder.Entity("taller.Persistence.Entities.SolicitudReparacion", b =>

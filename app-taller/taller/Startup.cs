@@ -35,6 +35,11 @@ namespace taller
 
             services.AddTransient<ITallerDBContext, TallerDBContext>();
             services.AddTransient<ITallerDAO, TallerDAO>();
+            services.AddTransient<ICotizacionRepDAO, CotizacionRepDAO>();
+            services.AddTransient<IParteDAO, ParteDAO>();
+            services.AddTransient<IRequerimientoDAO, RequerimientoDAO>();
+            services.AddTransient<ISolicitudDAO, SolicitudDAO>();
+
 
             services.AddSwaggerGen(c =>
             {

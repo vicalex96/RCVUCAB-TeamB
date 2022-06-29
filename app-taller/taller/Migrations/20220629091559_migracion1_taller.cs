@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace taller.Migrations
 {
-    public partial class datos_de_prueba : Migration
+    public partial class migracion1_taller : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -92,29 +92,6 @@ namespace taller.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CotizacionReparaciones",
-                columns: table => new
-                {
-                    cotizacionRepId = table.Column<Guid>(type: "uuid", nullable: false),
-                    tallerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    costoManoObra = table.Column<float>(type: "real", nullable: false),
-                    estado = table.Column<int>(type: "integer", nullable: false),
-                    fechaInicioReparacion = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    fechaFinReparacion = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    solicitudRepId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CotizacionReparaciones", x => x.cotizacionRepId);
-                    table.ForeignKey(
-                        name: "FK_CotizacionReparaciones_SolicitudReparacions_solicitudRepId",
-                        column: x => x.solicitudRepId,
-                        principalTable: "SolicitudReparacions",
-                        principalColumn: "solicitudRepId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Requerimientos",
                 columns: table => new
                 {
@@ -125,7 +102,6 @@ namespace taller.Migrations
                     tipoRequerimiento = table.Column<int>(type: "integer", nullable: false),
                     cantidad = table.Column<int>(type: "integer", nullable: false),
                     estado = table.Column<int>(type: "integer", nullable: true),
-                    cotizaciones = table.Column<Guid>(type: "uuid", nullable: false),
                     SolicitudReparacionsolicitudRepId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
@@ -142,6 +118,35 @@ namespace taller.Migrations
                         column: x => x.SolicitudReparacionsolicitudRepId,
                         principalTable: "SolicitudReparacions",
                         principalColumn: "solicitudRepId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CotizacionReparaciones",
+                columns: table => new
+                {
+                    cotizacionRepId = table.Column<Guid>(type: "uuid", nullable: false),
+                    tallerId = table.Column<Guid>(type: "uuid", nullable: false),
+                    costoManoObra = table.Column<float>(type: "real", nullable: false),
+                    estado = table.Column<int>(type: "integer", nullable: false),
+                    fechaInicioReparacion = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    fechaFinReparacion = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    solicitudRepId = table.Column<Guid>(type: "uuid", nullable: false),
+                    requerimientoId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CotizacionReparaciones", x => x.cotizacionRepId);
+                    table.ForeignKey(
+                        name: "FK_CotizacionReparaciones_Requerimientos_requerimientoId",
+                        column: x => x.requerimientoId,
+                        principalTable: "Requerimientos",
+                        principalColumn: "requerimientoId");
+                    table.ForeignKey(
+                        name: "FK_CotizacionReparaciones_SolicitudReparacions_solicitudRepId",
+                        column: x => x.solicitudRepId,
+                        principalTable: "SolicitudReparacions",
+                        principalColumn: "solicitudRepId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -192,17 +197,22 @@ namespace taller.Migrations
 
             migrationBuilder.InsertData(
                 table: "Requerimientos",
-                columns: new[] { "requerimientoId", "SolicitudReparacionsolicitudRepId", "cantidad", "cotizaciones", "descripcion", "estado", "parteId", "solicitudRepId", "tipoRequerimiento" },
+                columns: new[] { "requerimientoId", "SolicitudReparacionsolicitudRepId", "cantidad", "descripcion", "estado", "parteId", "solicitudRepId", "tipoRequerimiento" },
                 values: new object[,]
                 {
-                    { new Guid("0c5c3262-d5ef-1000-bc0e-97530821c04b"), null, 1, new Guid("00000000-0000-0000-0000-000000000000"), "puerta detrozada parcialmente", 0, new Guid("0c5c3262-d5ef-46c7-2000-97530821c04b"), new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b"), 0 },
-                    { new Guid("0c5c3262-d5ef-2000-bc0e-97530821c04b"), null, 1, new Guid("00000000-0000-0000-0000-000000000000"), "cambio capó de la maleta", 0, new Guid("0c5c3262-d5ef-46c7-5000-97530821c04b"), new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b"), 1 }
+                    { new Guid("0c5c3262-d5ef-1000-bc0e-97530821c04b"), null, 1, "puerta detrozada parcialmente", 0, new Guid("0c5c3262-d5ef-46c7-2000-97530821c04b"), new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b"), 0 },
+                    { new Guid("0c5c3262-d5ef-2000-bc0e-97530821c04b"), null, 1, "cambio capó de la maleta", 0, new Guid("0c5c3262-d5ef-46c7-5000-97530821c04b"), new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b"), 1 }
                 });
 
             migrationBuilder.InsertData(
                 table: "SolicitudReparacions",
                 columns: new[] { "solicitudRepId", "fechaSolicitud", "incidenteId", "tallerId", "vehiculoId" },
-                values: new object[] { new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b"), new DateTime(2022, 6, 25, 0, 0, 0, 0, DateTimeKind.Local), new Guid("10000000-d5ef-46c7-bc0e-97530823c05b"), new Guid("10003262-d5ef-46c7-bc0e-97530823c05b"), new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b") });
+                values: new object[] { new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b"), new DateTime(2022, 6, 29, 0, 0, 0, 0, DateTimeKind.Local), new Guid("10000000-d5ef-46c7-bc0e-97530823c05b"), new Guid("10003262-d5ef-46c7-bc0e-97530823c05b"), new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b") });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CotizacionReparaciones_requerimientoId",
+                table: "CotizacionReparaciones",
+                column: "requerimientoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CotizacionReparaciones_solicitudRepId",
@@ -240,10 +250,10 @@ namespace taller.Migrations
                 name: "Marcas");
 
             migrationBuilder.DropTable(
-                name: "Requerimientos");
+                name: "Vehiculos");
 
             migrationBuilder.DropTable(
-                name: "Vehiculos");
+                name: "Requerimientos");
 
             migrationBuilder.DropTable(
                 name: "partes");

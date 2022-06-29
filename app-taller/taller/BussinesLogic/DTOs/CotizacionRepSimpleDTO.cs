@@ -8,14 +8,11 @@ using taller.Persistence.Entities;
 
 namespace taller.BussinesLogic.DTOs
 {
-    public class CotizacionRepDTO
+    public class CotizacionRepSimpleDTO
     {  
         public Guid Id {get; set;}
         public Guid tallerId {get; set;}
         public float costoManoObra {get; set;}
-        public string estado {get; set;}
-        public DateTime fechaInicioReparacion {get; set;}
-        public DateTime fechaFinReparacion { get; set;}
         public Guid solicitudRepId {get; set;}
     }
 }

@@ -1,12 +1,15 @@
-
 using taller.Persistence.Entities;
 using taller.BussinesLogic.DTOs;
 using System.Collections.Generic;
 
 namespace taller.Persistence.DAOs
 {
-    public interface ISolicitudDAO
+    public interface IParteDAO
     {
-        public List<SolicitudDTO> GetSolicitudes();
+        public List<ParteDTO> GetPartes();
+        public bool RegisterParte(ParteDTO parte);
+        
     }
+
+
 }
