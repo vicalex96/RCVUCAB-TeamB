@@ -12,6 +12,7 @@ namespace taller.BussinesLogic.DTOs
     {  
         public Guid Id {get; set;}
         public Guid tallerId {get; set;}
+        public int porcentaje {get; set;}
         public float costoManoObra {get; set;}
         public Guid solicitudRepId {get; set;}
     }

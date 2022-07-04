@@ -6,6 +6,7 @@ namespace taller.Persistence.Entities
         public Guid cotizacionRepId {get; set;}
         public Guid tallerId {get; set;}
         public float costoManoObra {get; set;}
+        public int porcentaje {get; set;}
         public EstadoCotRep estado {get; set;}
         public DateTime fechaInicioReparacion {get; set;}
         public DateTime fechaFinReparacion { get; set;}

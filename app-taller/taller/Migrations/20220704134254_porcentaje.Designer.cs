@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using taller.Persistence.Database;
@@ -11,9 +12,10 @@ using taller.Persistence.Database;
 namespace taller.Migrations
 {
     [DbContext(typeof(TallerDBContext))]
-    partial class TallerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220704134254_porcentaje")]
+    partial class porcentaje
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

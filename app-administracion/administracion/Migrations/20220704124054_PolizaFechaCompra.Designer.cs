@@ -12,8 +12,8 @@ using administracion.Persistence.Database;
 namespace administracion.Migrations
 {
     [DbContext(typeof(AdminDBContext))]
-    [Migration("20220620235825_migracion")]
-    partial class migracion
+    [Migration("20220704124054_PolizaFechaCompra")]
+    partial class PolizaFechaCompra
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,15 +47,15 @@ namespace administracion.Migrations
                     b.HasData(
                         new
                         {
-                            aseguradoId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c03f"),
-                            apellido = "Banderas Lopez",
-                            nombre = "Manuel Diego"
-                        },
-                        new
-                        {
                             aseguradoId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c03b"),
                             apellido = "Ramirez Gimenez",
                             nombre = "Luis Jose"
+                        },
+                        new
+                        {
+                            aseguradoId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c03f"),
+                            apellido = "Banderas Lopez",
+                            nombre = "Manuel Diego"
                         });
                 });
 
@@ -65,7 +65,7 @@ namespace administracion.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("estadoPoliza")
+                    b.Property<int>("estadoIncidente")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("fechaFinalizado")
@@ -86,11 +86,53 @@ namespace administracion.Migrations
                     b.HasData(
                         new
                         {
-                            incidenteId = new Guid("14cedda7-08e9-4907-9699-50cd99576c35"),
-                            estadoPoliza = 0,
+                            incidenteId = new Guid("10000000-d5ef-46c7-bc0e-97530823c05b"),
+                            estadoIncidente = 0,
                             fechaRegistrado = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             polizaId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530823c05b")
                         });
+                });
+
+            modelBuilder.Entity("administracion.Persistence.Entities.MarcaProveedor", b =>
+                {
+                    b.Property<Guid>("marcaId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("proveedorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("manejaTodas")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("marca")
+                        .HasColumnType("integer");
+
+                    b.HasKey("marcaId", "proveedorId");
+
+                    b.HasIndex("proveedorId");
+
+                    b.ToTable("MarcasProveedor");
+                });
+
+            modelBuilder.Entity("administracion.Persistence.Entities.MarcaTaller", b =>
+                {
+                    b.Property<Guid>("marcaId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("tallerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("manejaTodas")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("marca")
+                        .HasColumnType("integer");
+
+                    b.HasKey("marcaId", "tallerId");
+
+                    b.HasIndex("tallerId");
+
+                    b.ToTable("MarcasTaller");
                 });
 
             modelBuilder.Entity("administracion.Persistence.Entities.Poliza", b =>
@@ -98,6 +140,9 @@ namespace administracion.Migrations
                     b.Property<Guid>("polizaId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("fechaCompra")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("fechaRegistro")
                         .HasColumnType("timestamp without time zone");
@@ -121,11 +166,42 @@ namespace administracion.Migrations
                         new
                         {
                             polizaId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530823c05b"),
-                            fechaRegistro = new DateTime(2022, 6, 20, 19, 58, 25, 738, DateTimeKind.Local).AddTicks(2186),
-                            fechaVencimiento = new DateTime(2022, 6, 20, 19, 58, 25, 738, DateTimeKind.Local).AddTicks(2186),
+                            fechaCompra = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            fechaRegistro = new DateTime(2022, 7, 4, 8, 40, 53, 951, DateTimeKind.Local).AddTicks(7865),
+                            fechaVencimiento = new DateTime(2022, 7, 4, 8, 40, 53, 951, DateTimeKind.Local).AddTicks(7875),
                             tipoPoliza = 0,
                             vehiculoId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b")
                         });
+                });
+
+            modelBuilder.Entity("administracion.Persistence.Entities.Proveedor", b =>
+                {
+                    b.Property<Guid>("proveedorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("nombreLocal")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("proveedorId");
+
+                    b.ToTable("Proveedores");
+                });
+
+            modelBuilder.Entity("administracion.Persistence.Entities.Taller", b =>
+                {
+                    b.Property<Guid>("tallerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("nombreLocal")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("tallerId");
+
+                    b.ToTable("Talleres");
                 });
 
             modelBuilder.Entity("administracion.Persistence.Entities.Vehiculo", b =>
@@ -167,7 +243,7 @@ namespace administracion.Migrations
                             anioModelo = 2004,
                             aseguradoId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c03b"),
                             color = 1,
-                            fechaCompra = new DateTime(2022, 6, 20, 19, 58, 25, 738, DateTimeKind.Local).AddTicks(2170),
+                            fechaCompra = new DateTime(2018, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             marca = 0,
                             placa = "AB320AM"
                         },
@@ -177,8 +253,8 @@ namespace administracion.Migrations
                             anioModelo = 2006,
                             aseguradoId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c03f"),
                             color = 6,
-                            fechaCompra = new DateTime(2022, 6, 20, 19, 58, 25, 738, DateTimeKind.Local).AddTicks(2183),
-                            marca = 0,
+                            fechaCompra = new DateTime(2010, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            marca = 7,
                             placa = "AB322AM"
                         });
                 });
@@ -192,6 +268,28 @@ namespace administracion.Migrations
                         .IsRequired();
 
                     b.Navigation("poliza");
+                });
+
+            modelBuilder.Entity("administracion.Persistence.Entities.MarcaProveedor", b =>
+                {
+                    b.HasOne("administracion.Persistence.Entities.Proveedor", "proveedor")
+                        .WithMany("marcas")
+                        .HasForeignKey("proveedorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("proveedor");
+                });
+
+            modelBuilder.Entity("administracion.Persistence.Entities.MarcaTaller", b =>
+                {
+                    b.HasOne("administracion.Persistence.Entities.Taller", "taller")
+                        .WithMany("marcas")
+                        .HasForeignKey("tallerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("taller");
                 });
 
             modelBuilder.Entity("administracion.Persistence.Entities.Poliza", b =>
@@ -222,6 +320,16 @@ namespace administracion.Migrations
             modelBuilder.Entity("administracion.Persistence.Entities.Poliza", b =>
                 {
                     b.Navigation("incidente");
+                });
+
+            modelBuilder.Entity("administracion.Persistence.Entities.Proveedor", b =>
+                {
+                    b.Navigation("marcas");
+                });
+
+            modelBuilder.Entity("administracion.Persistence.Entities.Taller", b =>
+                {
+                    b.Navigation("marcas");
                 });
 
             modelBuilder.Entity("administracion.Persistence.Entities.Vehiculo", b =>

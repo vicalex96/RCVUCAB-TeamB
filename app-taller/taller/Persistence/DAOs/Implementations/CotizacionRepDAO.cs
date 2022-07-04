@@ -28,6 +28,7 @@ namespace taller.Persistence.DAOs
                         Id = c.cotizacionRepId,
                         tallerId = c.tallerId,
                         solicitudRepId = c.solicitudRepId,
+                        porcentaje = c.porcentaje,
                         estado = c.estado.ToString(),
                         costoManoObra = c.costoManoObra,
                         fechaInicioReparacion = c.fechaInicioReparacion,
@@ -75,6 +76,7 @@ namespace taller.Persistence.DAOs
                 if(GetCotizacionRep(cotizacionRep.solicitudRepId) != null) 
                     throw new Exception();
                 if(cotizacionRep.costoManoObra < 0)
+                    
                     throw new ArgumentOutOfRangeException();
                 
                 if( cotizacionRep.Id == null ||
@@ -88,7 +90,7 @@ namespace taller.Persistence.DAOs
                     solicitudRepId = cotizacionRep.solicitudRepId,
                     tallerId = cotizacionRep.tallerId,
                     estado = EstadoCotRep.Pendiente,
-                    costoManoObra = cotizacionRep.costoManoObra,
+                    costoManoObra = cotizacionRep.costoManoObra* cotizacionRep.porcentaje/100,
                 };
 
                 var data = _context.CotizacionReparaciones.Add(cotizacion);

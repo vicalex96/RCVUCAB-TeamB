@@ -11,6 +11,7 @@ namespace administracion.BussinesLogic.DTOs
     public class PolizaSimpleDTO
     {
         public Guid Id {get; set;}
+        public DateTime fechaCompra{get; set;}
         public DateTime fechaRegistro {get; set;}
         public DateTime fechaVencimiento {get; set;}
         public string tipoPoliza {get; set;}

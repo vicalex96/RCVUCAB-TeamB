@@ -13,6 +13,17 @@ namespace administracion.Test.DataSeed
         public static void SetupDbContextDataVehiculo(this Mock<IAdminDBContext> _mockContext)
         {
 
+            List<Poliza> PolizaVehiculo1 = new List<Poliza>();
+            new Poliza
+                {
+                    polizaId = new Guid("38f401c9-12aa-46bf-82a2-05ff65bb2300"),
+                    fechaCompra = DateTime.ParseExact("20-06-2021","dd-MM-yyyy",null),
+                    fechaRegistro  = DateTime.ParseExact("20-10-2013","dd-MM-yyyy",null),
+                    fechaVencimiento = DateTime.ParseExact("16-07-2017","dd-MM-yyyy",null),
+                    tipoPoliza = TipoPoliza.CoberturaCompleta,
+                    vehiculoId = new Guid("26f401c9-12aa-46bf-82a3-05bb34bb2c03"),
+                    vehiculo = null,
+                };
             var requests = new List<Vehiculo>
             {
                 new Vehiculo
@@ -23,7 +34,7 @@ namespace administracion.Test.DataSeed
                     color = Color.Blanco,
                     placa = "AB123CM",
                     marca = Marca.Volkswagen,
-                    polizas = new List<Poliza>(),
+                    polizas = PolizaVehiculo1,
                     aseguradoId = new Guid("38f401c9-12aa-46bf-82a3-05ff65bb2c70"),
                     asegurado = null,
 
@@ -93,6 +104,7 @@ namespace administracion.Test.DataSeed
                 new Poliza
                 {
                     polizaId = new Guid("38f401c9-12aa-46bf-82a2-05ff65bb2300"),
+                    fechaCompra = DateTime.ParseExact("20-06-2021","dd-MM-yyyy",null),
                     fechaRegistro  = DateTime.ParseExact("20-10-2013","dd-MM-yyyy",null),
                     fechaVencimiento = DateTime.ParseExact("16-07-2017","dd-MM-yyyy",null),
                     tipoPoliza = TipoPoliza.CoberturaCompleta,
@@ -123,6 +135,7 @@ namespace administracion.Test.DataSeed
                 new Poliza
                 {
                     polizaId = new Guid("38f401c9-12aa-46bf-82a2-05ff65bb2100"),
+                    fechaCompra = DateTime.ParseExact("20-10-2019","dd-MM-yyyy",null),
                     fechaRegistro  = DateTime.ParseExact("20-10-2000","dd-MM-yyyy",null),
                     fechaVencimiento = DateTime.ParseExact("16-07-2005","dd-MM-yyyy",null),
                     tipoPoliza = TipoPoliza.DaniosATerceros,
@@ -154,8 +167,9 @@ namespace administracion.Test.DataSeed
                 new Poliza
                 {
                     polizaId = new Guid("38f401c9-12aa-46bf-82a2-05ff65bb2200"),
+                    fechaCompra = DateTime.ParseExact("13-11-2022","dd-MM-yyyy",null),
                     fechaRegistro  = DateTime.ParseExact("20-10-2003","dd-MM-yyyy",null),
-                    fechaVencimiento = DateTime.ParseExact("16-07-2007","dd-MM-yyyy",null),
+                    fechaVencimiento = DateTime.ParseExact("16-07-2025","dd-MM-yyyy",null),
                     tipoPoliza = TipoPoliza.DaniosATerceros,
                     vehiculoId = new Guid("AAAA01c9-12aa-46bf-82a3-05bb34bb2c03"), 
                     vehiculo = new Vehiculo
@@ -194,6 +208,8 @@ namespace administracion.Test.DataSeed
                         poliza = new Poliza
                         {
                             polizaId = new Guid("38f401c9-12aa-46bf-82a2-05ff65bb2200"),
+
+                            fechaCompra = DateTime.ParseExact("20-01-2007", "dd-MM-yyyy",null),
                             fechaRegistro  = DateTime.ParseExact("20-10-2003","dd-MM-yyyy",null),
                             fechaVencimiento = DateTime.ParseExact("16-07-2007","dd-MM-yyyy",null),
                             vehiculoId = new Guid("26f401c9-12aa-46bf-82a3-05bb34bb2c03") 
@@ -239,3 +255,4 @@ namespace administracion.Test.DataSeed
         
     }
 }
+

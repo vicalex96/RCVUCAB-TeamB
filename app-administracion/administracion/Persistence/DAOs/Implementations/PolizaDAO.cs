@@ -25,6 +25,11 @@ namespace administracion.Persistence.DAOs
             {
                 Poliza polizaEntity = new Poliza();
 
+                
+
+                if(poliza.fechaCompra < DateTime.ParseExact("01-01-2020","dd-mm-yyyy",null))
+                        throw new RCVException("La fecha de compra no es valida");
+                polizaEntity.fechaCompra = poliza.fechaCompra;
                 polizaEntity.polizaId = Guid.NewGuid();
                 polizaEntity.fechaRegistro = poliza.fechaRegistro;
                 polizaEntity.fechaVencimiento = poliza.fechaVencimiento;
@@ -34,6 +39,10 @@ namespace administracion.Persistence.DAOs
                 _context.Polizas.Add(polizaEntity);
                 _context.DbContext.SaveChanges();
                 return true;
+            }
+            catch(RCVException ex)
+            {
+                throw new RCVException(ex.Mensaje,ex);
             }
             catch(Exception ex){
                 throw new RCVException("Error al crear el asegurado", ex);
@@ -49,6 +58,7 @@ namespace administracion.Persistence.DAOs
                 .Where(p => p.polizaId == polizaId)
                 .Select( p=> new PolizaDTO{
                     Id = p.polizaId,
+                    fechaCompra = p.fechaCompra,
                     fechaRegistro = p.fechaRegistro,
                     fechaVencimiento = p.fechaVencimiento,
                     tipoPoliza = p.tipoPoliza.ToString(),
@@ -78,6 +88,7 @@ namespace administracion.Persistence.DAOs
                     && p.fechaVencimiento > DateTime.Today)
                 .Select( p=> new PolizaDTO{
                     Id = p.polizaId,
+                    fechaCompra = p.fechaCompra,
                     fechaRegistro = p.fechaRegistro,
                     fechaVencimiento = p.fechaVencimiento,
                     tipoPoliza = p.tipoPoliza.ToString(),

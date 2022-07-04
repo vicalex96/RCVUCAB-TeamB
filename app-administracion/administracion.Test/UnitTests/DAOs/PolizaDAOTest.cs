@@ -37,6 +37,7 @@ namespace administracion.Test.UnitTests.DAOs
                     new PolizaSimpleDTO
                     {
                         Id = new Guid("38f401c9-12aa-46bf-82a2-05ff65bb2100"),
+                        fechaCompra  = DateTime.ParseExact("20-05-2020","dd-MM-yyyy",null),
                         fechaRegistro  = DateTime.ParseExact("20-10-2000","dd-MM-yyyy",null),
                         fechaVencimiento = DateTime.ParseExact("16-07-2005","dd-MM-yyyy",null),
                         tipoPoliza = "DaniosATerceros",
@@ -57,7 +58,7 @@ namespace administracion.Test.UnitTests.DAOs
         }
 
         [Theory(DisplayName = "DAO: Consultar Polizas por Guid de vehiculo y retornar poliza actual")]
-        [InlineData("26f401c9-12aa-46bf-82a3-05bb34bb3aa5")]
+        [InlineData("AAAA01c9-12aa-46bf-82a3-05bb34bb2c03")]
         public Task GetPoliza_PorID_ReturnTrue(Guid ID)
         {
 

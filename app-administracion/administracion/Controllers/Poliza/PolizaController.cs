@@ -34,7 +34,7 @@ namespace administracion.Controllers
             catch (RCVException ex)
             {
                 response.Success = false;
-                response.Message = ex.Message;
+                response.Message = ex.Mensaje;
                 response.Exception = ex.Excepcion.ToString();
             };
             return response;

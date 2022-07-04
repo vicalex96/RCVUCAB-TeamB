@@ -6,6 +6,8 @@ namespace administracion.Persistence.Entities
     {
         public Guid polizaId {get; set;}
         [Required]
+        public DateTime fechaCompra{get; set;}
+        [Required]
         public DateTime fechaRegistro {get; set;}
         [Required]
         public DateTime fechaVencimiento {get; set;}
