@@ -74,7 +74,8 @@ namespace administracion.Persistence.DAOs
                 var poliza = _context.Polizas
                 .Include(p => p.vehiculo)
                 .Include(p => p.vehiculo.asegurado)
-                .Where(p => p.vehiculoId == vehiculoID)
+                .Where(p => p.vehiculoId == vehiculoID
+                    && p.fechaVencimiento > DateTime.Today)
                 .Select( p=> new PolizaDTO{
                     Id = p.polizaId,
                     fechaRegistro = p.fechaRegistro,

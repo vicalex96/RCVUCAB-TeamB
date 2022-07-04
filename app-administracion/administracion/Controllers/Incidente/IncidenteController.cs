@@ -79,6 +79,8 @@ namespace administracion.Controllers
             try
             {
                 response.Data = _incidenteDao.actualizarIncidente(incidenteID, estado);
+                response.Success = true;
+                response.Message = "inicidente actualizado";
 
             }
             catch (RCVException ex)

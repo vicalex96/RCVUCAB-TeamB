@@ -124,7 +124,7 @@ namespace administracion.Persistence.DAOs
                     {
                         marcaId = Guid.NewGuid(),
                         proveedorId = proveedorId,
-                        manejaTodas = false,
+                        manejaTodas = true,
                         marca = marca
                     };
                 }
@@ -151,7 +151,8 @@ namespace administracion.Persistence.DAOs
                     {
                         marcaId = Guid.NewGuid(),
                         proveedorId = proveedorId,
-                        manejaTodas = todasLasMarcas,
+                        manejaTodas = false,
+                        marca = marca
                     };
                 }
 

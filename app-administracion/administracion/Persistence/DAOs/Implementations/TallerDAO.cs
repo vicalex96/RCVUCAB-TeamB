@@ -130,7 +130,7 @@ namespace administracion.Persistence.DAOs
                     {
                         marcaId = Guid.NewGuid(),
                         tallerId = tallerId,
-                        manejaTodas = false,
+                        manejaTodas = true,
                         marca = marca
                     };
                 }
@@ -157,7 +157,8 @@ namespace administracion.Persistence.DAOs
                     {
                         marcaId = Guid.NewGuid(),
                         tallerId = tallerId,
-                        manejaTodas = todasLasMarcas,
+                        manejaTodas = false,
+                        marca = marca
                     };
                 }
 
