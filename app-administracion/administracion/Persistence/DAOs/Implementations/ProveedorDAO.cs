@@ -19,29 +19,20 @@ namespace administracion.Persistence.DAOs
             _context = context;
         }
 
-        public bool RegisterProveedor(ProveedorSimpleDTO proveedor)
+        /// <summary>
+        /// Registra un proveedor nuevo en la base de datos
+        /// </summary>
+        /// <param name="proveedor">DTO de regsitro con la informacion del proveedor</param>
+        /// <returns>Guid con el Id del proveedor</returns>
+        public Guid RegisterProveedor(Proveedor proveedor)
         {
             try
             {
-                if(proveedor.nombreLocal.ToLower() == "string" || 
-                    proveedor.nombreLocal.Count() == 0)
-                {
-                    throw new Exception("Error");
-                }
-                Proveedor proveedorEntity = new Proveedor
-                {
-                    proveedorId = proveedor.Id,
-                    nombreLocal = proveedor.nombreLocal,
-                };
-                _context.Proveedores.Add(proveedorEntity);
+                _context.Proveedores.Add(proveedor);
                 _context.DbContext.SaveChanges();
-                
-                ProductorRabbit rabbit = new ProductorRabbit();
-                rabbit.SendMessage(Routings.taller,"registrar_provedor", proveedor.Id.ToString());
-                
-                return true;
+                return proveedor.proveedorId;
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
                 throw new RCVException("Error al guardar, llave duplicada");
             }
@@ -51,6 +42,12 @@ namespace administracion.Persistence.DAOs
 
             }
         }
+        
+        /// <summary>
+        /// Obtiene un proveedor según su Id
+        /// </summary>
+        /// <param name="id">Id del proveedor</param>
+        /// <returns>DTO con la informacion del proveedor</returns>
         public ProveedorDTO GetProveedorByGuid(Guid proveedorId)
         {
             try
@@ -62,10 +59,10 @@ namespace administracion.Persistence.DAOs
                 {
                     Id = t.proveedorId,
                     nombreLocal = t.nombreLocal,
-                    marcas = t.marcas
+                    marcas = t.marcas!
                     .Select(m => new MarcaDTO
                     {
-                        nombreMarca = m.manejaTodas ? "TodasLasMarcas" : m.marca.ToString()
+                        nombreMarca = m.manejaTodas ? "TodasLasMarcas" : m.marca.ToString()!
                     }
                     ).ToList(),
                 }).SingleOrDefault();
@@ -81,6 +78,11 @@ namespace administracion.Persistence.DAOs
             }
 
         }
+
+        /// <summary>
+        /// Obtiene todos los proveedores registrados en  el sistema
+        /// </summary>
+        /// <returns>Lista de DTOs con la informacion de los proveedores</returns>
         public List<ProveedorDTO> GetProveedores()
         {
             try
@@ -91,10 +93,10 @@ namespace administracion.Persistence.DAOs
                 {
                     Id = t.proveedorId,
                     nombreLocal = t.nombreLocal,
-                    marcas = t.marcas
+                    marcas = t.marcas!
                     .Select(m => new MarcaDTO
                     {
-                        nombreMarca = m.manejaTodas ? "TodasLasMarcas" : m.marca.ToString()
+                        nombreMarca = m.manejaTodas ? "TodasLasMarcas" : m.marca.ToString()!
                     }
                     ).ToList(),
                 }).ToList();
@@ -109,72 +111,61 @@ namespace administracion.Persistence.DAOs
                 throw new RCVException("Ocurrio un error al trata de obtener los Proveedores:", ex, ex.Message, "500");
             }
         }
-
-        public bool AddMarca(Guid proveedorId, string marcaStr="-", bool todasLasMarcas = false)
+        
+        /// <summary>
+        /// Revisa si la marca existe como especializacion en el taller
+        /// </summary>
+        /// <param name="tallerId">Id del taller</param>
+        /// <param name="marca">Marca a revisar</param>
+        /// <returns>True si existe, False si no existe</returns>
+        public bool IsMarcaExistsOnProveedor(Guid proveedorId, Marca marca)
         {
             try
             {
-                Marca marca = new Marca();
-                MarcaProveedor marcaEntity;
+                var data = _context.MarcasProveedor
+                .Where(m => m.proveedorId == proveedorId 
+                    && (m.marca == marca || m.manejaTodas == true))
+                .FirstOrDefault();
+                return data != null? true : false;
+            }
+            catch(ArgumentNullException)
+            {
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
-                if(todasLasMarcas == true)
-                {
-                    DeleteMarcasFromProveedor(proveedorId);
-                    marcaEntity = new MarcaProveedor
-                    {
-                        marcaId = Guid.NewGuid(),
-                        proveedorId = proveedorId,
-                        manejaTodas = false,
-                        marca = marca
-                    };
-                }
-                else
-                {
-                    if(MarcaProveedor.IsMarca(marcaStr))
-                    {
-                        marca = MarcaProveedor.ConvertToMarca(marcaStr);
-                    } else
-                    {
-                        throw new RCVException("La marca introducida no es valida");
-                    }
-                    var marcas = _context.MarcasProveedor
-                        .Where(v => v.proveedorId == proveedorId
-                            && (v.manejaTodas == true || v.marca == marca))
-                        .ToList();
-
-                    if (marcas.Count() != 0)
-                    {
-                        throw new RCVException("La marca que se intenta registrar al taller ya lo esta");
-                    }
-
-                    marcaEntity = new MarcaProveedor
-                    {
-                        marcaId = Guid.NewGuid(),
-                        proveedorId = proveedorId,
-                        manejaTodas = todasLasMarcas,
-                    };
-                }
-
-                _context.MarcasProveedor.Add(marcaEntity);
+        /// <summary>
+        /// Agrega una marca a un taller existente o indica todas las marcas
+        /// al indicar todas se borran los registros y se deja uno con el todasLasMarcas= true
+        /// </summary>
+        /// <param name="proveedorId">Id del proveedor</param>
+        /// <param name="marca">DTO con la informacion de la marca</param>
+        /// <param name="todasLasMarcas"> true si se manejan todas las marcas</param>
+        /// <returns>Booleano True si se realizo bien</returns>
+        public bool AddMarca(MarcaProveedor marca)
+        {
+            try
+            {
+                _context.MarcasProveedor.Add(marca);
                 _context.DbContext.SaveChanges();
                 return true;
-            }
-            catch (RCVException ex)
-            {
-                throw new RCVException(ex.Mensaje);
-            }
-            catch (ArgumentNullException ex)
-            {
-                throw new RCVException("Error no se encontró ningun taller con el Guid indicado", ex, ex.Message, "404");
             }
             catch (Exception ex)
             {
                 throw new RCVException("Error al crear el asegurado", ex);
-
             }
         }
-    
-        private void DeleteMarcasFromProveedor(Guid proveedorId)
+        
+        /// <summary>
+        /// Elimina todas las marcas de un proveedor
+        /// </summary>
+        /// <param name="proveedorId">Id del proveedor</param>
+        /// <returns>Void</returns>
+        public bool DeleteMarcasFromProveedor(Guid proveedorId)
         {
             try
             {
@@ -184,12 +175,12 @@ namespace administracion.Persistence.DAOs
                 _context.MarcasProveedor
                     .RemoveRange(data.ToList());
                 _context.DbContext.SaveChanges();
+                return true;
             }
             catch (Exception ex)
             {
                 throw new RCVException("Fallo al intenta borrar las marcas",ex);
             }
         }
-    
     }
 }

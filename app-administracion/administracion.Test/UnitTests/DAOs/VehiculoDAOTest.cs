@@ -1,13 +1,11 @@
-//using Bogus;
 using Microsoft.Extensions.Logging;
 using Moq;
 using administracion.Persistence.DAOs;
 using administracion.Persistence.Database;
 using administracion.BussinesLogic.DTOs;
+using administracion.Persistence.Entities;
 using administracion.Exceptions;
 using administracion.Test.DataSeed;
-using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 using System.Collections;
 
@@ -21,14 +19,12 @@ namespace administracion.Test.UnitTests.DAOs
 
         public VehiculoDAOShould()
         {
-            //var faker = new Faker();
             _contextMock = new Mock<IAdminDBContext>();
-            // el Mock no emplea un DBcontext real en IAdminDBContext =>  obligamos una respuesta por defecto para el SaveChanges y de esta forma evitar un error al no tener un DBcontext real
-            _contextMock.Setup(m => m.DbContext.SaveChanges()).Returns(0);
+            
             _mockLogger = new Mock<ILogger<VehiculoDAO>>();
 
             _dao = new VehiculoDAO(_contextMock.Object);
-            _contextMock.SetupDbContextDataVehiculo();
+            _contextMock.SetupDbContextDataIncidenteProcess();
         }
 
         public class VehiculoClassData : IEnumerable<object[]>
@@ -36,14 +32,14 @@ namespace administracion.Test.UnitTests.DAOs
             public IEnumerator<object[]> GetEnumerator()
             {
                 yield return new object[] {
-                    new VehiculoSimpleDTO()
+                    new Vehiculo()
                     {
-                        Id = Guid.Parse("38f401c9-12aa-46bf-82a2-05ff65bb2600"),
+                        vehiculoId = Guid.Parse("38f401c9-12aa-46bf-82a2-05ff65bb2600"),
                         anioModelo = 2003,
                         fechaCompra = new DateTime(2022, 6, 22, 19, 25, 41, 41, DateTimeKind.Local),
-                        color = "Verde",
+                        color = Color.Verde,
                         placa = "AB123CM",
-                        marca = "Toyota"
+                        marca = Marca.Toyota
                     }
                 };
             }
@@ -54,38 +50,67 @@ namespace administracion.Test.UnitTests.DAOs
         public Task shouldReturnAVehiculosList()
         {
             var result = _dao.GetAllVehiculos();
-            Assert.Equal(result.Count(), 3);
+            Assert.Equal(4, result.Count());
             return Task.CompletedTask;
         }
 
         [Theory(DisplayName = "DAO: Consultar vehiculos por Guid y retornar un VehiculoDTO")]
-        [InlineData("26f401c9-12aa-46bf-82a3-05bb34bb2c03")]
-        public Task shouldUseGuidForReturnVehiculo(Guid ID)
+        [InlineData("00f401c9-12aa-46bf-82a3-05bb34bb2c03")]
+        public Task shouldUseGuidForReturnVehiculo(Guid vehiculoId)
         {
             //Arrage
-            var vehiculoDTO = _dao.GetVehiculoByGuid(ID);
+            var vehiculoDTO = _dao.GetVehiculoByGuid(vehiculoId);
             //Assert
             Assert.IsType<VehiculoDTO>(vehiculoDTO);
             return Task.CompletedTask;
         }
 
-        [Theory(DisplayName = "DAO: Agregar Vehiculo y regresar un mensaje de verifiacion")]
-        [ClassData(typeof(VehiculoClassData))]
-        public Task shouldAddVehiculoReturnMenssage(VehiculoSimpleDTO vehiculo)
+        [Fact(DisplayName = "DAO: Agregar Vehiculo y regresar un boleano true")]
+        public Task shouldAddVehiculoReturnTrue()
         {
+            Vehiculo vehiculo = new Vehiculo();
+            _contextMock.Setup(m => m.DbContext.SaveChanges()).Returns(0);
             var resultado = _dao.RegisterVehiculo(vehiculo);
 
             Assert.True(resultado);
             return Task.CompletedTask;
         }
 
-        [Theory(DisplayName = "asociar vehiculo con un asegurado")]
-        [InlineData("38f401c9-12aa-46bf-82a2-05ff65bb2c86", "3fa85f64-5717-4562-b3fc-2c963f66afa6")]
-        public Task shouldAssociatedAVehiculoWithAseguradoReturnMessage(Guid vehiculoID, Guid aseguradoID)
+        [Fact(DisplayName = "DAO: Intenta agregar un Vehiculo y regresar una excepcion")]
+        public Task shouldAddVehiculoReturnRCVException()
         {
-            bool result = _dao.AddAsegurado(vehiculoID, aseguradoID);
+            Vehiculo vehiculo = new Vehiculo();
+            _contextMock.Setup(m => m.DbContext.SaveChanges())
+                .Throws(new Exception()); 
+
+            Assert.Throws<RCVException>(() => _dao.RegisterVehiculo(vehiculo));
+            return Task.CompletedTask;
+        }
+
+    
+        [Theory(DisplayName = "asociar vehiculo con un asegurado retorna un boleano true")]
+        [InlineData("00f401c9-12aa-46bf-82a3-05bb34bb2c03","00000001-12aa-46bf-82a2-05ff65bb2c86")]
+        public Task shouldAssociatedAVehiculoWithAseguradoReturnTrue(Guid vehiculoId, Guid aseguradoId)
+        {   
+            _contextMock.Setup(m => m.DbContext.SaveChanges()).Returns(0);
+
+            bool result = _dao.AddAsegurado(vehiculoId,aseguradoId);
             Assert.True(result);
             return Task.CompletedTask;
         }
+
+        [Fact(DisplayName = "asociar vehiculo con un asegurado retorna una RCVException")]
+        public Task shouldAssociatedAVehiculoWithAseguradoReturnRCVException()
+        {   
+            Vehiculo vehiculo = new Vehiculo();
+            Guid aseguradoId = new Guid();
+            Guid vehiculoId = new Guid();
+            _contextMock.Setup(m => m.DbContext.SaveChanges())
+                .Throws(new Exception()); 
+
+            Assert.Throws<RCVException>(() => _dao.AddAsegurado(vehiculoId,aseguradoId));
+            return Task.CompletedTask;
+        }
+
     }
 }

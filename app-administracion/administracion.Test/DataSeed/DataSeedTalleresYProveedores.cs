@@ -2,10 +2,7 @@ using MockQueryable.Moq;
 using Moq;
 using administracion.Persistence.Database;
 using administracion.Persistence.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+
 namespace administracion.Test.DataSeed
 {
     public static class DataSeedEmpresas
@@ -107,25 +104,29 @@ namespace administracion.Test.DataSeed
                 {
                     marcaId = new Guid("100001c9-1212-46bf-82a3-05ff65bb2c85"),
                     tallerId = new Guid("100001c9-12aa-46bf-82a3-05ff65bb2c86"),
+                    marca = null,
                     manejaTodas = true,
                 },
                 new MarcaTaller
                 {
                     marcaId = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c88"),
                     tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c87"),
-                    marca = Marca.Suzuki
+                    marca = Marca.Suzuki,
+                    manejaTodas = false,
                 },
                 new MarcaTaller
                 {
                     marcaId = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c89"),
                     tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c87"),
-                    marca = Marca.Volkswagen
+                    marca = Marca.Volkswagen,
+                    manejaTodas = false,
                 },
                 new MarcaTaller
                 {
                     marcaId = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c90"),
                     tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c87"),
-                    marca = Marca.General_Motors
+                    marca = Marca.General_Motors,
+                    manejaTodas = false,
                 },
             };
     
@@ -135,25 +136,29 @@ namespace administracion.Test.DataSeed
                 {
                     marcaId = new Guid("100001c9-1313-46bf-82a3-05ff65bb2c87"),
                     proveedorId = new Guid("100001c9-1212-46bf-82a3-05ff65bb2c86"),
+                    marca = null,
                     manejaTodas = true,
                 },
                 new MarcaProveedor
                 {
                     marcaId = new Guid("100001c9-1313-46bf-82a3-05ff65bb2c88"),
                     proveedorId = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c87"),
-                    marca = Marca.Volkswagen
+                    marca = Marca.Volkswagen,
+                    manejaTodas = false,
                 },
                 new MarcaProveedor
                 {
                     marcaId = new Guid("100001c9-1515-46bf-82a3-05ff65bb2c89"),
                     proveedorId = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c87"),
-                    marca = Marca.Suzuki
+                    marca = Marca.Suzuki,
+                    manejaTodas = false,
                 },
                 new MarcaProveedor
                 {
                     marcaId = new Guid("100001c9-1717-46bf-82a3-05ff65bb2c90"),
                     proveedorId = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c87"),
-                    marca = Marca.General_Motors
+                    marca = Marca.General_Motors,
+                    manejaTodas = false,
                 },
             };
 

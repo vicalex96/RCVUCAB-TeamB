@@ -1,17 +1,19 @@
 
 using administracion.Persistence.Entities;
 using administracion.BussinesLogic.DTOs;
-using System.Collections.Generic;
+
 
 namespace administracion.Persistence.DAOs
 {
+/// <summary>
+    /// Interface para el listado de metodos de DAO de Incidentes
+    /// </summary>
     public interface IIncidenteDAO
     {
         
-        public IncidenteDTO consultarIncidente(Guid incidenteID);
-
-        public List<IncidenteDTO> ConsultarIncidentesActivos();
-        public bool RegisterIncidente (IncidenteSimpleDTO incidente);
-        public bool actualizarIncidente(Guid incidenteId, EstadoIncidente estado);
+        public IncidenteDTO GetIncidenteById(Guid incidenteID);
+        public List<IncidenteDTO> GetIncidentesByState(EstadoIncidente estado);
+        public bool RegisterIncidente (Incidente incidente);
+        public bool UpdateIncidente(Incidente incidente);
     }
 }

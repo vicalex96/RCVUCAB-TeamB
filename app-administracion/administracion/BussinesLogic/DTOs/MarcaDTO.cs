@@ -7,8 +7,11 @@ using System.Text.Json.Serialization;
 
 namespace administracion.BussinesLogic.DTOs
 {
+    /// <summary>
+    ///DTO para mostra una marca
+    /// </summary>
     public class MarcaDTO
     {
-        public string nombreMarca {get; set;}
+        public string nombreMarca {get; set;} = "";
     }
 }

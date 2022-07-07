@@ -8,10 +8,8 @@ using administracion.Controllers;
 using administracion.Exceptions;
 using administracion.Persistence.DAOs;
 using administracion.Responses;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit;
+using administracion.BussinesLogic.LogicClasses;
 
 namespace RCVUcab.Test.UnitTests.Controllers
 {
@@ -19,13 +17,15 @@ namespace RCVUcab.Test.UnitTests.Controllers
     {
         private readonly AseguradoController _controller;
         private readonly Mock<IAseguradoDAO> _serviceMock;
+        private readonly Mock<IAseguradoLogic> _serviceMockLogic;
         private readonly Mock<ILogger<AseguradoController>> _loggerMock;
 
         public AseguradoControllerTest()
         {
             _loggerMock = new Mock<ILogger<AseguradoController>>();
             _serviceMock = new Mock<IAseguradoDAO>();
-            _controller = new AseguradoController(_loggerMock.Object, _serviceMock.Object);
+            _serviceMockLogic = new Mock<IAseguradoLogic>();
+            _controller = new AseguradoController(_loggerMock.Object, _serviceMock.Object,_serviceMockLogic.Object);
             _controller.ControllerContext = new ControllerContext();
             _controller.ControllerContext.HttpContext = new DefaultHttpContext();
             _controller.ControllerContext.ActionDescriptor = new ControllerActionDescriptor();
@@ -107,9 +107,9 @@ namespace RCVUcab.Test.UnitTests.Controllers
         [Fact(DisplayName = "Controller: Agregar asegurado")]
         public Task CreateAsegurado()
         {
-            _serviceMock.Setup( x => x.RegisterAsegurado(It.IsAny<AseguradoSimpleDTO>()))
+            _serviceMockLogic.Setup( x => x.RegisterAsegurado(It.IsAny<AseguradoRegisterDTO>()))
             .Returns(It.IsAny<bool>());
-            var result = _controller.AddAsegurado(It.IsAny<AseguradoSimpleDTO>());
+            var result = _controller.AddAsegurado(It.IsAny<AseguradoRegisterDTO>());
             
             Assert.IsType<ApplicationResponse<bool>>(result);
             return Task.CompletedTask;
@@ -118,11 +118,11 @@ namespace RCVUcab.Test.UnitTests.Controllers
         [Fact(DisplayName = "Controller: Agregar asegurado arroja excepcion")]
         public Task CreateAseguradoException()
         {
-            _serviceMock
-                .Setup(x => x.RegisterAsegurado(It.IsAny<AseguradoSimpleDTO>()))
+            _serviceMockLogic
+                .Setup(x => x.RegisterAsegurado(It.IsAny<AseguradoRegisterDTO>()))
                 .Throws(new RCVException("",new Exception()));
 
-            var ex = _controller.AddAsegurado(It.IsAny<AseguradoSimpleDTO>());
+            var ex = _controller.AddAsegurado(It.IsAny<AseguradoRegisterDTO>());
 
             Assert.False(ex.Success);
 
