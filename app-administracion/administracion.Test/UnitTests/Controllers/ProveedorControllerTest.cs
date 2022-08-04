@@ -6,23 +6,27 @@ using Moq;
 using administracion.BussinesLogic.DTOs;
 using administracion.Controllers;
 using administracion.Exceptions;
-using administracion.Persistence.DAOs;
+using  administracion.DataAccess.DAOs;
 using administracion.Responses;
+using administracion.Conections.rabbit;
 using Xunit;
+using administracion.DataAccess.DAOs.Logic;
 
-namespace RCVUcab.Test.UnitTests.Controllers
+namespace administracion.Test.UnitTests.Controllers
 {
     public class ProveedorControllerTest
     {
         private readonly ProveedorController _controller;
         private readonly Mock<IProveedorDAO> _serviceMock;
+        private readonly Mock<IProveedorLogic> _serviceMockLogic;
         private readonly Mock<ILogger<ProveedorController>> _loggerMock;
 
         public ProveedorControllerTest()
         {
             _loggerMock = new Mock<ILogger<ProveedorController>>();
             _serviceMock = new Mock<IProveedorDAO>();
-            _controller = new ProveedorController(_loggerMock.Object, _serviceMock.Object);
+            _serviceMockLogic = new Mock<IProveedorLogic>();
+            _controller = new ProveedorController(_loggerMock.Object);
             _controller.ControllerContext = new ControllerContext();
             _controller.ControllerContext.HttpContext = new DefaultHttpContext();
             _controller.ControllerContext.ActionDescriptor = new ControllerActionDescriptor();
@@ -31,24 +35,24 @@ namespace RCVUcab.Test.UnitTests.Controllers
         [Fact(DisplayName = "Controller: Registrar Proveedor")]
         public Task RegisterProveedor()
         {
-            _serviceMock
-                .Setup(x => x.RegisterProveedor(It.IsAny<ProveedorSimpleDTO>()))
-                .Returns(It.IsAny<bool>());
+            _serviceMockLogic
+                .Setup(x => x.RegisterProveedor(It.IsAny<ProveedorRegisterDTO>()))
+                .Returns(It.IsAny<int>());
 
-            var result = _controller.RegistrarProveedor(It.IsAny<ProveedorSimpleDTO>());
+            var result = _controller.RegistrarProveedor(It.IsAny<ProveedorRegisterDTO>());
 
-            Assert.IsType<ApplicationResponse<bool>>(result);
+            Assert.IsType<ApplicationResponse<int>>(result);
             return Task.CompletedTask;
         }
 
         [Fact(DisplayName = "Controller: Registrar Proveedor regresa una excepcion")]
         public Task RegisterProveedorException()
         {
-            _serviceMock
-                .Setup(x => x.RegisterProveedor(It.IsAny<ProveedorSimpleDTO>()))
+            _serviceMockLogic
+                .Setup(x => x.RegisterProveedor(It.IsAny<ProveedorRegisterDTO>()))
                 .Throws(new RCVException("", new Exception()));
 
-            var ex = _controller.RegistrarProveedor(It.IsAny<ProveedorSimpleDTO>());
+            var ex = _controller.RegistrarProveedor(It.IsAny<ProveedorRegisterDTO>());
             Assert.False(ex.Success);
 
             return Task.CompletedTask;

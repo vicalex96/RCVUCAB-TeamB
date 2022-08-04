@@ -6,26 +6,27 @@ using Moq;
 using administracion.BussinesLogic.DTOs;
 using administracion.Controllers;
 using administracion.Exceptions;
-using administracion.Persistence.DAOs;
+using  administracion.DataAccess.DAOs;
 using administracion.Responses;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using administracion.Conections.rabbit;
 using Xunit;
+using administracion.DataAccess.DAOs.Logic;
 
-namespace RCVUcab.Test.UnitTests.Controllers
+namespace administracion.Test.UnitTests.Controllers
 {
     public class TallerControllerTest
     {
         private readonly TallerController _controller;
         private readonly Mock<ITallerDAO> _serviceMock;
+        private readonly Mock<ITallerLogic> _serviceMockLogic;
         private readonly Mock<ILogger<TallerController>> _loggerMock;
 
         public TallerControllerTest()
         {
             _loggerMock = new Mock<ILogger<TallerController>>();
             _serviceMock = new Mock<ITallerDAO>();
-            _controller = new TallerController(_loggerMock.Object, _serviceMock.Object);
+            _serviceMockLogic = new Mock<ITallerLogic>();
+            _controller = new TallerController(_loggerMock.Object);
 
             _controller.ControllerContext = new ControllerContext();
             _controller.ControllerContext.HttpContext = new DefaultHttpContext();
@@ -35,24 +36,24 @@ namespace RCVUcab.Test.UnitTests.Controllers
         [Fact(DisplayName = "Controller: Registrar Taller")]
         public Task RegisterTaller()
         {
-            _serviceMock
-                .Setup(x => x.RegisterTaller(It.IsAny<TallerSimpleDTO>()))
-                .Returns(It.IsAny<bool>());
+            _serviceMockLogic
+                .Setup(x => x.RegisterTaller(It.IsAny<TallerRegisterDTO>()))
+                .Returns(It.IsAny<int>());
         
-            var result = _controller.RegistrarTaller(It.IsAny<TallerSimpleDTO>());
+            var result = _controller.RegistrarTaller(It.IsAny<TallerRegisterDTO>());
 
-            Assert.IsType<ApplicationResponse<bool>>(result);
+            Assert.IsType<ApplicationResponse<int>>(result);
             return Task.CompletedTask;
         }
 
         [Fact(DisplayName = "Controller: Registrar Taller regresa una excepcion")]
         public Task RegisterTallerException()
         {
-            _serviceMock
-                .Setup(x => x.RegisterTaller(It.IsAny<TallerSimpleDTO>()))
+            _serviceMockLogic
+                .Setup(x => x.RegisterTaller(It.IsAny<TallerRegisterDTO>()))
                 .Throws(new RCVException("", new Exception()));
 
-            var ex = _controller.RegistrarTaller(It.IsAny<TallerSimpleDTO>());
+            var ex = _controller.RegistrarTaller(It.IsAny<TallerRegisterDTO>());
             Assert.False(ex.Success);
 
             return Task.CompletedTask;
@@ -109,5 +110,6 @@ namespace RCVUcab.Test.UnitTests.Controllers
 
             return Task.CompletedTask;
         }
+
     }
 }

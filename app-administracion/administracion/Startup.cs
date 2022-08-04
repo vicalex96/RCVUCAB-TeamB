@@ -1,18 +1,13 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using administracion.Persistence.DAOs;
-using administracion.Persistence.Database;
-using administracion.Conections.rabbit;
+using administracion.DataAccess.DAOs;
+using administracion.DataAccess.Database;
 
 namespace administracion
 {
     public class Startup
     {
+        private readonly string  _MyCors ="Mycors";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -26,23 +21,31 @@ namespace administracion
             services.AddControllers();
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             services.AddDbContext<AdminDBContext>( 
-                o => o.UseNpgsql(Configuration.GetConnectionString("cnDatabase"))
+                o => o.UseNpgsql(Configuration.GetConnectionString("DataBaseConnection"))
                 );
                 
             services.AddTransient<IAdminDBContext, AdminDBContext>();
+
             services.AddTransient<IAseguradoDAO, AseguradoDAO>();
-            services.AddTransient<IVehiculoDAO, VehiculoDAO>();
-            services.AddTransient<IPolizaDAO, PolizaDAO>();
             services.AddTransient<IIncidenteDAO, IncidenteDAO>();
-            services.AddTransient<ITallerDAO, TallerDAO>();
+            services.AddTransient<IPolizaDAO, PolizaDAO>();
             services.AddTransient<IProveedorDAO, ProveedorDAO>();
-            services.AddTransient<IProductorRabbit, ProductorRabbit>();
+            services.AddTransient<ITallerDAO, TallerDAO>();
+            services.AddTransient<IVehiculoDAO, VehiculoDAO>();
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "administracion", Version = "v1" });
             });
+            services.AddRouting(routing => routing.LowercaseUrls = true);
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: _MyCors, builder => 
+                {
+                    builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost").AllowAnyHeader().AllowAnyMethod();
+                });
+            });
             
 
         }
@@ -70,6 +73,7 @@ namespace administracion
             app.UseSwaggerUI( c => 
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json","My API V1");
+                c.RoutePrefix = "";
             });
         }
     }

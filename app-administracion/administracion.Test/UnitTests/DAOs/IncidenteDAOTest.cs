@@ -1,14 +1,13 @@
-//using Bogus;
 using Microsoft.Extensions.Logging;
 using Moq;
-using administracion.Persistence.DAOs;
-using administracion.Persistence.Database;
+using  administracion.DataAccess.DAOs;
+using  administracion.DataAccess.Database;
 using administracion.BussinesLogic.DTOs;
 using administracion.Test.DataSeed;
-using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
-using System.Collections;
+using  administracion.DataAccess.Entities;
+using administracion.Exceptions;
+using  administracion.DataAccess.Enums;
 
 namespace administracion.Test.UnitTests.DAOs
 {
@@ -21,65 +20,80 @@ namespace administracion.Test.UnitTests.DAOs
 
         public IncidenteDAOShould()
         {
-            //var faker = new Faker();
             _contextMock = new Mock<IAdminDBContext>();
-            // el Mock no emplea un DBcontext real en IAdminDBContext =>  obligamos una respuesta por defecto para el SaveChanges y de esta forma evitar un error al no tener un DBcontext real
-            _contextMock.Setup(m => m.DbContext.SaveChanges()).Returns(0);
             _mockLogger = new Mock<ILogger<IncidenteDAO>>();
 
-            _dao = new IncidenteDAO(_contextMock.Object);
-            _contextMock.SetupDbContextDataVehiculo();
-        }
-
-        public class IncidenteClassData : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                yield return new object[] {
-                    new IncidenteSimpleDTO
-                    {
-                        incidenteId = new Guid("38f401c9-12aa-46bf-82a2-05ff65bb2100"),
-                        polizaId = new Guid("38f401c9-12aa-46bf-82a2-05ff65bb2100")
-                    }
-                };
-            }
-            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        }
-
-
-
-        [Theory(DisplayName = "DAO: Registrar un incidente deberia retornar un mensaje")]
-        [ClassData(typeof(IncidenteClassData))]
-        public Task ShouldRegisterInciente(IncidenteSimpleDTO incidente)
-        {
-            var respuesta = _dao.RegisterIncidente(incidente);
-
-            Assert.True(respuesta);
-            return Task.CompletedTask;
+            _dao = new IncidenteDAO();
+            _contextMock.SetupDbContextDataIncidenteProcess();
         }
 
         [Theory(DisplayName = "DAO: Consultar Incidente según su Guid regresar un incidente")]
-        [InlineData("38f401c9-12aa-46bf-82a2-05ff65bb2100")]
+        [InlineData("000001c9-12aa-46bf-82a2-05ff65bb0000")]
         public Task ShouldGetIncidenteByGuid(Guid id)
         {
-            IncidenteDTO incidente = _dao.consultarIncidente(id);
+            IncidenteDTO incidente = _dao.GetIncidenteById(id);
 
             Assert.NotNull(incidente);
             return Task.CompletedTask;
         }
         
-        [Fact(DisplayName = "DAO: Consulta Incidentes Activos y regresa lista")]
-        public Task ShouldGetActiveIncidentes()
+        [Theory(DisplayName = "DAO: Consulta Incidentes según estado y regresa lista de incientes")]
+        [InlineData(EstadoIncidente.Pendiente)]
+        public Task ShouldGetIncidentesByStateReturnList(EstadoIncidente estado)
         {
-            //Arrage
-            var result = _dao.ConsultarIncidentesActivos();
-            //Act
+            var result = _dao.GetIncidentesByState(estado);
             var isNoEmpty = result.Any();
-            //Assert
             Assert.True(isNoEmpty);
             return Task.CompletedTask;
         }
 
 
+        [Fact(DisplayName = "DAO: Registrar un incidente deberia retornar true")]
+        public Task ShouldRegisterIncienteReturnTrue()
+        {   
+            Incidente incidente= new Incidente();
+            _contextMock.Setup(m => m.DbContext.SaveChanges()).Returns(1);
+
+            int  result = _dao.RegisterIncidente(incidente);
+
+            Assert.Equal(1,result);
+            return Task.CompletedTask;
+        }
+
+        [Fact(DisplayName = "DAO: Registrar un incidente deberia retornar un RCVException")]
+        public Task ShouldRegisterIncienteReturnException()
+        {   
+            Incidente incidente= new Incidente();
+            _contextMock.Setup(m => m.DbContext.SaveChanges())
+                .Throws( new Exception());
+            
+            Assert.Throws<RCVException>(() => _dao.RegisterIncidente(incidente));
+            return Task.CompletedTask;
+        }
+
+
+        [Fact(DisplayName = "DAO: Actualiza el estado del incidente retorna true")]
+        public Task ShouldUpdateIncidenteStateReturnTrue()
+        {
+            Incidente incidente = new Incidente();
+            _contextMock.Setup(m => m.DbContext.SaveChanges())
+                .Returns(1);
+            int result = _dao.UpdateIncidente(incidente);
+
+            Assert.Equal(1,result);
+            return Task.CompletedTask;
+        }
+
+        [Fact(DisplayName = "DAO: Actualiza el estado del incidente retorna una excepcion")]
+        public Task ShouldUpdateIncidenteStateReturnException()
+        {
+            Incidente incidente = new Incidente();
+            _contextMock.Setup(m => m.DbContext.SaveChanges())
+                .Throws(new Exception());
+            
+            Assert.Throws<RCVUpdateException>(() => _dao.UpdateIncidente(incidente));
+            return Task.CompletedTask;
+        }   
+    
     }
 }
