@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace administracion.Migrations
 {
-    public partial class cargaEstructura : Migration
+    public partial class cargarContenido : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -74,7 +74,6 @@ namespace administracion.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     proveedorId = table.Column<Guid>(type: "uuid", nullable: false),
-                    tallerId = table.Column<Guid>(type: "uuid", nullable: true),
                     manejaTodas = table.Column<bool>(type: "boolean", nullable: false),
                     marcaName = table.Column<int>(type: "integer", nullable: true)
                 },
@@ -82,10 +81,11 @@ namespace administracion.Migrations
                 {
                     table.PrimaryKey("PK_MarcasProveedor", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MarcasProveedor_Proveedores_tallerId",
-                        column: x => x.tallerId,
+                        name: "FK_MarcasProveedor_Proveedores_proveedorId",
+                        column: x => x.proveedorId,
                         principalTable: "Proveedores",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -162,18 +162,6 @@ namespace administracion.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "MarcasProveedor",
-                columns: new[] { "Id", "manejaTodas", "marcaName", "proveedorId", "tallerId" },
-                values: new object[,]
-                {
-                    { new Guid("00000001-d5ef-46c7-0006-000000000001"), false, 8, new Guid("0c5c3262-d5ef-46c7-0006-000000000001"), null },
-                    { new Guid("00000001-d5ef-46c7-0006-000000000002"), true, null, new Guid("0c5c3262-d5ef-46c7-0006-000000000002"), null },
-                    { new Guid("00000002-d5ef-46c7-0006-000000000001"), false, 5, new Guid("0c5c3262-d5ef-46c7-0006-000000000001"), null },
-                    { new Guid("00000003-d5ef-46c7-0006-000000000001"), false, 7, new Guid("0c5c3262-d5ef-46c7-0006-000000000001"), null },
-                    { new Guid("00000004-d5ef-46c7-0006-000000000001"), false, 0, new Guid("0c5c3262-d5ef-46c7-0006-000000000001"), null }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Proveedores",
                 columns: new[] { "Id", "nombreLocal" },
                 values: new object[,]
@@ -192,6 +180,23 @@ namespace administracion.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Vehiculos",
+                columns: new[] { "Id", "anioModelo", "aseguradoId", "color", "fechaCompra", "marca", "placa" },
+                values: new object[] { new Guid("0c5c3262-d5ef-46c7-0002-000000000005"), 2015, null, 11, new DateTime(2021, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "BB329A1" });
+
+            migrationBuilder.InsertData(
+                table: "MarcasProveedor",
+                columns: new[] { "Id", "manejaTodas", "marcaName", "proveedorId" },
+                values: new object[,]
+                {
+                    { new Guid("00000001-d5ef-46c7-0006-000000000001"), false, 8, new Guid("0c5c3262-d5ef-46c7-0006-000000000001") },
+                    { new Guid("00000001-d5ef-46c7-0006-000000000002"), true, null, new Guid("0c5c3262-d5ef-46c7-0006-000000000002") },
+                    { new Guid("00000002-d5ef-46c7-0006-000000000001"), false, 5, new Guid("0c5c3262-d5ef-46c7-0006-000000000001") },
+                    { new Guid("00000003-d5ef-46c7-0006-000000000001"), false, 7, new Guid("0c5c3262-d5ef-46c7-0006-000000000001") },
+                    { new Guid("00000004-d5ef-46c7-0006-000000000001"), false, 0, new Guid("0c5c3262-d5ef-46c7-0006-000000000001") }
+                });
+
+            migrationBuilder.InsertData(
                 table: "MarcasTaller",
                 columns: new[] { "Id", "manejaTodas", "marcaName", "tallerId" },
                 values: new object[,]
@@ -207,7 +212,7 @@ namespace administracion.Migrations
                 columns: new[] { "Id", "anioModelo", "aseguradoId", "color", "fechaCompra", "marca", "placa" },
                 values: new object[,]
                 {
-                    { new Guid("0c5c3262-d5ef-46c7-0002-000000000001"), 2007, new Guid("0c5c3262-d5ef-46c7-0001-000000000001"), 1, new DateTime(2007, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "AB320AM" },
+                    { new Guid("0c5c3262-d5ef-46c7-0002-000000000001"), 2007, new Guid("0c5c3262-d5ef-46c7-0001-000000000001"), 1, new DateTime(2009, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "AB320AM" },
                     { new Guid("0c5c3262-d5ef-46c7-0002-000000000002"), 2006, new Guid("0c5c3262-d5ef-46c7-0001-000000000002"), 6, new DateTime(2014, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 7, "AB322AM" },
                     { new Guid("0c5c3262-d5ef-46c7-0002-000000000003"), 2016, new Guid("0c5c3262-d5ef-46c7-0001-000000000003"), 5, new DateTime(2017, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 8, "BB322AC" },
                     { new Guid("0c5c3262-d5ef-46c7-0002-000000000004"), 2020, new Guid("0c5c3262-d5ef-46c7-0001-000000000003"), 9, new DateTime(2020, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, "BB329AC" }
@@ -230,7 +235,9 @@ namespace administracion.Migrations
                 {
                     { new Guid("0c5c3262-d5ef-46c7-0004-000000000001"), 0, null, new DateTime(2010, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("0c5c3262-d5ef-46c7-0003-000000000001") },
                     { new Guid("0c5c3262-d5ef-46c7-0004-000000000002"), 0, null, new DateTime(2018, 8, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("0c5c3262-d5ef-46c7-0003-000000000002") },
-                    { new Guid("0c5c3262-d5ef-46c7-0004-000000000003"), 0, null, new DateTime(2021, 12, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("0c5c3262-d5ef-46c7-0003-000000000003") }
+                    { new Guid("0c5c3262-d5ef-46c7-0004-000000000003"), 0, null, new DateTime(2021, 12, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("0c5c3262-d5ef-46c7-0003-000000000003") },
+                    { new Guid("0c5c3262-d5ef-46c7-0004-000000000004"), 1, null, new DateTime(2010, 12, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("0c5c3262-d5ef-46c7-0003-000000000001") },
+                    { new Guid("0c5c3262-d5ef-46c7-0004-000000000005"), 2, null, new DateTime(2013, 12, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("0c5c3262-d5ef-46c7-0003-000000000001") }
                 });
 
             migrationBuilder.CreateIndex(
@@ -239,9 +246,9 @@ namespace administracion.Migrations
                 column: "polizaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MarcasProveedor_tallerId",
+                name: "IX_MarcasProveedor_proveedorId",
                 table: "MarcasProveedor",
-                column: "tallerId");
+                column: "proveedorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MarcasTaller_tallerId",

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using administracion.DataAccess.Database;
-
+using administracion.Configurations;
 
 namespace administracion.DataAccess.Database
 {
@@ -9,10 +9,22 @@ namespace administracion.DataAccess.Database
     {
         public AdminDBContext CreateDbContext(string[]? args)
         {
+            AppSettings config = new AppSettings();
+            
             var builder = new DbContextOptionsBuilder<AdminDBContext>();
-            var connectionString = "Server=localhost;Database=Administracion;Port=5432;User Id=postgres;Password=123456";
-            builder.UseNpgsql(connectionString);
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+            if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+            {
+                builder.UseNpgsql(config.DBConnectionString);
+            }
+            else
+            {
+                
+                builder.UseNpgsql(config.DBConnectionTestString);
+            }
+
             return new AdminDBContext(builder.Options);
+            
         }
     }
 }

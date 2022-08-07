@@ -15,23 +15,9 @@ namespace administracion.BussinesLogic.Commands
             _aseguradoDTO = aseguradoDTO;
         }
         
-        /// <summary>
-        /// verifica que si el nombre o apellido estan vacios
-        /// </summary>
-        /// <param name="name">campo nombre a revisar</param>
-        /// <returns>booleano true si es invalido, false si es valido</returns>
-        private bool IsNotValidName( string name)
-        {
-            if(name.ToLower() == "string" || name.Count() == 0)
-            {
-                return true;
-            }
-            return false;
-        }
-
         public override void Execute()
         {
-                        try
+            try
             {
                 //El nombre y el apellido no pueden estar vacios
                 if(IsNotValidName(_aseguradoDTO.nombre) )
@@ -56,6 +42,20 @@ namespace administracion.BussinesLogic.Commands
             {
                 throw new RCVException("Error al registrar asegurado", ex);
             }
+        }
+
+        /// <summary>
+        /// verifica que si el nombre o apellido estan vacios
+        /// </summary>
+        /// <param name="name">campo nombre a revisar</param>
+        /// <returns>booleano true si es invalido, false si es valido</returns>
+        private bool IsNotValidName( string name)
+        {
+            if(name.ToLower() == "string" || name.Count() == 0)
+            {
+                return true;
+            }
+            return false;
         }
 
         public override Guid GetResult()

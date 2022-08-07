@@ -18,14 +18,6 @@ namespace administracion
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
-            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-            services.AddDbContext<AdminDBContext>( 
-                o => o.UseNpgsql(Configuration.GetConnectionString("DataBaseConnection"))
-                );
-                
-            services.AddTransient<IAdminDBContext, AdminDBContext>();
-
             services.AddTransient<IAseguradoDAO, AseguradoDAO>();
             services.AddTransient<IIncidenteDAO, IncidenteDAO>();
             services.AddTransient<IPolizaDAO, PolizaDAO>();
@@ -47,6 +39,7 @@ namespace administracion
                 });
             });
             
+            services.AddControllers();
 
         }
 

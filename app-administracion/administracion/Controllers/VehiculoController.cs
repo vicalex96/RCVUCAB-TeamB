@@ -87,7 +87,7 @@ namespace administracion.Controllers
         /// <param name="vehiculo">Vehiculo a crear</param>
         /// <returns>Vehiculo registrado</returns>
         [HttpPost("registrar")]
-        public ApplicationResponse<Guid> createVehiculo([FromBody] VehiculoRegisterDTO Vehiculo)
+        public ApplicationResponse<Guid> registrarVehiculo([FromBody] VehiculoRegisterDTO Vehiculo)
         {
             var response = new ApplicationResponse<Guid>();
             try

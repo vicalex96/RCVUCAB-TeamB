@@ -23,6 +23,7 @@ namespace administracion.BussinesLogic.Commands
             _result = dao.RegisterIncidente(
                     IncidenteMapper.MapToEntity(_incidenteDTO)
                 );
+                
         }
 
         public override Guid GetResult()

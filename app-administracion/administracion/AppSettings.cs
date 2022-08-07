@@ -4,8 +4,9 @@ namespace administracion.Configurations
 {
     public class AppSettings
     {
-        public readonly string _dbconnectionString = string.Empty;
-        public readonly string _mqconnectionString = string.Empty;
+        private readonly string _dbconnectionString = string.Empty;
+        private readonly string _dbconnectionTestString = string.Empty;
+        private readonly string _mqconnectionString = string.Empty;
 
         public AppSettings()
         {
@@ -15,11 +16,16 @@ namespace administracion.Configurations
 
             var root = configurationBuilder.Build();
             _dbconnectionString = root.GetSection("ConnectionStrings").GetSection("DataBaseConnection").Value;
+            _dbconnectionTestString = root.GetSection("ConnectionStrings").GetSection("DataBaseTestConnection").Value;
             _mqconnectionString = root.GetSection("ConnectionStrings").GetSection("MQConnection").Value;
         }
         public string DBConnectionString
         {
             get => _dbconnectionString;
+        }
+        public string DBConnectionTestString
+        {
+            get => _dbconnectionTestString;
         }
 
         public string MQConnectionString

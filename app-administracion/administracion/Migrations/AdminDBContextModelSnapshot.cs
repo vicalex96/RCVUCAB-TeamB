@@ -114,6 +114,20 @@ namespace administracion.Migrations
                             estadoIncidente = 0,
                             fechaRegistrado = new DateTime(2021, 12, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             polizaId = new Guid("0c5c3262-d5ef-46c7-0003-000000000003")
+                        },
+                        new
+                        {
+                            Id = new Guid("0c5c3262-d5ef-46c7-0004-000000000004"),
+                            estadoIncidente = 1,
+                            fechaRegistrado = new DateTime(2010, 12, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            polizaId = new Guid("0c5c3262-d5ef-46c7-0003-000000000001")
+                        },
+                        new
+                        {
+                            Id = new Guid("0c5c3262-d5ef-46c7-0004-000000000005"),
+                            estadoIncidente = 2,
+                            fechaRegistrado = new DateTime(2013, 12, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            polizaId = new Guid("0c5c3262-d5ef-46c7-0003-000000000001")
                         });
                 });
 
@@ -132,12 +146,9 @@ namespace administracion.Migrations
                     b.Property<Guid>("proveedorId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("tallerId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("tallerId");
+                    b.HasIndex("proveedorId");
 
                     b.ToTable("MarcasProveedor");
 
@@ -372,7 +383,7 @@ namespace administracion.Migrations
                             anioModelo = 2007,
                             aseguradoId = new Guid("0c5c3262-d5ef-46c7-0001-000000000001"),
                             color = 1,
-                            fechaCompra = new DateTime(2007, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            fechaCompra = new DateTime(2009, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             marca = 0,
                             placa = "AB320AM"
                         },
@@ -405,6 +416,15 @@ namespace administracion.Migrations
                             fechaCompra = new DateTime(2020, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             marca = 4,
                             placa = "BB329AC"
+                        },
+                        new
+                        {
+                            Id = new Guid("0c5c3262-d5ef-46c7-0002-000000000005"),
+                            anioModelo = 2015,
+                            color = 11,
+                            fechaCompra = new DateTime(2021, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            marca = 1,
+                            placa = "BB329A1"
                         });
                 });
 
@@ -423,7 +443,9 @@ namespace administracion.Migrations
                 {
                     b.HasOne("administracion.DataAccess.Entities.Proveedor", "proveedor")
                         .WithMany("marcas")
-                        .HasForeignKey("tallerId");
+                        .HasForeignKey("proveedorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("proveedor");
                 });

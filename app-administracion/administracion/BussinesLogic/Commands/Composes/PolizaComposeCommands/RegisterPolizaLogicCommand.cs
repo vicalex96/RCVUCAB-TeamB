@@ -39,8 +39,6 @@ namespace administracion.BussinesLogic.Commands
                     throw new RCVAsociationException("El vehiculo ya tiene una poliza registrada y activa", new Exception());
                 }
 
-
-
                 // El rango de fechas de la poliza debe ser correcto
                 if(_polizaDTO.fechaVencimiento < _polizaDTO.fechaRegistro)
                 {

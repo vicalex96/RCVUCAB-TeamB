@@ -15,14 +15,6 @@ namespace administracion.BussinesLogic.Commands
             _proveedorDTO = proveedorDTO;
         }
         
-        private bool IsNotValidName( string name)
-        {
-            if(name.ToLower() == "string" || name.Count() == 0)
-            {
-                return true;
-            }
-            return false;
-        }
         public override void Execute()
         {
             try
@@ -52,6 +44,15 @@ namespace administracion.BussinesLogic.Commands
             {
                 throw new RCVException("Error al registrar el proveedor", ex);
             }
+        }
+
+        private bool IsNotValidName( string name)
+        {
+            if(name.ToLower() == "string" || name.Count() == 0)
+            {
+                return true;
+            }
+            return false;
         }
         
         public override Guid GetResult()

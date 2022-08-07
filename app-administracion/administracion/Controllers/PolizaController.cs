@@ -90,7 +90,7 @@ namespace administracion.Controllers
         /// <param name="vehiculoId">Id del vehiculo</param>
         /// <returns>Poliza</returns>
         [HttpGet("consultar_por_vehiculo/{vehiculoID}")]
-        public ApplicationResponse<PolizaDTO> consultarPolizaDeVehiculo([Required][FromRoute] Guid vehiculoID)
+        public ApplicationResponse<PolizaDTO> ConsultarPolizaPorVehiculoId([Required][FromRoute] Guid vehiculoID)
         {
             var response = new ApplicationResponse<PolizaDTO>();
             try

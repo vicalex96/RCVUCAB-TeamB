@@ -28,7 +28,7 @@ namespace administracion.Controllers
         /// </summary>
         /// <returns>Lista de incidentes</returns>
         [HttpGet("consultar/{incidenteID}")]
-        public ApplicationResponse<IncidenteDTO> consultarIncidente([Required][FromRoute] Guid incidenteID)
+        public ApplicationResponse<IncidenteDTO> consultarIncidentePorId([Required][FromRoute] Guid incidenteID)
         {
             var response = new ApplicationResponse<IncidenteDTO>();
             try
