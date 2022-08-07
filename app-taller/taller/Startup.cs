@@ -5,10 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using taller.Persistence.Database;
+using taller.DataAcces.Database;
 using System.Threading;
 using taller.Conections.rabbit;
-using taller.Persistence.DAOs;
+using taller.DataAcces.DAOs;
 
 namespace taller
 {

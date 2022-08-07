@@ -1,9 +1,9 @@
 using System.Text.Json;
 using System.Net.Http;
 using System.Text;
-using taller.Persistence.Entities;
+using taller.DataAcces.Entities;
 using taller.BussinesLogic.DTOs;
-using taller.Persistence.DAOs;
+using taller.DataAcces.DAOs;
 using taller.Responses;
 using taller.Exceptions;
 
@@ -40,7 +40,7 @@ namespace taller.Conections.APIs
 
                         TallerSimpleDTO t = new TallerSimpleDTO()
                         {
-                            Id = taller.Data.Id,
+                            TallerId = taller.Data.TallerId,
                             nombreLocal = taller.Data.nombreLocal,
                         };
                         return taller;

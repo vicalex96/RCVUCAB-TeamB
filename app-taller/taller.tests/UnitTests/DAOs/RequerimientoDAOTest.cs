@@ -1,8 +1,8 @@
 //using Bogus;
 using Microsoft.Extensions.Logging;
 using Moq;
-using taller.Persistence.DAOs;
-using taller.Persistence.Database;
+using taller.DataAcces.DAOs;
+using taller.DataAcces.Database;
 using taller.BussinesLogic.DTOs;
 using taller.Test.DataSeed;
 using System.Linq;
@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 using Xunit;
 using System.Collections;
 using taller.Exceptions;
-using taller.Persistence.Entities;
+using taller.DataAcces.Entities;
+using  taller.DataAcces.Enums;
 
 namespace taller.Test.UnitTests.DAOs
 {

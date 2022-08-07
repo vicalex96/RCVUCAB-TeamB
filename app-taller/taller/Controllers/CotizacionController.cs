@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using taller.Conections.APIs;
 using taller.BussinesLogic.DTOs;
-using taller.Persistence.Entities;
-using taller.Persistence.DAOs;
+using taller.DataAcces.Entities;
+using taller.DataAcces.Enums;
+using taller.DataAcces.DAOs;
 using taller.Responses;
 using taller.Exceptions;
 using System.ComponentModel.DataAnnotations;

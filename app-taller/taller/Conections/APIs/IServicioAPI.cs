@@ -1,4 +1,4 @@
-using taller.Persistence.Entities;
+using taller.DataAcces.Entities;
 using taller.BussinesLogic.DTOs;
 
 namespace taller.Conections.APIs
