@@ -25,14 +25,19 @@ namespace levantamiento.DataAccess.DAOs
             return new RequerimientoDAO();
         }
 
-        public static SolcitudReparacionDAO createSolcitudReparacionDAO()
+        public static SolicitudReparacionDAO createSolicitudReparacionDAO()
         {
-            return new SolcitudReparacionDAO();
+            return new SolicitudReparacionDAO();
         }
 
-        public static VehiculoAPI createVehiculoDAO()
+        public static VehiculoAPI createVehiculoAPI()
         {
             return new VehiculoAPI();
+        }
+
+        public static TallerAPI createTallerAPI()
+        {
+            return new TallerAPI();
         }
 
     }

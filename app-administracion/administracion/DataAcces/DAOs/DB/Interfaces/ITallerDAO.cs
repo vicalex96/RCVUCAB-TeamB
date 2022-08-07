@@ -17,6 +17,8 @@ namespace  administracion.DataAccess.DAOs
         public Guid RegisterTaller (Taller taller);
         public Guid AddMarca(MarcaTaller Marca);
         public int DeleteMarcasFromTaller(Guid tallerId);
+
+        public List<TallerDTO> GetTalleresByMarca(MarcaName marca);
         
         public bool IsMarcaExistsOnTaller(Guid tallerId, MarcaName marca);
     }

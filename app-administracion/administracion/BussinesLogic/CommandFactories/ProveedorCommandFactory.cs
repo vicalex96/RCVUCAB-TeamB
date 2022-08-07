@@ -49,5 +49,10 @@ namespace administracion.BussinesLogic.Commands
         {
             return new RegisterProveedorLogicCommand( dto );
         }
+
+        public static GetProveedoresByMarcaCommand  createGetProveedoresByMarcaCommand(string marca)
+        {
+            return new GetProveedoresByMarcaCommand( marca );
+        }
     }
 }

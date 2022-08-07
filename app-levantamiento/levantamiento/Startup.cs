@@ -3,7 +3,6 @@ using Microsoft.OpenApi.Models;
 using levantamiento.DataAccess.DAOs;
 using levantamiento.DataAccess.Database;
 using levantamiento.DataAccess.APIs;
-using levantamiento.Conections.rabbit;
 using MassTransit;
 using levantamiento.DataAccess.DAOs.MQ;
 
@@ -22,18 +21,13 @@ namespace levantamiento
         {
 
             services.AddControllers();
-            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-            services.AddDbContext<LevantamientoDBContext>( 
-                o => o.UseNpgsql(Configuration.GetConnectionString("cnDatabase"))
-                );
+            
                 
             services.AddTransient<ILevantamientoDBContext, LevantamientoDBContext>();
-            services.AddTransient<IConsumerRabbit, ConsumerRabbit>();
-            services.AddTransient<IProductorRabbit, ProductorRabbit>();
 
 
             services.AddTransient<IIncidenteDAO, IncidenteDAO>();
-            services.AddTransient<ISolicitudReparacionDAO, SolcitudReparacionDAO>();
+            services.AddTransient<ISolicitudReparacionDAO, SolicitudReparacionDAO>();
             services.AddTransient<IRequerimientoDAO, RequerimientoDAO>();
             services.AddTransient<IParteDAO, ParteDAO>();
             

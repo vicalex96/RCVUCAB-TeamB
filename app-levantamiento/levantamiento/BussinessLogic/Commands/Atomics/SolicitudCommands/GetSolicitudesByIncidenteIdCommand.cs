@@ -16,7 +16,7 @@ namespace levantamiento.BussinesLogic.Commands
         
         public override void Execute()
         {
-            SolcitudReparacionDAO dao = DAOFactory.createSolcitudReparacionDAO();
+            SolicitudReparacionDAO dao = DAOFactory.createSolicitudReparacionDAO();
             _result = dao.GetSolicitudByIncidenteId(_incidenteId);
 
         }

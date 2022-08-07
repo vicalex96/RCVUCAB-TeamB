@@ -116,6 +116,37 @@ namespace administracion.DataAccess.DAOs
         }
 
         /// <summary>
+        /// Obtiene los Talleres que coincidan con la marca suministrada
+        /// </summary>
+        /// <param name="marca">Marca a buscar</param>
+        /// <returns>Lista de Talleres que coinciden con la marca</returns>
+        public List<TallerDTO> GetTalleresByMarca(MarcaName marca)
+        {
+            try
+            {
+                var data = _context.MarcasTaller
+                .Join(_context.Talleres, m => m.tallerId, t => t.Id, (m, t) => new { m, t })
+                .Where(query => query.m.marcaName == marca || query.m.manejaTodas == true)
+                .Select( query => new TallerDTO
+                {
+                    Id = query.t.Id, 
+                    nombreLocal = query.t.nombreLocal,
+                    marcas = query.t.marcas!.Select(marca => new MarcaDTO
+                    {
+                        nombreMarca = marca.manejaTodas ? "TodasLasMarcas" : marca.marcaName.ToString()!
+                    }
+                    ).ToList(),
+                })
+                .ToList();
+                return data;
+            }
+            catch (Exception ex)
+            {
+                throw new RCVException("Error al intentar obtener las marcas del taller", ex);
+            }
+        }
+
+        /// <summary>
         /// Agrega una marca a un taller existente o indica todas las marcas
         /// al indicar todas se borran los registros y se deja uno con el todasLasMarcas= true
         /// </summary>

@@ -18,7 +18,7 @@ namespace levantamiento.BussinesLogic.Commands
 
         public override void Execute()
         {
-            VehiculoAPI dao = DAOFactory.createVehiculoDAO();
+            VehiculoAPI dao = DAOFactory.createVehiculoAPI();
             Task.Run(async () =>
             {
                 _result = await dao.RegisterVehiculo(_vehiculoDTO);

@@ -81,6 +81,35 @@ namespace administracion.Controllers
         }
 
         /// <summary>
+        /// Obtiene una lista de Talleres segun la marca solicitada
+        /// </summary>
+        /// <param name="marca">Marca a buscar</param>
+        /// <returns>Lista de talleres</returns>
+        [HttpGet("buscar_por/marca/{marca}")]
+        public ApplicationResponse<List<TallerDTO>> ConsultarTalleresPorMarca([FromRoute] string marca)
+        {
+            var response = new ApplicationResponse<List<TallerDTO>>();
+            try
+            {
+                GetTalleresByMarcaCommand command = TallerCommandFactory.createGetTalleresByMarcaCommand(marca);
+
+                command.Execute();
+                response.Data = command.GetResult();
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                response.Success = true;
+                response.Message = " Talleres obtenidos";
+            }
+            catch (RCVException ex)
+            {
+                response.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                response.Success = false;
+                response.Message = ex.Mensaje.ToString();
+                response.Exception = ex.GetType().ToString();
+            }
+            return response;
+        }
+        
+        /// <summary>
         /// Registra un taller en el sistema
         /// </summary>
         /// <param name="tallerRegisterDTO">Taller a registrar</param>
@@ -166,5 +195,6 @@ namespace administracion.Controllers
             }
             return response;
         }
+
     }
 }

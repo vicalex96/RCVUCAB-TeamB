@@ -1,3 +1,4 @@
+using levantamiento.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -8,9 +9,19 @@ namespace levantamiento.DataAccess.Database
     {
         public LevantamientoDBContext CreateDbContext(string[]? args)
         {
+            AppSettings config = new AppSettings();
+            
             var builder = new DbContextOptionsBuilder<LevantamientoDBContext>();
-            var connectionString = "Server=localhost;Database=Levantamiento;Port=5432;User Id=postgres;Password=123456";
-            builder.UseNpgsql(connectionString);
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        
+            if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+            {
+                builder.UseNpgsql(config.DBConnectionString);
+            }
+            else
+            {
+                builder.UseNpgsql(config.DBConnectionTestString);
+            }
             return new LevantamientoDBContext(builder.Options);
         }
     }

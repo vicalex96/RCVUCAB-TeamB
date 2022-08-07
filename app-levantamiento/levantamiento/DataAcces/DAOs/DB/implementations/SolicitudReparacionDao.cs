@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace levantamiento.DataAccess.DAOs
 {
-    public class SolcitudReparacionDAO : ISolicitudReparacionDAO
+    public class SolicitudReparacionDAO : ISolicitudReparacionDAO
     {
         private static DesignTimeDbContextFactory desing = new DesignTimeDbContextFactory();
 
@@ -26,12 +26,13 @@ namespace levantamiento.DataAccess.DAOs
                 {
                     Id = s.Id,
                     incidenteId = s.incidenteId,
+                    vehiculoId = s.vehiculoId,
+                    tallerId = s.tallerId,
                     incidente = new IncidenteDTO
                     {
                         Id = s.incidenteId,
                         polizaId = s.incidente!.polizaId,
                     },
-                    vehiculoId = s.vehiculoId,
                 }).ToList();
             }
             catch (Exception ex)
@@ -151,6 +152,29 @@ namespace levantamiento.DataAccess.DAOs
             catch (Exception ex)
             {
                 throw new RCVException("Error al registrar la solicitud", ex);
+            }
+        }
+
+        ///<summary>
+        /// agregar taller a la solicitud
+        ///</summary>
+        ///<param name="solicitudId">id de la solicitud</param>
+        ///<param name="tallerId">id del taller</param>
+        ///<returns>id de la taller</returns>
+        public Guid AddTallerToSolicitud(Guid solicitudId, Guid tallerId)
+        {
+            try
+            {
+                var solicitud = _context.SolicitudesReparacion
+                    .Where(s => s.Id == solicitudId)
+                    .FirstOrDefault();
+                solicitud!.tallerId = tallerId;
+                _context.DbContext.SaveChanges();
+                return solicitud.tallerId;
+            }
+            catch (Exception ex)
+            {
+                throw new RCVException("Error al agregar el taller", ex);
             }
         }
 

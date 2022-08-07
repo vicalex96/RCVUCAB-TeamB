@@ -50,6 +50,16 @@ namespace levantamiento.Migrations
                         {
                             Id = new Guid("0c5c3262-d5ef-46c7-0004-000000000003"),
                             polizaId = new Guid("0c5c3262-d5ef-46c7-0003-000000000003")
+                        },
+                        new
+                        {
+                            Id = new Guid("0c5c3262-d5ef-46c7-0004-000000000004"),
+                            polizaId = new Guid("0c5c3262-d5ef-46c7-0003-000000000001")
+                        },
+                        new
+                        {
+                            Id = new Guid("0c5c3262-d5ef-46c7-0004-000000000005"),
+                            polizaId = new Guid("0c5c3262-d5ef-46c7-0003-000000000001")
                         });
                 });
 

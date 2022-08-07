@@ -31,6 +31,14 @@ namespace levantamiento.DataAccess.Database
                 Id=Guid.Parse("0c5c3262-d5ef-46c7-0004-000000000003"),
                 polizaId=Guid.Parse("0c5c3262-d5ef-46c7-0003-000000000003"),
             });
+            this.incidenteInit.Add(new Incidente(){
+                Id=Guid.Parse("0c5c3262-d5ef-46c7-0004-000000000004"),
+                polizaId=Guid.Parse("0c5c3262-d5ef-46c7-0003-000000000001"),
+            });
+            this.incidenteInit.Add(new Incidente(){
+                Id=Guid.Parse("0c5c3262-d5ef-46c7-0004-000000000005"),
+                polizaId=Guid.Parse("0c5c3262-d5ef-46c7-0003-000000000001"),
+            });
         }
     
         public void GetSolicitudReparacionData()

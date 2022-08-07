@@ -3,27 +3,29 @@ using levantamiento.DataAccess.DAOs;
 
 namespace levantamiento.BussinesLogic.Commands
 {
-    public class GetSolicitudByIdCommand: Command<SolicitudesReparacionDTO>
+    public class AddTallerToSolicitudCommand: Command<Guid>
     {
-        private SolicitudesReparacionDTO? _result;
+        private Guid _result;
         private readonly Guid _solicitudId;
+        private readonly Guid _tallerId;
 
-        public GetSolicitudByIdCommand(Guid solicitudId)
+        public AddTallerToSolicitudCommand(Guid solicitudId, Guid tallerId)
         {
             _solicitudId = solicitudId;
+            _tallerId = tallerId;
         }
 
         
         public override void Execute()
         {
             SolicitudReparacionDAO dao = DAOFactory.createSolicitudReparacionDAO();
-            _result = dao.GetSolicitudById(_solicitudId);
+            _result = dao.AddTallerToSolicitud(_solicitudId, _tallerId);
 
         }
 
-        public override SolicitudesReparacionDTO GetResult()
+        public override Guid GetResult()
         {
-            return _result!;
+            return _result;
         }
     }
 }

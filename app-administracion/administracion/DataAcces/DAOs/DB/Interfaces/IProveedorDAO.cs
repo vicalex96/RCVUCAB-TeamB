@@ -16,6 +16,7 @@ namespace  administracion.DataAccess.DAOs
         public Guid RegisterProveedor (Proveedor proveedor);
         public Guid AddMarca(MarcaProveedor Marca);
         public int DeleteMarcasFromProveedor(Guid proveedorId);
+        public List<ProveedorDTO> GetProveedoresByMarca(MarcaName marca);
         public bool IsMarcaExistsOnProveedor(Guid proveedorId, MarcaName marca);
     }
 }

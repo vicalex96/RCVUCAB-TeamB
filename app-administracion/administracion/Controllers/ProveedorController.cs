@@ -79,6 +79,35 @@ namespace administracion.Controllers
         }
 
         /// <summary>
+        /// Obtiene una lista de Proveedores segun la marca solicitada
+        /// </summary>
+        /// <param name="marca">Marca a buscar</param>
+        /// <returns>Lista de Proveedores</returns>
+        [HttpGet("buscar_por/marca/{marca}")]
+        public ApplicationResponse<List<ProveedorDTO>> ConsultarTalleresPorMarca([FromRoute] string marca)
+        {
+            var response = new ApplicationResponse<List<ProveedorDTO>>();
+            try
+            {
+                GetProveedoresByMarcaCommand command = ProveedorCommandFactory.createGetProveedoresByMarcaCommand(marca);
+
+                command.Execute();
+                response.Data = command.GetResult();
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                response.Success = true;
+                response.Message = " Proveedores obtenidos";
+            }
+            catch (RCVException ex)
+            {
+                response.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                response.Success = false;
+                response.Message = ex.Mensaje.ToString();
+                response.Exception = ex.GetType().ToString();
+            }
+            return response;
+        }
+
+        /// <summary>
         /// Registra un proveedor en el sistema
         /// </summary>
         /// <param name="proveedorRegisterDTO">Proveedor a registrar</param>

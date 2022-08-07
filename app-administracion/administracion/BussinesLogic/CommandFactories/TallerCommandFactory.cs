@@ -51,5 +51,11 @@ namespace administracion.BussinesLogic.Commands
         {
             return new RegisterTallerLogicCommand( dto );
         }
+
+        public static GetTalleresByMarcaCommand  createGetTalleresByMarcaCommand(string marca)
+        {
+            return new GetTalleresByMarcaCommand( marca );
+        }
+        
     }
 }

@@ -89,7 +89,9 @@ namespace levantamiento.Migrations
                 {
                     { new Guid("0c5c3262-d5ef-46c7-0004-000000000001"), new Guid("0c5c3262-d5ef-46c7-0003-000000000001") },
                     { new Guid("0c5c3262-d5ef-46c7-0004-000000000002"), new Guid("0c5c3262-d5ef-46c7-0003-000000000002") },
-                    { new Guid("0c5c3262-d5ef-46c7-0004-000000000003"), new Guid("0c5c3262-d5ef-46c7-0003-000000000003") }
+                    { new Guid("0c5c3262-d5ef-46c7-0004-000000000003"), new Guid("0c5c3262-d5ef-46c7-0003-000000000003") },
+                    { new Guid("0c5c3262-d5ef-46c7-0004-000000000004"), new Guid("0c5c3262-d5ef-46c7-0003-000000000001") },
+                    { new Guid("0c5c3262-d5ef-46c7-0004-000000000005"), new Guid("0c5c3262-d5ef-46c7-0003-000000000001") }
                 });
 
             migrationBuilder.InsertData(

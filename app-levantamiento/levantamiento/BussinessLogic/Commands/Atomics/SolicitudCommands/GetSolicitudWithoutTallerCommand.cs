@@ -8,7 +8,7 @@ namespace levantamiento.BussinesLogic.Commands
         private List<SolicitudesReparacionDTO>? _result;
         public override void Execute()
         {
-            SolcitudReparacionDAO dao = DAOFactory.createSolcitudReparacionDAO();
+            SolicitudReparacionDAO dao = DAOFactory.createSolicitudReparacionDAO();
             _result = dao.GetSolicitudWithoutTaller();
 
         }

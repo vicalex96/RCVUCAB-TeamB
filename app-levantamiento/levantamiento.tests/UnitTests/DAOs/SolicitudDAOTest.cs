@@ -15,7 +15,7 @@ namespace administracion.Test.UnitTests.DAOs
 {
     public class SolicitudDAOShould
     {
-        private readonly SolcitudReparacionDAO _dao;
+        private readonly SolicitudReparacionDAO _dao;
         private readonly Mock<ILevantamientoDBContext> _contextMock;
         private readonly Mock<ILogger<ParteDAO>> _mockLogger;
         public SolicitudDAOShould()
@@ -23,7 +23,7 @@ namespace administracion.Test.UnitTests.DAOs
             _contextMock = new Mock<ILevantamientoDBContext>();
             _mockLogger = new Mock<ILogger<ParteDAO>>();
 
-            _dao = new SolcitudReparacionDAO(_contextMock.Object);
+            _dao = new SolicitudReparacionDAO(_contextMock.Object);
             _contextMock.SetupDbContextDataSolcitudes();
         }
         [Fact(DisplayName = "DAO: Consultar toda la lista de solicitudes en el sistema, la prueba decuelve un True")]

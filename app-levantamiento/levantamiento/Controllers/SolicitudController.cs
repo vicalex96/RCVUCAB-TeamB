@@ -179,7 +179,7 @@ namespace levantamiento.Controllers
                 response.Data = command.GetResult();
                 response.StatusCode = System.Net.HttpStatusCode.OK;
                 response.Success = true;
-                response.Message = "Atencion esta funcion todavia no esta disponible";;
+                response.Message = "Taller asociado correctamente";
             }
             catch (RCVException ex)
             {

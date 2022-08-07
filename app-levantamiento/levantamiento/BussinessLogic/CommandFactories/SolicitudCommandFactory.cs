@@ -38,5 +38,15 @@ namespace levantamiento.BussinesLogic.Commands
         {
             return new RegisterSolicitudLogicCommand(solicitud);
         }
+
+        public static GetTallerForSolicitudCommand createGetTallerForSolicitudCommand(string marca)
+        {
+            return new GetTallerForSolicitudCommand(marca);
+        }
+
+        public static AddTallerToSolicitudCommand createAddTallerToSolicitudCommand(Guid solicitudId, Guid tallerId)
+        {
+            return new AddTallerToSolicitudCommand(solicitudId, tallerId);
+        }
     }
 }
