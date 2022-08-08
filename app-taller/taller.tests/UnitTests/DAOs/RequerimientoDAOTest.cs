@@ -1,4 +1,4 @@
-//using Bogus;
+/*//using Bogus;
 using Microsoft.Extensions.Logging;
 using Moq;
 using taller.DataAcces.DAOs;
@@ -36,7 +36,7 @@ namespace taller.Test.UnitTests.DAOs
         [InlineData("38f401c9-12aa-46bf-82a2-05ff65bb2c86")]
         public Task GetRequerimientosReturnTrue(Guid solicitudId)
         {
-            var data = _dao.GetRequerimientos(solicitudId);
+            var data = _dao.GetRequerimientoByGuid(solicitudId);
             var result = data.Any();
             Assert.True(result);
             return Task.CompletedTask;
@@ -88,12 +88,11 @@ namespace taller.Test.UnitTests.DAOs
             var requerimiento = new RequerimientoDTO
             {
                 Id = Guid.NewGuid(),
-                solicitudRepId = Guid.Parse("38f401c9-12aa-46bf-82a2-05ff65bb2c86"),
+                solicitudId = Guid.Parse("38f401c9-12aa-46bf-82a2-05ff65bb2c86"),
                 parteId = Guid.Parse("38f401c9-12aa-46bf-82a2-05ff65bb2c90"),
-                descripcion = "hola",
                 tipoRequerimiento = TipoRequerimiento.Reparacion.ToString(),
                 cantidad = 1000,
-                estado = EstadoRequerimiento.PorEntregar.ToString(),
+                //estado = EstadoRequerimiento.PorEntregar.ToString(),
             };
             var result = _dao.RegisterRequerimiento(requerimiento);
             Assert.True(result);
@@ -106,7 +105,7 @@ namespace taller.Test.UnitTests.DAOs
         {
             var requerimiento = new RequerimientoDTO
             {
-                solicitudRepId = Guid.Parse("38f401c9-12aa-46bf-82a2-05ff65bb2c86"),
+                solicitudId = Guid.Parse("38f401c9-12aa-46bf-82a2-05ff65bb2c86"),
                 tipoRequerimiento = EstadoCotRep.Facturado.ToString(),
                 cantidad = 1000
             };
@@ -121,7 +120,7 @@ namespace taller.Test.UnitTests.DAOs
         {
             var requerimiento = new RequerimientoDTO
             {
-                solicitudRepId = Guid.Parse("38f401c9-12aa-46bf-82a2-05ff65bb2c86"),
+                solicitudId = Guid.Parse("38f401c9-12aa-46bf-82a2-05ff65bb2c86"),
                 tipoRequerimiento = EstadoCotRep.Facturado.ToString(),
                 cantidad = -100
             };
@@ -131,4 +130,4 @@ namespace taller.Test.UnitTests.DAOs
             return Task.CompletedTask;
         }
     }
-}
+}*/
