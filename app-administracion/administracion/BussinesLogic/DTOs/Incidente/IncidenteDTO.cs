@@ -6,12 +6,15 @@ using System.Text.Json.Serialization;
 
 namespace administracion.BussinesLogic.DTOs
 {
+    /// <summary>
+    /// DTO para mostrar informacion de incidente
+    /// </summary>
     public class IncidenteDTO
     {
-        public Guid incidenteId {get; set;} 
+        public Guid Id {get; set;} 
         public Guid polizaId {get; set;}
-        public PolizaDTO poliza {get; set;}
-        public string estadoIncidente {get; set;} 
+        public PolizaDTO? poliza {get; set;}
+        public string estadoIncidente {get; set;} = "";
     }
 
 }

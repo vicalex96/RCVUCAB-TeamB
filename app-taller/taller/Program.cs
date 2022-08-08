@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using taller.Conections.rabbit;
-using taller.Conections.APIs;
+//using taller.Conections.APIs;
 
 namespace taller
 {

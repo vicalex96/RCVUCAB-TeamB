@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using taller.Persistence.Database;
+using taller.DataAcces.Database;
 
 #nullable disable
 
@@ -39,9 +39,6 @@ namespace taller.Migrations
 
                     b.Property<DateTime>("fechaInicioReparacion")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("porcentaje")
-                        .HasColumnType("integer");
 
                     b.Property<Guid?>("requerimientoId")
                         .HasColumnType("uuid");
@@ -262,9 +259,49 @@ namespace taller.Migrations
                         new
                         {
                             solicitudRepId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b"),
-                            fechaSolicitud = new DateTime(2022, 7, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            fechaSolicitud = new DateTime(2022, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             incidenteId = new Guid("10000000-d5ef-46c7-bc0e-97530823c05b"),
                             tallerId = new Guid("10003262-d5ef-46c7-bc0e-97530823c05b"),
+                            vehiculoId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b")
+                        },
+                        new
+                        {
+                            solicitudRepId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c01b"),
+                            fechaSolicitud = new DateTime(2022, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            incidenteId = new Guid("10000000-d5ef-46c7-bc0e-97530823c04b"),
+                            tallerId = new Guid("10003262-d5ef-46c7-bc0e-97530823c05b"),
+                            vehiculoId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b")
+                        },
+                        new
+                        {
+                            solicitudRepId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c02b"),
+                            fechaSolicitud = new DateTime(2022, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            incidenteId = new Guid("10000000-d5ef-46c7-bc0e-97530823c03b"),
+                            tallerId = new Guid("10003262-d5ef-46c7-bc0e-97530823c05b"),
+                            vehiculoId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b")
+                        },
+                        new
+                        {
+                            solicitudRepId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c06b"),
+                            fechaSolicitud = new DateTime(2022, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            incidenteId = new Guid("10000000-d5ef-46c7-bc0e-97530823c06b"),
+                            tallerId = new Guid("30003262-d5ef-46c7-bc0e-97530823c05b"),
+                            vehiculoId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b")
+                        },
+                        new
+                        {
+                            solicitudRepId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c11b"),
+                            fechaSolicitud = new DateTime(2022, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            incidenteId = new Guid("10000000-d5ef-46c7-bc0e-97530823c11b"),
+                            tallerId = new Guid("30003262-d5ef-46c7-bc0e-97530823c05b"),
+                            vehiculoId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b")
+                        },
+                        new
+                        {
+                            solicitudRepId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c12b"),
+                            fechaSolicitud = new DateTime(2022, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            incidenteId = new Guid("10000000-d5ef-46c7-bc0e-97530823c12b"),
+                            tallerId = new Guid("20003262-d5ef-46c7-bc0e-97530823c05b"),
                             vehiculoId = new Guid("0c5c3262-d5ef-46c7-bc0e-97530821c04b")
                         });
                 });
