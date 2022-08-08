@@ -1,7 +1,8 @@
 using MockQueryable.Moq;
 using Moq;
-using taller.Persistence.Database;
-using taller.Persistence.Entities;
+using taller.DataAcces.Database;
+using taller.DataAcces.Entities;
+using taller.DataAcces.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +17,13 @@ namespace taller.Test.DataSeed
             {
                 new Taller
                 {
-                    tallerId = new Guid("100001c9-12aa-46bf-82a3-05ff65bb2c86"),
+                    Id = new Guid("100001c9-12aa-46bf-82a3-05ff65bb2c86"),
                     nombreLocal = "Taller 1",
                     marcas = new List<MarcaTaller>{
 
                         new MarcaTaller
                         {
-                            marcaId = new Guid("100001c9-1212-46bf-82a3-05ff65bb2c85"),
+                            Id = new Guid("100001c9-1212-46bf-82a3-05ff65bb2c85"),
                             tallerId = new Guid("100001c9-12aa-46bf-82a3-05ff65bb2c86"),
                             manejaTodas = true,
                         },
@@ -30,27 +31,81 @@ namespace taller.Test.DataSeed
                 },
                 new Taller
                 {
-                    tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c87"),
+                    Id = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c87"),
                     nombreLocal = "Taller 2",
                     marcas = new List<MarcaTaller>{
 
                         new MarcaTaller
                         {
-                            marcaId = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c88"),
+                            Id = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c88"),
                             tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c87"),
-                            marca = Marca.Suzuki
+                            marcaName = MarcaName.Suzuki
+                    
                         },
                         new MarcaTaller
                         {
-                            marcaId = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c89"),
+                            Id = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c89"),
                             tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c87"),
-                            marca = Marca.Volkswagen
+                            marcaName = MarcaName.Volkswagen
                         },
                         new MarcaTaller
                         {
-                            marcaId = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c90"),
+                            Id = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c90"),
                             tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c87"),
-                            marca = Marca.General_Motors
+                            marcaName = MarcaName.General_Motors
+                        },
+                    }
+                },
+
+                new Taller
+                {
+                    Id = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c89"),
+                    nombreLocal = "Taller 3",
+                    marcas = new List<MarcaTaller>{
+
+                        new MarcaTaller
+                        {
+                            Id = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c88"),
+                            tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c89"),
+                            marcaName = MarcaName.Suzuki
+                        },
+                        new MarcaTaller
+                        {
+                            Id = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c89"),
+                            tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c89"),
+                            marcaName = MarcaName.Volkswagen
+                        },
+                        new MarcaTaller
+                        {
+                            Id = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c90"),
+                            tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c89"),
+                            marcaName = MarcaName.General_Motors
+                        },
+                    }
+                },
+                              new Taller
+                {
+                    Id = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c90"),
+                    nombreLocal = "Taller 4",
+                    marcas = new List<MarcaTaller>{
+
+                        new MarcaTaller
+                        {
+                            Id = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c88"),
+                            tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c90"),
+                            marcaName = MarcaName.Suzuki
+                        },
+                        new MarcaTaller
+                        {
+                            Id = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c89"),
+                            tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c90"),
+                            marcaName = MarcaName.Volkswagen
+                        },
+                        new MarcaTaller
+                        {
+                            Id = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c90"),
+                            tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c90"),
+                            marcaName = MarcaName.General_Motors
                         },
                     }
                 },
@@ -61,27 +116,63 @@ namespace taller.Test.DataSeed
 
                 new MarcaTaller
                 {
-                    marcaId = new Guid("100001c9-1212-46bf-82a3-05ff65bb2c85"),
+                    Id = new Guid("100001c9-1212-46bf-82a3-05ff65bb2c85"),
                     tallerId = new Guid("100001c9-12aa-46bf-82a3-05ff65bb2c86"),
                     manejaTodas = true,
                 },
                 new MarcaTaller
                 {
-                    marcaId = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c88"),
+                    Id = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c88"),
                     tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c87"),
-                    marca = Marca.Suzuki
+                    marcaName= MarcaName.Suzuki
                 },
                 new MarcaTaller
                 {
-                    marcaId = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c89"),
+                    Id = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c89"),
                     tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c87"),
-                    marca = Marca.Volkswagen
+                    marcaName = MarcaName.Volkswagen
                 },
                 new MarcaTaller
                 {
-                    marcaId = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c90"),
+                    Id = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c90"),
                     tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c87"),
-                    marca = Marca.General_Motors
+                    marcaName= MarcaName.General_Motors
+                },
+                              new MarcaTaller
+                {
+                    Id = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c88"),
+                    tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c89"),
+                    marcaName = MarcaName.Suzuki
+                },
+                new MarcaTaller
+                {
+                    Id = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c89"),
+                    tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c89"),
+                    marcaName = MarcaName.Volkswagen
+                },
+                new MarcaTaller
+                {
+                    Id = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c90"),
+                    tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c89"),
+                    marcaName = MarcaName.General_Motors
+                },
+                              new MarcaTaller
+                {
+                    Id = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c88"),
+                    tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c90"),
+                    marcaName = MarcaName.Suzuki
+                },
+                new MarcaTaller
+                {
+                    Id = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c89"),
+                    tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c90"),
+                    marcaName = MarcaName.Volkswagen
+                },
+                new MarcaTaller
+                {
+                    Id = new Guid("200001c9-1212-46bf-82a3-05ff65bb2c90"),
+                    tallerId = new Guid("200001c9-12aa-46bf-82a3-05ff65bb2c90"),
+                    marcaName = MarcaName.General_Motors
                 },
             };
 
