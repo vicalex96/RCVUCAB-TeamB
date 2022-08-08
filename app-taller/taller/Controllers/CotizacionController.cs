@@ -7,6 +7,7 @@ using taller.DataAcces.DAOs;
 using taller.Responses;
 using taller.Exceptions;
 using System.ComponentModel.DataAnnotations;
+using taller.BussinesLogic.Commands;
 
 
 namespace taller.Controllers
@@ -30,7 +31,7 @@ namespace taller.Controllers
             var response = new ApplicationResponse<List<CotizacionRepDTO>>();
             try
             {
-                response.Data = _CotizacionDao.GetCotizaciones();
+                response.Data = _CotizacionDao.GetAll();
                 response.Success = true;
                 response.Message = "Cotizaciones encontradas";
             }
@@ -63,21 +64,25 @@ namespace taller.Controllers
         }
 
         [HttpPost("registrar")]
-        public ApplicationResponse<bool> RegistrarCotizacion([Required][FromBody] CotizacionRepSimpleDTO cotizacion)
+        public ApplicationResponse<Guid> RegistrarCotizacion([Required][FromBody] CotizacionRepRegisterDTO cotizacionid)
         {
-            var response = new ApplicationResponse<bool>();
+           var response = new ApplicationResponse<Guid>();
             try
             {
-                response.Data = _CotizacionDao.RegisterCotizacionReparacion(cotizacion);
+                RegisterCotizacionRepCommand command = CotizacionRepCommandFactory.createRegisterCotizacionRepCommand(cotizacionid);
+                command.Execute();
+
+                response.Data = command.GetResult();
+                response.StatusCode = System.Net.HttpStatusCode.OK;
                 response.Success = true;
                 response.Message = "Cotizacion registrada";
             }
             catch (RCVException ex)
             {
+                response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                response.Message = ex.Mensaje;
                 response.Success = false;
-                response.Message = ex.Message;
-                response.Exception = ex.Excepcion.ToString();
-            };
+            }
             return response;
         }
 

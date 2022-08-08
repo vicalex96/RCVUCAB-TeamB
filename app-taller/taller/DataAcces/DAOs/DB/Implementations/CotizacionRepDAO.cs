@@ -20,11 +20,11 @@ namespace taller.DataAcces.DAOs
             _context = context;
         }*/
 
-        public List<CotizacionRepDTO> GetCotizaciones()
+        public List<CotizacionRepDTO> GetAll()
         {
             try
             {
-                var data =  _context.CotizacionReparaciones
+                return  _context.CotizacionReparaciones
                     .Select(c => new CotizacionRepDTO
                     {
                         CotizacionRepId = c.cotizacionRepId,
@@ -34,15 +34,54 @@ namespace taller.DataAcces.DAOs
                         costoManoObra = c.costoManoObra,
                         fechaInicioReparacion = c.fechaInicioReparacion,
                         fechaFinReparacion = c.fechaFinReparacion,
+                        
+
                     }
                     )
                     .ToList();
-                return data;
+                
             }
             catch (Exception ex)
             {
                 throw new RCVException("Error al obtener las cotizaciones", ex);
             }
+        }
+
+                /// <summary>
+        /// Obtiene un Taller según su Id
+        /// </summary>
+        /// <param name="id">Id del Taller</param>
+        /// <returns>DTO con la informacion del Taller</returns>
+        public CotizacionRepDTO GetCotizacionRepByGuid(Guid cotizacionId)
+        {
+            try
+            {
+                var data = _context.CotizacionReparaciones
+                .Where(c => c.cotizacionRepId == cotizacionId)
+                
+                .Select(c => new CotizacionRepDTO
+                {
+                    CotizacionRepId = c.cotizacionRepId,
+                        tallerId = c.tallerId,
+                        solicitudRepId = c.solicitudRepId,
+                        estado = c.estado.ToString(),
+                        costoManoObra = c.costoManoObra,
+                        fechaInicioReparacion = c.fechaInicioReparacion,
+                        fechaFinReparacion = c.fechaFinReparacion,
+                 /*   .Select(Parte => new ParteDTO
+                    {
+                        nombre = marcas.manejaTodas ? "TodasLasMarcas" : marcas.marcaName.ToString()
+                    }
+                    ).ToList(),*/
+                });
+                return data.SingleOrDefault()!;
+
+            }
+            catch (Exception ex)
+            {
+                throw new RCVException("Ha ocurrido un error al intentar obtener el asegurado:", ex.Message, ex);
+            }
+
         }
         public CotizacionRepDTO GetCotizacionRep(Guid SolicutdId)
         {
@@ -70,7 +109,7 @@ namespace taller.DataAcces.DAOs
                 throw new RCVException("Error al obtener la cotizacion de reparacion", ex);
             }
         }
-        public bool RegisterCotizacionReparacion(CotizacionRepSimpleDTO cotizacionRep)
+        public  Guid RegisterCotizacionReparacion(CotizacionReparacion cotizacionRep)
         {
             try
             {
@@ -79,14 +118,14 @@ namespace taller.DataAcces.DAOs
                 if(cotizacionRep.costoManoObra < 0)
                     throw new ArgumentOutOfRangeException();
                 
-                if( cotizacionRep.Id == null ||
+                if( cotizacionRep.cotizacionRepId == null ||
                     cotizacionRep.solicitudRepId == null ||
                     cotizacionRep.tallerId == null)
                         throw new ArgumentNullException();
                         
                 CotizacionReparacion cotizacion = new CotizacionReparacion
                 {
-                    cotizacionRepId = cotizacionRep.Id,
+                    cotizacionRepId = cotizacionRep.cotizacionRepId,
                     solicitudRepId = cotizacionRep.solicitudRepId,
                     tallerId = cotizacionRep.tallerId,
                     estado = EstadoCotRep.Pendiente,
@@ -95,7 +134,7 @@ namespace taller.DataAcces.DAOs
 
                 var data = _context.CotizacionReparaciones.Add(cotizacion);
                 _context.DbContext.SaveChanges();
-                return true;
+                return cotizacion.cotizacionRepId;
             }
             catch(ArgumentNullException ex)
             {
