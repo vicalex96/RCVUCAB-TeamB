@@ -16,7 +16,7 @@ namespace taller.DataAcces.Entities
         public DateTime fechaFinReparacion { get; set;}
         
         public Guid solicitudRepId {get; set;}
-        public SolicitudReparacion? solicitud {get; set;}
+       // public virtual SolicitudReparacion? solicitud {get; set;}
 
         public static bool IsEstado (string estado)
         {

@@ -1,15 +1,22 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace taller.DataAcces.Entities
 {
     public class SolicitudReparacion
     {
-        public Guid solicitudRepId {get; set;}
-        public Guid incidenteId {get; set;}
-        public Guid vehiculoId {get; set;}
+        [Key]
+        public Guid Id {get; set;}
         public Guid tallerId {get; set;}
+        public Guid RequerimientoId {get; set;}
+
         public DateTime fechaSolicitud {get; set;}
 
-        public Taller? taller {get; set;}
-        public virtual List<Requerimiento>? requerimientos {get; set;}
-        public virtual CotizacionReparacion? cotizacion {get; set;}
+        
+        public virtual ICollection<Requerimiento>? requerimientos {get; set;}
+
+        public SolicitudReparacion(){
+            Id = Guid.NewGuid();
+        }
     }
 }

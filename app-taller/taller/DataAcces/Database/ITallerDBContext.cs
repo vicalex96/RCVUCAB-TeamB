@@ -8,7 +8,6 @@ public interface ITallerDBContext
     DbSet<SolicitudReparacion> SolicitudReparacions  {get; set;}
     DbSet<Requerimiento> Requerimientos {get; set;}
     DbSet<Parte> partes {get; set;}
-    DbSet<Vehiculo> Vehiculos {get; set;}
     DbSet<CotizacionReparacion> CotizacionReparaciones {get; set;}
 
 }

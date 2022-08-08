@@ -1,20 +1,19 @@
 using taller.BussinesLogic.DTOs;
 using taller.DataAcces.DAOs;
 
-
 namespace taller.BussinesLogic.Commands
 {
-    public class GetTalleresCommand: Command<List<TallerDTO>>
+    public class GetTallerCommand: Command<ICollection<TallerToShowDTO>>
     {
-        private List<TallerDTO>? _result;
-
+        private ICollection<TallerToShowDTO>? _result;
         public override void Execute()
         {
             TallerDAO dao = DAOFactory.createTallerDAO();
-            _result = dao.GetTalleres();
+            _result = dao.GetAll();
+
         }
 
-        public override List<TallerDTO> GetResult()
+        public override ICollection<TallerToShowDTO> GetResult()
         {
             return _result!;
         }

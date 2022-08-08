@@ -1,31 +1,28 @@
-using taller.BussinesLogic.Mappers;
-using taller.Exceptions;
 using taller.BussinesLogic.DTOs;
+using taller.BussinesLogic.Mappers;
 using taller.DataAcces.DAOs;
-using taller.DataAcces.Entities;
-using taller.DataAcces.Enums;
+using taller.Exceptions;
 
 namespace taller.BussinesLogic.Commands
 {
     public class RegisterTallerCommand: Command<Guid>
     {
         private Guid _result;
-        private readonly TallerRegisterDTO _proveedorDTO;
+        private readonly TallerRegisterDTO _TallerDTO;
 
-        public RegisterTallerCommand(TallerRegisterDTO proveedorDTO)
+        public RegisterTallerCommand(TallerRegisterDTO TallerDTO)
         {
-            _proveedorDTO = proveedorDTO;
+            _TallerDTO = TallerDTO;
         }
-        
+
         public override void Execute()
         {
-            //registra el proveedor en el sistema
             TallerDAO dao = DAOFactory.createTallerDAO();
             _result = dao.RegisterTaller(
-                    TallerMapper.MapToEntity(_proveedorDTO)
-                );
+                        TallerMapper.MapToEntity(_TallerDTO)
+                    );
         }
-        
+
         public override Guid GetResult()
         {
             return _result!;

@@ -21,7 +21,7 @@ namespace taller.DataAcces.Database
         public virtual DbSet<Taller> Talleres{get; set;}
         public virtual DbSet<MarcaTaller> Marcas {get; set;}
         public virtual DbSet<SolicitudReparacion> SolicitudReparacions  {get; set;}
-        public virtual DbSet<Vehiculo> Vehiculos {get; set;}
+
         public virtual DbSet<Requerimiento> Requerimientos {get; set;}
         public virtual DbSet<Parte> partes {get; set;}
         public virtual DbSet<CotizacionReparacion> CotizacionReparaciones {get; set;}
@@ -31,36 +31,45 @@ namespace taller.DataAcces.Database
         {   
             DataProve data = new DataProve();
             
-            modelBuilder.Entity<Taller>( taller => {
-                taller.HasKey(p => p.tallerId);
-                taller.HasData(data.tallerInit);
-            });
+
             modelBuilder.Entity<MarcaTaller>( marca => {
-                marca.HasKey(p => p.marcaId);
+                marca.HasKey(p => p.Id);
                 marca.HasData(data.marcaInit);
             });
-            modelBuilder.Entity<SolicitudReparacion>(solicitud => {
-                solicitud.HasKey(p => p.solicitudRepId);
-                solicitud.HasData(data.solicitudRepInit);
-            });
-            modelBuilder.Entity<Requerimiento>(requer => {
-                requer.HasKey(p => p.requerimientoId);
-                requer.HasData(data.requerimientoInit);
-            });
-            modelBuilder.Entity<Vehiculo>(cot => {
-                cot.HasKey(p => p.vehiculoId);
-                cot.HasData(data.vehiculoInit);
-            });
+
+
             modelBuilder.Entity<CotizacionReparacion>(cot => {
                 cot.HasKey(p => p.cotizacionRepId);
-                
-                cot.HasOne(p => p.solicitud).WithOne(p => p.cotizacion).HasForeignKey<CotizacionReparacion>(p => p.solicitudRepId);
-            });
-            modelBuilder.Entity<Parte>(parte =>{
-                parte.HasKey(p => p.parteId);
-                parte.HasData(data.parteInit);
-            });
-        }
 
+            });
+
+            modelBuilder.Entity<SolicitudReparacion>(s =>
+            {
+                s.HasData(data.solicitudRepInit);
+            });
+
+            modelBuilder.Entity<Taller>(r =>
+            {
+                r.HasData(data.tallerInit);
+            });
+            modelBuilder.Entity<MarcaTaller>(r =>
+            {
+                r.HasData(data.marcaInit);
+            });
+            
+            modelBuilder.Entity<Requerimiento>(r =>
+            {
+                r.HasData(data.requerimientoInit);
+            });
+            
+            modelBuilder.Entity<Parte>(p =>
+            {
+                p.HasData(data.parteInit);
+            });
+            
+            
+            
+
+        }
     }
 }

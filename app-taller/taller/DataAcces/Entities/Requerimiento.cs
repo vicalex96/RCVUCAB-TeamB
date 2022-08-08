@@ -1,3 +1,7 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using taller.DataAcces.Enums;
+
 namespace taller.DataAcces.Entities
 {
     public class Requerimiento
@@ -5,10 +9,12 @@ namespace taller.DataAcces.Entities
         public Guid requerimientoId {get; set;}
         public Guid solicitudRepId {get; set;}
         public Guid parteId {get; set;}
-        public string descripcion {get; set;}
         public TipoRequerimiento tipoRequerimiento {get; set;}
         public int cantidad {get; set;}
         public EstadoRequerimiento? estado {get; set;}
+
+        [ForeignKey("solicitudReparacionId")]
+        public virtual SolicitudReparacion? solicitudReparacion {get; set;}
         public ICollection<CotizacionReparacion>? cotizacionesParte {get; set;} 
         public Parte parte {get; set;}
         

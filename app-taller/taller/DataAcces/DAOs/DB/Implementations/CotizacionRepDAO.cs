@@ -12,12 +12,13 @@ namespace taller.DataAcces.DAOs
 {
     public class CotizacionRepDAO : ICotizacionRepDAO
     {
-        public readonly ITallerDBContext _context;
+        private static DesignTimeDbContextFactory desing = new DesignTimeDbContextFactory();
+        public readonly ITallerDBContext _context = desing.CreateDbContext(null);
 
-        public CotizacionRepDAO(ITallerDBContext context)
+        /*public CotizacionRepDAO(ITallerDBContext context)
         {
             _context = context;
-        }
+        }*/
 
         public List<CotizacionRepDTO> GetCotizaciones()
         {

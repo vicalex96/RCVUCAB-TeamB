@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using taller.Conections.APIs;
+using taller.Conections.rabbit;
 using taller.BussinesLogic.DTOs;
 using taller.DataAcces.Entities;
 using taller.DataAcces.DAOs;
@@ -32,12 +32,12 @@ namespace taller.Controllers
         /// </summary>
         /// <returns>Talleres en sistema</returns>
         [HttpGet("mostrar_todos")]
-        public ApplicationResponse<List<TallerDTO>> ConsultarTalleres()
+        public ApplicationResponse<ICollection<TallerToShowDTO>> ConsultarTalleres()
         {
-            var response = new ApplicationResponse<List<TallerDTO>>();
+            var response = new ApplicationResponse<ICollection<TallerToShowDTO>>();
             try
             {
-                 GetTalleresCommand command = TallerCommandFactory.createGetTalleresCommand();
+                 GetTallerCommand command = TallerCommandFactory.createGeTallerCommand();
                 
                 command.Execute();
                 response.Data = command.GetResult();
@@ -66,7 +66,7 @@ namespace taller.Controllers
             var response = new ApplicationResponse<TallerDTO>();
             try
             {
-                GetTallerByGuidCommand command = TallerCommandFactory.createGetTallerByGuidCommand(tallerId);
+                GetTallerByIdCommand command = TallerCommandFactory.createGetTallerByIdCommand(tallerId);
 
                 command.Execute();
                 response.Data = command.GetResult();
@@ -84,7 +84,7 @@ namespace taller.Controllers
             return response;
         }
 
-                /// <summary>
+        /// <summary>
         /// Registra un taller en el sistema
         /// </summary>
         /// <param name="tallerRegisterDTO">Taller a registrar</param>
@@ -95,7 +95,7 @@ namespace taller.Controllers
             var response = new ApplicationResponse<Guid>();
             try
             {
-                RegisterTallerLogicCommand command = TallerCommandFactory.createRegisterTallerLogicCommand(taller);
+                RegisterTallerCommand command = TallerCommandFactory.createRegisterTallerCommand(taller);
 
                 command.Execute();
                 response.Data = command.GetResult();
@@ -113,7 +113,7 @@ namespace taller.Controllers
             return response;
         }
         
-        /// <summary>
+       /* /// <summary>
         /// Actualiza un taller indicado segun su id, se puede agregar una marca o incidar que trabaja con todas
         /// </summary>
         /// <param name="tallerRegisterDTO">taller a actualizar</param>
@@ -169,6 +169,6 @@ namespace taller.Controllers
                 response.Exception = ex.GetType().ToString();
             }
             return response;
-        }
+        }*/
     }
 }

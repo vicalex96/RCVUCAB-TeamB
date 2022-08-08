@@ -4,7 +4,6 @@ using taller.DataAcces.Entities;
 using taller.Exceptions;
 using taller.BussinesLogic.DTOs;
 using taller.DataAcces.DAOs;
-
 using taller.DataAcces.Enums;
 using System;
 using System.Collections.Generic;
@@ -20,23 +19,23 @@ namespace taller.DataAcces.DAOs
 
 
 
-        public TallerDAO(ITallerDBContext context)
+        /*public TallerDAO(ITallerDBContext context)
         {
             _context = context;
-        }
+        }*/
 
         /// <summary>
         /// Registra un taller en el sistema
         /// </summary>
         /// <param name="taller">DTO de registro con la informacion del taller</param>
         /// <returns>Guid con el Id del taller</returns>
-        public string RegisterTaller(TallerSimpleDTO taller)
+        public Guid RegisterTaller(Taller taller)
         {
             try
             {
                 _context.Talleres.Add(taller);
                 _context.DbContext.SaveChanges();
-                return taller.tallerId;
+                return taller.Id;
             }
             catch (Exception ex)
             {
@@ -55,16 +54,16 @@ namespace taller.DataAcces.DAOs
             try
             {
                 var data = _context.Talleres
-                .Where(taller => taller.tallerId == tallerId)
+                .Where(taller => taller.Id == tallerId)
                 .Include(taller => taller.marcas)
                 .Select(taller => new TallerDTO
                 {
-                    TallerId = taller.tallerId,
+                    TallerId = taller.Id,
                     nombreLocal = taller.nombreLocal,
                     marcas = taller.marcas
                     .Select(marcas => new MarcaDTO
                     {
-                        nombreMarca = marcas.manejaTodas ? "TodasLasMarcas" : marcas.marca.ToString()
+                        nombreMarca = marcas.manejaTodas ? "TodasLasMarcas" : marcas.marcaName.ToString()
                     }
                     ).ToList(),
                 });
@@ -82,7 +81,32 @@ namespace taller.DataAcces.DAOs
         /// Obtiene todos los taller registrados
         /// </summary>
         /// <returns>Lista de DTOs con la informacion de los talleres</returns>
-        public List<TallerDTO> GetTalleres()
+
+        public ICollection<TallerToShowDTO> GetAll()
+        {
+            try
+            {
+                return _context.Talleres
+                .Include(m => m.marcas)
+                .Select(t => new TallerToShowDTO
+                {
+                    Id = t.Id,
+                    marcas = _context.Marcas
+                    .Include(taller => taller.marcaName)
+                    .Select(marcas => new MarcaDTO
+                    {
+                      nombreMarca = marcas.manejaTodas ? "TodasLasMarcas" : marcas.marcaName.ToString(),
+                    }).ToList()
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new RCVException("Error al obtener los tallere", ex);
+            }
+        }
+
+
+       /* public List<TallerDTO> GetTalleres()
         {
             try
             {
@@ -106,9 +130,9 @@ namespace taller.DataAcces.DAOs
             {
                 throw new RCVException("Ocurrio un error al trata de obtener los Talleres:", ex, ex.Message, "500");
             }
-        }
+        }*/
 
-        public List<TallerDTO> GetTalleresCantidadesEntrega()
+       /* public List<TallerDTO> GetTalleresCantidadesEntrega()
         {
             try
             {
@@ -139,13 +163,13 @@ namespace taller.DataAcces.DAOs
             {
                 throw new RCVException("Ocurrio un error al trata de obtener los Talleres:", exception, exception.Message, "500");
             }
-        }
+        }*/
 
-        public string RegisterMarcasPorAPI(Guid tallerId, List<MarcaDTO> marcas)
+       /* public string RegisterMarcasPorAPI(Guid tallerId, List<MarcaDTO> marcas)
         {
             return "";
-        }
-    public string RegisterTallerPorAPI(TallerSimpleDTO taller)
+        }*/
+   /* public string RegisterTallerPorAPI(TallerSimpleDTO taller)
     {
         try
         {
@@ -163,7 +187,7 @@ namespace taller.DataAcces.DAOs
             throw new RCVException("Error al crear el asegurado", ex);
 
         }
-    }
+    }*/
 
     /*
     public TallerDTO GetTallerByGuid (Guid tallerId)

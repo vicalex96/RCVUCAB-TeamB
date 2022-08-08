@@ -14,6 +14,14 @@ namespace taller.BussinesLogic.Mappers
                 nombreLocal = dto.nombreLocal,
             };
         }
+        public static Taller MapToEntity(TallerRegisterDTO dto)
+        {
+            return new Taller 
+            {
+                Id = dto.Id,
+                //nombreLocal = dto.,
+            };
+        }
         
 
         public static TallerDTO MapToDTO (Taller entity)
